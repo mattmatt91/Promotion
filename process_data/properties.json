@@ -1,0 +1,69 @@
+{
+    "threshold": 
+            {
+                "VIS1": 0.1,
+                "IR1": 0.5,
+                "VIS2": 0.1,
+                "IR2": 0.5,
+                "Mikro": 0.025,
+                "Piezo": 0.005,
+                "Mikro_nm": 0.025,
+                "Piezo_nm": 0.005
+            },
+
+    "x_lim_plot": 
+            {
+                "VIS1": [0.008, 0.015],
+                "IR1": [0.008, 0.03],
+                "VIS2": [0.008, 0.015],
+                "IR2": [0.008, 0.03],
+                "Mikro": [0.008, 1.0],
+                "Piezo": [0.008, 1.0],
+                "Mikro_nm": [0.008, 1.0],
+                "Piezo_nm": [0.008, 1.0]
+            },
+
+    "sensors":
+        [
+            "Mikro",
+            "Piezo",
+            "Mikro_nm",
+            "Piezo_nm",
+            "VIS1",
+            "IR1",
+            "VIS2",
+            "IR2"
+        ],
+
+    "colors":
+        
+        {
+            "Blank": "cornflowerblue",
+            "Sugar": "red",
+            "Tetrazene": "yellowgreen",
+            "Silverazide": "mediumslateblue",
+            "Leadazide": "orange",
+            "Leadstyphnate": "darkturquoise",
+            "TNT": "green",
+            "HMTD": "green",
+            "TATP": "darkred"
+        },
+
+    "sensor_to_cut":
+            "Piezo",
+
+    "sensors_norm":
+        [
+            "Mikro",
+            "Piezo"
+        ],
+    
+        "plot_properties":
+        {   
+            "measurement_plot": {"dpi": 4, "size": [4,5]},
+            "PCA LDA": {"dpi": 4, "size": [4,5]},
+            "paramplot": {"dpi": 4, "size": [4,5]},
+            "compare_plots": {"dpi": 4, "size": [4,5]},
+            "confusion_matrix": {"dpi": 4, "size": [4,5]}
+        }
+}
