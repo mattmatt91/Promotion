@@ -11,3 +11,4 @@ if __name__ == '__main__':
     calculate(root_path, properties, statistic=True, pca=True, lda=True, svm=False, knn=False, browser=True, dimension=False)
     # compare(root_path, properties) # evaluates the files with one sensor, all measurments
     #plot_param(root_path, properties)
+    # test
