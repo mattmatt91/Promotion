@@ -151,4 +151,4 @@ def read_roc(path):
     get_roc(df, '', properties)
 
 if __name__ == '__main__':
-    read_roc('roc.txt')
+    read_roc('E:\\Promotion\\Software\\Python\\analyse_data\\functions\\roc.txt')
