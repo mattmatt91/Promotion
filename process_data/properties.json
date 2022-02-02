@@ -46,7 +46,8 @@
             "Leadstyphnate": "darkturquoise",
             "TNT": "green",
             "HMTD": "green",
-            "TATP": "darkred"
+            "TATP": "darkred",
+            "Blackpowder": "grey"
         },
 
     "sensor_to_cut":
