@@ -147,7 +147,7 @@ def read_roc(path):
         df.drop('Unnamed: 0', inplace=True, axis=1)
     except:
         pass
-    print(df)
+    # print(df)
     get_roc(df, '', properties)
 
 if __name__ == '__main__':
