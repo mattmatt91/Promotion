@@ -1,11 +1,8 @@
-from turtle import color
+
 import pandas as pd
 import pandas as pd
 import matplotlib.pyplot as plt
 from pathlib import Path
-import numpy as np
-import plotly.express as px
-import convert_plotly as cp
 from read_files import extract_properties
 
 
