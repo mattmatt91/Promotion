@@ -4,7 +4,7 @@ from compare_measurements import compare
 from plot_feauters import  plot_features
 
 if __name__ == '__main__':
-    root_path = "C:\\Users\\Matthias\\Desktop\\Messaufbau\\dataaquisition\\data\\test_auto"
+    root_path = "C:\\Users\\mmuhr-adm\\Desktop\\Neuer ZIP-komprimierter Ordner\\Messaufbau\\dataaquisition\\data\\test4"
     properties = extract_properties()
 
     # scan_folder(root_path, properties)

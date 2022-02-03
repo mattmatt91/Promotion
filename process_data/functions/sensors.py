@@ -146,6 +146,11 @@ class Plot:
 
 
 def width_clip(x, threshold):
+    """This function saves the created plot object in the folder "results\\plots\\single_measurements".
+
+        :param path: Path to the folder in which the measurement folders are stored
+        :type path: string
+        """
     x = x.tolist()
     flag = False
     list_peaks = []
@@ -162,7 +167,7 @@ def width_clip(x, threshold):
     if len(list_peaks) == 0 or np.max(list_peaks) <= 4:
         return 0
     else:
-        # print(list_peaks)
+        print(list_peaks)
         return np.max(list_peaks)
 
 def running_mean(x):
@@ -184,16 +189,6 @@ def get_slope(x,t):
     return slope
 
 
-##  saving the result df ##
-def save_df(df, path, name):
-    path = path + '\\results'
-    Path(path).mkdir(parents=True, exist_ok=True)
-    path = path + '\\' + name + '.csv'
-    print(name + 'saved as ' + path)
-    df.to_csv(path, sep=';', decimal=',', index = True)
-
-
-
 def evaluate_sensor(df, sensor, threshold):
     peaks, properties = find_peaks(df[sensor], prominence=0, width=1, distance=20000, height=threshold)
     results_half = peak_widths(df[sensor], peaks, rel_height=0.5)
@@ -204,7 +199,7 @@ def evaluate_sensor(df, sensor, threshold):
         pass
     # functions for feature extraction
     def get_peak():
-         return df.index[int(peaks[0])]
+        return df.index[int(peaks[0])]
     def get_start():
         return df.index[int(results_full[2])]
     def get_stop():
@@ -264,13 +259,20 @@ def cut_peakarea(df, sensor_to_cut,sensors_norm):
     df_corr.set_index('time [s]', inplace=True)
     return df_corr
 
+##  saving the result df ##
+def save_df(df, path, name):
+    path = path + '\\results'
+    Path(path).mkdir(parents=True, exist_ok=True)
+    path = path + '\\' + name + '.csv'
+    print(name + 'saved as ' + path)
+    df.to_csv(path, sep=';', decimal=',', index = True)
+
 def read_file(path,decimal,name, path_out, object_raw, properties):
-    
     threshold = properties['threshold']
     path = path + path[path.rfind('\\'):] + '.txt'
     dict_result = {}
     df_measurement = pd.read_csv(path, delimiter='\t', decimal=decimal, dtype=float)
-    df_corr = cut_peakarea(df_measurement, properties['sensor_to_cut'], properties['sensors_norm'])
+    df_corr = evaluate.cut_peakarea(df_measurement, properties['sensor_to_cut'], properties['sensors_norm'])
     object_raw.add_item(df_corr, name) # adding data from measurement to df for each sensor including all measurements
     fig = Plot(name,len(df_corr.columns))
     for this_sensor in df_corr.columns:

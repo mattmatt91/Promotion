@@ -31,10 +31,6 @@ def save_jpeg(jpeg_object, path, name):
 def get_roc(df, path, properties):
     colors = properties['colors']
 
-    ### remove this for new measurements
-    df['true'] = [x.replace(' ','').capitalize() for x in df['true']]
-    df['predict'] = [x.replace(' ','').capitalize() for x in df['predict']]
-    ###
 
     samples = df['true'].unique()
     dict_samples = {}
@@ -42,6 +38,9 @@ def get_roc(df, path, properties):
         dict_samples[sample] = i
 
     classes = [dict_samples[i] for i in dict_samples]
+    print('classes: ', classes)
+    print('samples: ', samples)
+    print('sample dict: ', dict_samples)
 
     #####################################################################
     # binarize sample names to bool array
@@ -117,8 +116,10 @@ def get_roc(df, path, properties):
     )
 
     # plot roc for each sensor
+    print(classes)
     for i in range(len(classes)):
         sample = samples[i]
+        print(sample)
         plt.plot(
             fpr[i],
             tpr[i],
@@ -130,7 +131,7 @@ def get_roc(df, path, properties):
     # plot diagonal
     plt.plot([0, 1], [0, 1], "k--", lw=lw)
 
-    plt.xlim([0.0, 1.0])
+    plt.xlim([-.01, 1.01])
     plt.ylim([0.0, 1.05])
     plt.xlabel("False Positive Rate")
     plt.ylabel("True Positive Rate")
@@ -151,4 +152,5 @@ def read_roc(path):
     get_roc(df, '', properties)
 
 if __name__ == '__main__':
-    read_roc('E:\\Promotion\\Software\\Python\\analyse_data\\functions\\roc.txt')
+    read_roc('C:\\Users\\mmuhr-adm\\Desktop\\GitHub\\Promotion\\process_data\\functions\\roc1.txt')
+    
