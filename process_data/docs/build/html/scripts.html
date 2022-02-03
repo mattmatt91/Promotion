@@ -38,7 +38,10 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Description – API</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#modules">Modules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#modules">Modules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#functions-sensors">functions.sensors</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -72,36 +75,156 @@
 <p>This part of the contains details about the methods implemented for <code class="docutils literal notranslate"><span class="pre">Service</span></code>.</p>
 <div class="contents local topic" id="contents">
 <ul class="simple">
-<li><p><a class="reference internal" href="#modules" id="id2">Modules</a></p></li>
+<li><p><a class="reference internal" href="#modules" id="id2">Modules</a></p>
+<ul>
+<li><p><a class="reference internal" href="#functions-sensors" id="id3">functions.sensors</a></p></li>
+</ul>
+</li>
 </ul>
 </div>
 <section id="modules">
 <h2><a class="toc-backref" href="#id2">Modules</a><a class="headerlink" href="#modules" title="Permalink to this headline"></a></h2>
-<span class="target" id="module-functions.roc"></span><dl class="py function">
-<dt class="sig sig-object py" id="functions.roc.extract_properties">
-<span class="sig-prename descclassname"><span class="pre">functions.roc.</span></span><span class="sig-name descname"><span class="pre">extract_properties</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/functions/roc.html#extract_properties"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functions.roc.extract_properties" title="Permalink to this definition"></a></dt>
+<div class="contents local topic" id="id1">
+<ul class="simple">
+<li><p><a class="reference internal" href="#functions-sensors" id="id4">functions.sensors</a></p></li>
+</ul>
+</div>
+<span class="target" id="module-functions.sensors"></span><section id="functions-sensors">
+<h3><a class="toc-backref" href="#id4">functions.sensors</a><a class="headerlink" href="#functions-sensors" title="Permalink to this headline"></a></h3>
+<p>This script exrtacts features from the data, saves the feauters
+from all measurements to global results file and creates
+one file for every sensor with all measurements.</p>
+<dl class="field-list simple">
+<dt class="field-odd">copyright</dt>
+<dd class="field-odd"><ol class="loweralpha simple" start="3">
+<li><p>2021 by Matthias Muhr, Hochschule Bonn Rhein Sieg</p></li>
+</ol>
+</dd>
+<dt class="field-even">license</dt>
+<dd class="field-even"><p>see LICENSE for more details.</p>
+</dd>
+</dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="functions.sensors.Plot">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">functions.sensors.</span></span><span class="sig-name descname"><span class="pre">Plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/functions/sensors.html#Plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functions.sensors.Plot" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>This class creates plot objects. For each one, an image with all sensors of a measurement is created.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>string</em>) – Name of the measurement</p></li>
+<li><p><strong>size</strong> (<em>int</em>) – Number of sensors to be plotted</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="functions.sensors.Plot.add_subplot">
+<span class="sig-name descname"><span class="pre">add_subplot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df_corr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">properties</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">results_half</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">results_full</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">peaks</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/functions/sensors.html#Plot.add_subplot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functions.sensors.Plot.add_subplot" title="Permalink to this definition"></a></dt>
+<dd><p>This function assigns a subplot for the corresponding sensor to the plot object</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sensor</strong> (<em>pandas Dataframe</em>) – Name of the sensor</p></li>
+<li><p><strong>df_corr</strong> – Dataframe with prepared data from measurement</p></li>
+<li><p><strong>properties</strong> (<em>dict</em>) – properties is a dictionary with all parameters for evaluating the data</p></li>
+<li><p><strong>results_half</strong> (<em>numpy array</em>) – Array with from measurement extracted feauters for the half peak</p></li>
+<li><p><strong>results_full</strong> (<em>numpy array</em>) – Array with from measurement extracted feauters for the full peak</p></li>
+<li><p><strong>peaks</strong> (<em>numpy array</em>) – Array with from measurement extracted feauters for detected peaks</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="functions.sensors.Plot.show_fig">
+<span class="sig-name descname"><span class="pre">show_fig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/functions/sensors.html#Plot.show_fig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functions.sensors.Plot.show_fig" title="Permalink to this definition"></a></dt>
+<dd><p>This function saves the created plot object in the folder “resultsplotssingle_measurements”.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>string</em>) – Path to the folder in which the measurement folders are stored</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="functions.sensors.Sensor">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">functions.sensors.</span></span><span class="sig-name descname"><span class="pre">Sensor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/functions/sensors.html#Sensor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functions.sensors.Sensor" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>This is for creating objects for every sensor and stores the data from all measurements
+in this object. Sensor names are picked up in properties. One DataFrame for every sensor is created</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>properties</strong> (<em>dict</em>) – properties is a dictionary with all parameters for evaluating the data</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="functions.sensors.Sensor.add_item">
+<span class="sig-name descname"><span class="pre">add_item</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/functions/sensors.html#Sensor.add_item"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functions.sensors.Sensor.add_item" title="Permalink to this definition"></a></dt>
+<dd><p>This function sorts the passed DataFrame into those of the sensor
+object and names the respective columns with the name of the measurement.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>pandas DataFrame</em>) – The columns of the DataFrame should match those in the properties.json file.</p></li>
+<li><p><strong>name</strong> (<em>string</em>) – Measurement name</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="functions.sensors.Sensor.save_items">
+<span class="sig-name descname"><span class="pre">save_items</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/functions/sensors.html#Sensor.save_items"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functions.sensors.Sensor.save_items" title="Permalink to this definition"></a></dt>
+<dd><p>This function saves all DataFrames contained in the sensor object, one file
+is saved per sensor. A folder “results” is created in the root folder where
+the files are stored.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>string</em>) – Path to the folder in which the measurement folders are stored</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="functions.sensors.cut_peakarea">
+<span class="sig-prename descclassname"><span class="pre">functions.sensors.</span></span><span class="sig-name descname"><span class="pre">cut_peakarea</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sensor_to_cut</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sensors_norm</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/functions/sensors.html#cut_peakarea"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functions.sensors.cut_peakarea" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="functions.roc.get_roc">
-<span class="sig-prename descclassname"><span class="pre">functions.roc.</span></span><span class="sig-name descname"><span class="pre">get_roc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/functions/roc.html#get_roc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functions.roc.get_roc" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="functions.sensors.evaluate_sensor">
+<span class="sig-prename descclassname"><span class="pre">functions.sensors.</span></span><span class="sig-name descname"><span class="pre">evaluate_sensor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/functions/sensors.html#evaluate_sensor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functions.sensors.evaluate_sensor" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="functions.roc.read_json">
-<span class="sig-prename descclassname"><span class="pre">functions.roc.</span></span><span class="sig-name descname"><span class="pre">read_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/functions/roc.html#read_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functions.roc.read_json" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="functions.sensors.get_slope">
+<span class="sig-prename descclassname"><span class="pre">functions.sensors.</span></span><span class="sig-name descname"><span class="pre">get_slope</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/functions/sensors.html#get_slope"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functions.sensors.get_slope" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="functions.roc.read_roc">
-<span class="sig-prename descclassname"><span class="pre">functions.roc.</span></span><span class="sig-name descname"><span class="pre">read_roc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/functions/roc.html#read_roc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functions.roc.read_roc" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="functions.sensors.read_file">
+<span class="sig-prename descclassname"><span class="pre">functions.sensors.</span></span><span class="sig-name descname"><span class="pre">read_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decimal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_out</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">object_raw</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/functions/sensors.html#read_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functions.sensors.read_file" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="functions.roc.save_jpeg">
-<span class="sig-prename descclassname"><span class="pre">functions.roc.</span></span><span class="sig-name descname"><span class="pre">save_jpeg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">jpeg_object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/functions/roc.html#save_jpeg"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functions.roc.save_jpeg" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="functions.sensors.running_mean">
+<span class="sig-prename descclassname"><span class="pre">functions.sensors.</span></span><span class="sig-name descname"><span class="pre">running_mean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/functions/sensors.html#running_mean"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functions.sensors.running_mean" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
+<dl class="py function">
+<dt class="sig sig-object py" id="functions.sensors.save_df">
+<span class="sig-prename descclassname"><span class="pre">functions.sensors.</span></span><span class="sig-name descname"><span class="pre">save_df</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/functions/sensors.html#save_df"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functions.sensors.save_df" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="functions.sensors.width_clip">
+<span class="sig-prename descclassname"><span class="pre">functions.sensors.</span></span><span class="sig-name descname"><span class="pre">width_clip</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/functions/sensors.html#width_clip"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functions.sensors.width_clip" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
 </section>
 </section>
 

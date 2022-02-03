@@ -67,9 +67,11 @@
 <span class="sd">functions.sensors</span>
 <span class="sd">-----------------</span>
 
-<span class="sd">This script exrtacts information out of the files.</span>
+<span class="sd">This script exrtacts features from the data, saves the feauters </span>
+<span class="sd">from all measurements to global results file and creates </span>
+<span class="sd">one file for every sensor with all measurements.</span>
 
-<span class="sd">:copyright: (c) 2021 by Hochschule Bonn Rhein Sieg</span>
+<span class="sd">:copyright: (c) 2021 by Matthias Muhr, Hochschule Bonn Rhein Sieg</span>
 <span class="sd">:license: see LICENSE for more details.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
@@ -85,8 +87,17 @@
 <span class="c1">######################################################################################################################</span>
 <span class="c1">## this class creates objects for every sensor and stores all measurment for this sensor ##</span>
 <div class="viewcode-block" id="Sensor"><a class="viewcode-back" href="../../scripts.html#functions.sensors.Sensor">[docs]</a><span class="k">class</span> <span class="nc">Sensor</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;This is for creating objects for every sensor and stores the data from all measurements </span>
+<span class="sd">    in this object. Sensor names are picked up in properties. One DataFrame for every sensor is created</span>
 
+<span class="sd">    :param properties: properties is a dictionary with all parameters for evaluating the data</span>
+<span class="sd">    :type properties: dict</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        constructor method</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">df_dict</span> <span class="o">=</span> <span class="p">{}</span> <span class="c1"># dicht with df for each sensor, one for all measurments</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">properties</span> <span class="o">=</span> <span class="n">properties</span>
         <span class="k">for</span> <span class="n">sensor</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">properties</span><span class="p">[</span><span class="s1">&#39;sensors&#39;</span><span class="p">]:</span>
@@ -95,26 +106,72 @@
 
 
 <div class="viewcode-block" id="Sensor.add_item"><a class="viewcode-back" href="../../scripts.html#functions.sensors.Sensor.add_item">[docs]</a>    <span class="k">def</span> <span class="nf">add_item</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">df</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span> <span class="c1"># append data from measurement in global sensor df</span>
+        <span class="sd">&quot;&quot;&quot;This function sorts the passed DataFrame into those of the sensor </span>
+<span class="sd">        object and names the respective columns with the name of the measurement.</span>
+
+<span class="sd">        :param df: The columns of the DataFrame should match those in the properties.json file.</span>
+<span class="sd">        :type df: pandas DataFrame</span>
+
+<span class="sd">        :param name: Measurement name </span>
+<span class="sd">        :type name: string</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">sensor</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">properties</span><span class="p">[</span><span class="s1">&#39;sensors&#39;</span><span class="p">]:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">df_dict</span><span class="p">[</span><span class="n">sensor</span><span class="p">][</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">sensor</span><span class="p">]</span></div>
 
 
 <div class="viewcode-block" id="Sensor.save_items"><a class="viewcode-back" href="../../scripts.html#functions.sensors.Sensor.save_items">[docs]</a>    <span class="k">def</span> <span class="nf">save_items</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span> <span class="c1"># save one file for every sensor with all measurements</span>
+        <span class="sd">&quot;&quot;&quot;This function saves all DataFrames contained in the sensor object, one file </span>
+<span class="sd">        is saved per sensor. A folder &quot;results&quot; is created in the root folder where </span>
+<span class="sd">        the files are stored.</span>
+
+<span class="sd">        :param path: Path to the folder in which the measurement folders are stored</span>
+<span class="sd">        :type path: string</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">sensor</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">properties</span><span class="p">[</span><span class="s1">&#39;sensors&#39;</span><span class="p">]:</span>
             <span class="n">name</span> <span class="o">=</span> <span class="n">sensor</span> <span class="o">+</span> <span class="s1">&#39;_gesamt&#39;</span>
             <span class="n">save_df</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">df_dict</span><span class="p">[</span><span class="n">sensor</span><span class="p">],</span> <span class="n">path</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span></div></div>
-<span class="c1">######################################################################################################################</span>
 
-<span class="c1">######################################################################################################################</span>
-<span class="c1">## class plot creates plots with all sensors for all measurments ##</span>
+
 <div class="viewcode-block" id="Plot"><a class="viewcode-back" href="../../scripts.html#functions.sensors.Plot">[docs]</a><span class="k">class</span> <span class="nc">Plot</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This class creates plot objects. For each one, an image with all sensors of a measurement is created.</span>
+
+<span class="sd">    :param name: Name of the measurement</span>
+<span class="sd">    :type name: string</span>
+
+<span class="sd">    :param size: Number of sensors to be plotted</span>
+<span class="sd">    :type size: int</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">name</span><span class="p">,</span> <span class="n">size</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        constructor method</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">fig</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
         <span class="c1">#self.fig.suptitle(name)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
 
 <div class="viewcode-block" id="Plot.add_subplot"><a class="viewcode-back" href="../../scripts.html#functions.sensors.Plot.add_subplot">[docs]</a>    <span class="k">def</span> <span class="nf">add_subplot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sensor</span><span class="p">,</span> <span class="n">df_corr</span><span class="p">,</span> <span class="n">properties</span><span class="p">,</span> <span class="n">results_half</span><span class="p">,</span> <span class="n">results_full</span><span class="p">,</span> <span class="n">peaks</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;This function assigns a subplot for the corresponding sensor to the plot object</span>
+
+<span class="sd">        :param sensor: Name of the sensor</span>
+<span class="sd">        :type sensor: string</span>
+
+<span class="sd">        :param df_corr: Dataframe with prepared data from measurement</span>
+<span class="sd">        :type sensor: pandas Dataframe</span>
+<span class="sd">        </span>
+<span class="sd">        :param properties: properties is a dictionary with all parameters for evaluating the data</span>
+<span class="sd">        :type properties: dict</span>
+
+<span class="sd">        :param results_half: Array with from measurement extracted feauters for the half peak</span>
+<span class="sd">        :type results_half: numpy array</span>
+
+<span class="sd">        :param results_full: Array with from measurement extracted feauters for the full peak</span>
+<span class="sd">        :type results_full: numpy array</span>
+
+<span class="sd">        :param peaks: Array with from measurement extracted feauters for detected peaks</span>
+<span class="sd">        :type peaks: numpy array</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">axs</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df_corr</span><span class="p">[</span><span class="n">sensor</span><span class="p">])</span>
         <span class="c1">## print peaks in plot</span>
         <span class="k">if</span> <span class="n">peaks</span><span class="o">.</span><span class="n">size</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
@@ -139,6 +196,11 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">i</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">i</span> <span class="o">+</span><span class="mi">1</span></div>
 
 <div class="viewcode-block" id="Plot.show_fig"><a class="viewcode-back" href="../../scripts.html#functions.sensors.Plot.show_fig">[docs]</a>    <span class="k">def</span> <span class="nf">show_fig</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;This function saves the created plot object in the folder &quot;results\\plots\\single_measurements&quot;.</span>
+
+<span class="sd">        :param path: Path to the folder in which the measurement folders are stored</span>
+<span class="sd">        :type path: string</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
         <span class="n">path</span> <span class="o">=</span> <span class="n">path</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\\</span><span class="s1">results</span><span class="se">\\</span><span class="s1">plots</span><span class="se">\\</span><span class="s1">single_measurements&#39;</span>
         <span class="n">Path</span><span class="p">(</span><span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -146,7 +208,7 @@
         <span class="c1"># plt.show()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fig</span><span class="p">)</span></div></div>
-<span class="c1">######################################################################################################################</span>
+
 
 <div class="viewcode-block" id="width_clip"><a class="viewcode-back" href="../../scripts.html#functions.sensors.width_clip">[docs]</a><span class="k">def</span> <span class="nf">width_clip</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">threshold</span><span class="p">):</span>
     <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>

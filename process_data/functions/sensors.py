@@ -2,9 +2,11 @@
 functions.sensors
 -----------------
 
-This script exrtacts information out of the files.
+This script exrtacts features from the data, saves the feauters 
+from all measurements to global results file and creates 
+one file for every sensor with all measurements.
 
-:copyright: (c) 2021 by Hochschule Bonn Rhein Sieg
+:copyright: (c) 2021 by Matthias Muhr, Hochschule Bonn Rhein Sieg
 :license: see LICENSE for more details.
 """
 
@@ -20,8 +22,17 @@ from pathlib import Path
 ######################################################################################################################
 ## this class creates objects for every sensor and stores all measurment for this sensor ##
 class Sensor:
+    """This is for creating objects for every sensor and stores the data from all measurements 
+    in this object. Sensor names are picked up in properties. One DataFrame for every sensor is created
 
+    :param properties: properties is a dictionary with all parameters for evaluating the data
+    :type properties: dict
+    """
+    
     def __init__(self, properties):
+        """
+        constructor method
+        """
         df_dict = {} # dicht with df for each sensor, one for all measurments
         self.properties = properties
         for sensor in self.properties['sensors']:
@@ -30,26 +41,72 @@ class Sensor:
 
 
     def add_item(self,df, name): # append data from measurement in global sensor df
+        """This function sorts the passed DataFrame into those of the sensor 
+        object and names the respective columns with the name of the measurement.
+
+        :param df: The columns of the DataFrame should match those in the properties.json file.
+        :type df: pandas DataFrame
+
+        :param name: Measurement name 
+        :type name: string
+        """
         for sensor in self.properties['sensors']:
             self.df_dict[sensor][name] = df[sensor]
 
 
     def save_items(self, path): # save one file for every sensor with all measurements
+        """This function saves all DataFrames contained in the sensor object, one file 
+        is saved per sensor. A folder "results" is created in the root folder where 
+        the files are stored.
+
+        :param path: Path to the folder in which the measurement folders are stored
+        :type path: string
+        """
         for sensor in self.properties['sensors']:
             name = sensor + '_gesamt'
             save_df(self.df_dict[sensor], path, name)
-######################################################################################################################
 
-######################################################################################################################
-## class plot creates plots with all sensors for all measurments ##
+
 class Plot:
+    """
+    This class creates plot objects. For each one, an image with all sensors of a measurement is created.
+
+    :param name: Name of the measurement
+    :type name: string
+
+    :param size: Number of sensors to be plotted
+    :type size: int
+    """
     def __init__(self,name, size):
+        """
+        constructor method
+        """
         self.fig, self.axs = plt.subplots(size, sharex=True, figsize=(14, 8))
         self.name = name
         #self.fig.suptitle(name)
         self.i = 0
 
     def add_subplot(self, sensor, df_corr, properties, results_half, results_full, peaks):
+        """This function assigns a subplot for the corresponding sensor to the plot object
+
+        :param sensor: Name of the sensor
+        :type sensor: string
+
+        :param df_corr: Dataframe with prepared data from measurement
+        :type sensor: pandas Dataframe
+        
+        :param properties: properties is a dictionary with all parameters for evaluating the data
+        :type properties: dict
+
+        :param results_half: Array with from measurement extracted feauters for the half peak
+        :type results_half: numpy array
+
+        :param results_full: Array with from measurement extracted feauters for the full peak
+        :type results_full: numpy array
+
+        :param peaks: Array with from measurement extracted feauters for detected peaks
+        :type peaks: numpy array
+        """
         self.axs[self.i].plot(df_corr[sensor])
         ## print peaks in plot
         if peaks.size != 0:
@@ -74,6 +131,11 @@ class Plot:
         self.i = self.i +1
 
     def show_fig(self, path):
+        """This function saves the created plot object in the folder "results\\plots\\single_measurements".
+
+        :param path: Path to the folder in which the measurement folders are stored
+        :type path: string
+        """
         self.fig.tight_layout()
         path = path + '\\results\\plots\\single_measurements'
         Path(path).mkdir(parents=True, exist_ok=True)
@@ -81,7 +143,7 @@ class Plot:
         # plt.show()
         self.fig.savefig(path)
         plt.close(self.fig)
-######################################################################################################################
+
 
 def width_clip(x, threshold):
     x = x.tolist()
