@@ -38,9 +38,6 @@ def get_roc(df, path, properties):
         dict_samples[sample] = i
 
     classes = [dict_samples[i] for i in dict_samples]
-    print('classes: ', classes)
-    print('samples: ', samples)
-    print('sample dict: ', dict_samples)
 
     #####################################################################
     # binarize sample names to bool array
@@ -116,10 +113,8 @@ def get_roc(df, path, properties):
     )
 
     # plot roc for each sensor
-    print(classes)
     for i in range(len(classes)):
         sample = samples[i]
-        print(sample)
         plt.plot(
             fpr[i],
             tpr[i],

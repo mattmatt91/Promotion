@@ -192,37 +192,130 @@ the files are stored.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="functions.sensors.cut_peakarea">
 <span class="sig-prename descclassname"><span class="pre">functions.sensors.</span></span><span class="sig-name descname"><span class="pre">cut_peakarea</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sensor_to_cut</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sensors_norm</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/functions/sensors.html#cut_peakarea"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functions.sensors.cut_peakarea" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>This function cuts out the sigbificant range of a measurement.
+A part from the maximum of the “sensor_to_cut” - “place_before_peak”
+to the maximum of the “sensor_to_cut” + “place_after_peak” is cut out.
+In addition, columns with the smoothed data of the corresponding sensors are added.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>pandas DataFrame</em>) – DateFrame with all sensors from one measurement</p></li>
+<li><p><strong>sensor_to_cut</strong> (<em>sting</em>) – Sensor with which the time period is to be determined</p></li>
+<li><p><strong>sensors_norm</strong> (<em>list</em>) – List of sensors to be normalised</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>df_corr</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pandas DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="functions.sensors.evaluate_sensor">
 <span class="sig-prename descclassname"><span class="pre">functions.sensors.</span></span><span class="sig-name descname"><span class="pre">evaluate_sensor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/functions/sensors.html#evaluate_sensor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functions.sensors.evaluate_sensor" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>This function calculates the slope of a peak from exceeding the threshold to the maximum.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>pandas DataFrame</em>) – DateFrame with all sensors from one measurement</p></li>
+<li><p><strong>sensor</strong> (<em>sting</em>) – sensor to evaluate</p></li>
+<li><p><strong>threshold</strong> (<em>float</em>) – Value from which an exceeding of the measuring range is determined</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>peaks, properties, results_half, results_full, result_dict</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list, dict, array, array, dict</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="functions.sensors.get_slope">
 <span class="sig-prename descclassname"><span class="pre">functions.sensors.</span></span><span class="sig-name descname"><span class="pre">get_slope</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/functions/sensors.html#get_slope"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functions.sensors.get_slope" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>This function calculates the slope of a peak from exceeding the threshold to the maximum.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>list</em>) – x Values from which the slope is to be determined</p></li>
+<li><p><strong>t</strong> (<em>list</em>) – time section from which the slope is to be determined</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="functions.sensors.read_file">
 <span class="sig-prename descclassname"><span class="pre">functions.sensors.</span></span><span class="sig-name descname"><span class="pre">read_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decimal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_out</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">object_raw</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/functions/sensors.html#read_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functions.sensors.read_file" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Diese Funktion liest Dateien der Rohdaten. Die Daten werden
+ausgewertet und Merkmale werden extrahiert. Zu jeder Datei
+wird ein Plot erstellt. Die Funktion gibt ein dict mit allen
+extrahierten Merkmalen zurück</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>list</em>) – x Values from which the slope is to be determined</p></li>
+<li><p><strong>t</strong> (<em>list</em>) – time section from which the slope is to be determined</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="functions.sensors.running_mean">
 <span class="sig-prename descclassname"><span class="pre">functions.sensors.</span></span><span class="sig-name descname"><span class="pre">running_mean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/functions/sensors.html#running_mean"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functions.sensors.running_mean" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>This function calculates a moving average of a time series of data. Here N is the sample interval over which the smoothing takes place.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>x</strong> (<em>list</em>) – Time series to be smoothed</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Returns the smoothed data</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list with floats</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="functions.sensors.save_df">
 <span class="sig-prename descclassname"><span class="pre">functions.sensors.</span></span><span class="sig-name descname"><span class="pre">save_df</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/functions/sensors.html#save_df"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functions.sensors.save_df" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>This function saves a DataFrame to csv in the results folder.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>pandas DataFrame</em>) – DataFrame to save</p></li>
+<li><p><strong>path</strong> (<em>string</em>) – path to root directory of data</p></li>
+<li><p><strong>path</strong> – Name under which the file is to be saved</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="functions.sensors.width_clip">
 <span class="sig-prename descclassname"><span class="pre">functions.sensors.</span></span><span class="sig-name descname"><span class="pre">width_clip</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/functions/sensors.html#width_clip"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functions.sensors.width_clip" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>This function extracts the feauter “width clip”, which calculates the length at which a signal is too large for the measuring range.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>list</em>) – Time series from which the feature is to be extracted</p></li>
+<li><p><strong>threshold</strong> (<em>float</em>) – Value from which an exceeding of the measuring range is determined</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Returns the length in which the signal is greater than the measuring range.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
 
 </section>
 </section>

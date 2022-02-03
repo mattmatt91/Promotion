@@ -146,10 +146,16 @@ class Plot:
 
 
 def width_clip(x, threshold):
-    """This function saves the created plot object in the folder "results\\plots\\single_measurements".
+    """This function extracts the feauter "width clip", which calculates the length at which a signal is too large for the measuring range.
 
-        :param path: Path to the folder in which the measurement folders are stored
-        :type path: string
+        :param x: Time series from which the feature is to be extracted
+        :type x: list
+
+        :param threshold: Value from which an exceeding of the measuring range is determined
+        :type threshold: float
+
+        :return: Returns the length in which the signal is greater than the measuring range.
+        :rtype: float
         """
     x = x.tolist()
     flag = False
@@ -167,15 +173,30 @@ def width_clip(x, threshold):
     if len(list_peaks) == 0 or np.max(list_peaks) <= 4:
         return 0
     else:
-        print(list_peaks)
         return np.max(list_peaks)
 
 def running_mean(x):
+    """This function calculates a moving average of a time series of data. Here N is the sample interval over which the smoothing takes place.
+
+        :param x: Time series to be smoothed
+        :type x: list
+
+        :return: Returns the smoothed data
+        :rtype: list with floats
+        """
     N = 20 # über wie viele Werte wird geglättet
     return np.convolve(x, np.ones((N,))/N)[(N-1):]
 
-## get slope of a time section ##
+
 def get_slope(x,t):
+    """This function calculates the slope of a peak from exceeding the threshold to the maximum.
+
+        :param x: x Values from which the slope is to be determined
+        :type x: list
+
+        :param t: time section from which the slope is to be determined
+        :type t: list
+        """
     end = 0
     flag = False
     for i in range(len(x)-1):
@@ -190,6 +211,20 @@ def get_slope(x,t):
 
 
 def evaluate_sensor(df, sensor, threshold):
+    """This function calculates the slope of a peak from exceeding the threshold to the maximum.
+
+        :param df: DateFrame with all sensors from one measurement
+        :type df: pandas DataFrame
+
+        :param sensor: sensor to evaluate
+        :type sensor: sting
+
+        :param threshold: Value from which an exceeding of the measuring range is determined
+        :type threshold: float
+
+        :return: peaks, properties, results_half, results_full, result_dict
+        :rtype: list, dict, array, array, dict
+        """
     peaks, properties = find_peaks(df[sensor], prominence=0, width=1, distance=20000, height=threshold)
     results_half = peak_widths(df[sensor], peaks, rel_height=0.5)
     results_full = peak_widths(df[sensor], peaks, rel_height=0.99)
@@ -235,6 +270,23 @@ def evaluate_sensor(df, sensor, threshold):
 
 
 def cut_peakarea(df, sensor_to_cut,sensors_norm):
+    """This function cuts out the sigbificant range of a measurement.
+    A part from the maximum of the "sensor_to_cut" - "place_before_peak" 
+    to the maximum of the "sensor_to_cut" + "place_after_peak" is cut out. 
+    In addition, columns with the smoothed data of the corresponding sensors are added. 
+
+    :param df: DateFrame with all sensors from one measurement
+    :type df: pandas DataFrame
+
+    :param sensor_to_cut: Sensor with which the time period is to be determined
+    :type sensor_to_cut: sting
+
+    :param sensors_norm: List of sensors to be normalised
+    :type sensors_norm: list
+
+    :return: df_corr
+    :rtype: pandas DataFrame
+    """
     place_before_peak = 1000
     place_after_peak = 10000
     step = 0.00001
@@ -261,6 +313,17 @@ def cut_peakarea(df, sensor_to_cut,sensors_norm):
 
 ##  saving the result df ##
 def save_df(df, path, name):
+    """This function saves a DataFrame to csv in the results folder.
+
+        :param df: DataFrame to save
+        :type df: pandas DataFrame
+
+        :param path: path to root directory of data
+        :type path: string
+
+        :param path: Name under which the file is to be saved
+        :type path: string
+        """
     path = path + '\\results'
     Path(path).mkdir(parents=True, exist_ok=True)
     path = path + '\\' + name + '.csv'
@@ -268,11 +331,35 @@ def save_df(df, path, name):
     df.to_csv(path, sep=';', decimal=',', index = True)
 
 def read_file(path,decimal,name, path_out, object_raw, properties):
+    """This function reads files of the raw data. The data is evaluated
+    and features are extracted. A plot is created for each file.
+    The function returns a dict with all extracted features
+
+    :param path: 
+    :type path: string
+
+    :param decimal: 
+    :type decimal: string
+
+    :param name: 
+    :type name: string
+
+    :param path_out: 
+    :type path_out: string
+
+    :param object_raw: 
+    :type object_raw: 
+
+    :param properties: 
+    :type properties: dict
+
+    
+    """
     threshold = properties['threshold']
     path = path + path[path.rfind('\\'):] + '.txt'
     dict_result = {}
     df_measurement = pd.read_csv(path, delimiter='\t', decimal=decimal, dtype=float)
-    df_corr = evaluate.cut_peakarea(df_measurement, properties['sensor_to_cut'], properties['sensors_norm'])
+    df_corr = cut_peakarea(df_measurement, properties['sensor_to_cut'], properties['sensors_norm'])
     object_raw.add_item(df_corr, name) # adding data from measurement to df for each sensor including all measurements
     fig = Plot(name,len(df_corr.columns))
     for this_sensor in df_corr.columns:
