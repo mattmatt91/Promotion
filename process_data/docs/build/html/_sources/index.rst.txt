@@ -7,9 +7,12 @@ Welcome to Sphinx Tutorial's documentation!
 ===========================================
 
 .. toctree::
-   :maxdepth: 3
+   :maxdepth: 2
 
-   scripts
+   scripts.rst
+
+
+
 
 Indices and tables
 ==================

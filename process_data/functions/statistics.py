@@ -193,9 +193,9 @@ def calc_lda(df, path, df_names, properties, browser=True, dimension=True, drop_
 
     axis_label = 'C'
     plot_components(color_list, df_x_lda, sample_list, df_names, path, name='LDA', browser=browser, dimension=dimension, axis_label=axis_label)
-    cross_validate(lda, scaled_data, df.index, path)
+    cross_validate(lda, scaled_data, df.index, path, properties)
 
-def cross_validate(function, x, y, path):
+def cross_validate(function, x, y, path, properties):
     df_result = pd.DataFrame()
     loo = LeaveOneOut()
     loo.get_n_splits(x)
@@ -210,7 +210,7 @@ def cross_validate(function, x, y, path):
 
     print('error rate: ' + str((df_result[df_result['value'] == False]['value'].count()/len(df_result))*100) + '%')
     sns.set(font_scale=1.5)
-    get_roc(df_result, path)
+    get_roc(df_result, path, properties)
     df_conf = create_confusion(df_result)
     fig, ax = plt.subplots(figsize=(10, 10))  # Sample figsize in inches
     sns.heatmap(df_conf.fillna(0), linewidths=.5, annot=True, fmt='g', cbar=False, cmap="viridis", ax=ax)

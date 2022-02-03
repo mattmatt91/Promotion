@@ -12,20 +12,15 @@ Modules
 .. contents::
     :local:
  
-.. automodule:: functions.roc
+.. automodule:: functions.sensors
     :members:
     :undoc-members:
     :show-inheritance:
+    
 
-.. autocmodule:: functions.sensors
-    :members:
-    :undoc-members:
-    :show-inheritance:
 
-.. automodule:: functions.read_files
-    :members:
-    :undoc-members:
-    :show-inheritance:
+
+
 
 
 

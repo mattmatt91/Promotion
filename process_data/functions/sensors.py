@@ -2,9 +2,11 @@
 functions.sensors
 -----------------
 
-This script exrtacts information out of the files.
+This script exrtacts features from the data, saves the feauters 
+from all measurements to global results file and creates 
+one file for every sensor with all measurements.
 
-:copyright: (c) 2021 by Hochschule Bonn Rhein Sieg
+:copyright: (c) 2021 by Matthias Muhr, Hochschule Bonn Rhein Sieg
 :license: see LICENSE for more details.
 """
 
@@ -20,8 +22,17 @@ from pathlib import Path
 ######################################################################################################################
 ## this class creates objects for every sensor and stores all measurment for this sensor ##
 class Sensor:
+    """This is for creating objects for every sensor and stores the data from all measurements 
+    in this object. Sensor names are picked up in properties. One DataFrame for every sensor is created
 
+    :param properties: properties is a dictionary with all parameters for evaluating the data
+    :type properties: dict
+    """
+    
     def __init__(self, properties):
+        """
+        constructor method
+        """
         df_dict = {} # dicht with df for each sensor, one for all measurments
         self.properties = properties
         for sensor in self.properties['sensors']:
@@ -30,26 +41,72 @@ class Sensor:
 
 
     def add_item(self,df, name): # append data from measurement in global sensor df
+        """This function sorts the passed DataFrame into those of the sensor 
+        object and names the respective columns with the name of the measurement.
+
+        :param df: The columns of the DataFrame should match those in the properties.json file.
+        :type df: pandas DataFrame
+
+        :param name: Measurement name 
+        :type name: string
+        """
         for sensor in self.properties['sensors']:
             self.df_dict[sensor][name] = df[sensor]
 
 
     def save_items(self, path): # save one file for every sensor with all measurements
+        """This function saves all DataFrames contained in the sensor object, one file 
+        is saved per sensor. A folder "results" is created in the root folder where 
+        the files are stored.
+
+        :param path: Path to the folder in which the measurement folders are stored
+        :type path: string
+        """
         for sensor in self.properties['sensors']:
             name = sensor + '_gesamt'
             save_df(self.df_dict[sensor], path, name)
-######################################################################################################################
 
-######################################################################################################################
-## class plot creates plots with all sensors for all measurments ##
+
 class Plot:
+    """
+    This class creates plot objects. For each one, an image with all sensors of a measurement is created.
+
+    :param name: Name of the measurement
+    :type name: string
+
+    :param size: Number of sensors to be plotted
+    :type size: int
+    """
     def __init__(self,name, size):
+        """
+        constructor method
+        """
         self.fig, self.axs = plt.subplots(size, sharex=True, figsize=(14, 8))
         self.name = name
         #self.fig.suptitle(name)
         self.i = 0
 
     def add_subplot(self, sensor, df_corr, properties, results_half, results_full, peaks):
+        """This function assigns a subplot for the corresponding sensor to the plot object
+
+        :param sensor: Name of the sensor
+        :type sensor: string
+
+        :param df_corr: Dataframe with prepared data from measurement
+        :type sensor: pandas Dataframe
+        
+        :param properties: properties is a dictionary with all parameters for evaluating the data
+        :type properties: dict
+
+        :param results_half: Array with from measurement extracted feauters for the half peak
+        :type results_half: numpy array
+
+        :param results_full: Array with from measurement extracted feauters for the full peak
+        :type results_full: numpy array
+
+        :param peaks: Array with from measurement extracted feauters for detected peaks
+        :type peaks: numpy array
+        """
         self.axs[self.i].plot(df_corr[sensor])
         ## print peaks in plot
         if peaks.size != 0:
@@ -74,6 +131,11 @@ class Plot:
         self.i = self.i +1
 
     def show_fig(self, path):
+        """This function saves the created plot object in the folder "results\\plots\\single_measurements".
+
+        :param path: Path to the folder in which the measurement folders are stored
+        :type path: string
+        """
         self.fig.tight_layout()
         path = path + '\\results\\plots\\single_measurements'
         Path(path).mkdir(parents=True, exist_ok=True)
@@ -81,9 +143,20 @@ class Plot:
         # plt.show()
         self.fig.savefig(path)
         plt.close(self.fig)
-######################################################################################################################
+
 
 def width_clip(x, threshold):
+    """This function extracts the feauter "width clip", which calculates the length at which a signal is too large for the measuring range.
+
+        :param x: Time series from which the feature is to be extracted
+        :type x: list
+
+        :param threshold: Value from which an exceeding of the measuring range is determined
+        :type threshold: float
+
+        :return: Returns the length in which the signal is greater than the measuring range.
+        :rtype: float
+        """
     x = x.tolist()
     flag = False
     list_peaks = []
@@ -100,15 +173,30 @@ def width_clip(x, threshold):
     if len(list_peaks) == 0 or np.max(list_peaks) <= 4:
         return 0
     else:
-        # print(list_peaks)
         return np.max(list_peaks)
 
 def running_mean(x):
+    """This function calculates a moving average of a time series of data. Here N is the sample interval over which the smoothing takes place.
+
+        :param x: Time series to be smoothed
+        :type x: list
+
+        :return: Returns the smoothed data
+        :rtype: list with floats
+        """
     N = 20 # über wie viele Werte wird geglättet
     return np.convolve(x, np.ones((N,))/N)[(N-1):]
 
-## get slope of a time section ##
+
 def get_slope(x,t):
+    """This function calculates the slope of a peak from exceeding the threshold to the maximum.
+
+        :param x: x Values from which the slope is to be determined
+        :type x: list
+
+        :param t: time section from which the slope is to be determined
+        :type t: list
+        """
     end = 0
     flag = False
     for i in range(len(x)-1):
@@ -122,17 +210,21 @@ def get_slope(x,t):
     return slope
 
 
-##  saving the result df ##
-def save_df(df, path, name):
-    path = path + '\\results'
-    Path(path).mkdir(parents=True, exist_ok=True)
-    path = path + '\\' + name + '.csv'
-    print(name + 'saved as ' + path)
-    df.to_csv(path, sep=';', decimal=',', index = True)
-
-
-
 def evaluate_sensor(df, sensor, threshold):
+    """This function calculates the slope of a peak from exceeding the threshold to the maximum.
+
+        :param df: DateFrame with all sensors from one measurement
+        :type df: pandas DataFrame
+
+        :param sensor: sensor to evaluate
+        :type sensor: sting
+
+        :param threshold: Value from which an exceeding of the measuring range is determined
+        :type threshold: float
+
+        :return: peaks, properties, results_half, results_full, result_dict
+        :rtype: list, dict, array, array, dict
+        """
     peaks, properties = find_peaks(df[sensor], prominence=0, width=1, distance=20000, height=threshold)
     results_half = peak_widths(df[sensor], peaks, rel_height=0.5)
     results_full = peak_widths(df[sensor], peaks, rel_height=0.99)
@@ -142,7 +234,7 @@ def evaluate_sensor(df, sensor, threshold):
         pass
     # functions for feature extraction
     def get_peak():
-         return df.index[int(peaks[0])]
+        return df.index[int(peaks[0])]
     def get_start():
         return df.index[int(results_full[2])]
     def get_stop():
@@ -178,6 +270,23 @@ def evaluate_sensor(df, sensor, threshold):
 
 
 def cut_peakarea(df, sensor_to_cut,sensors_norm):
+    """This function cuts out the sigbificant range of a measurement.
+    A part from the maximum of the "sensor_to_cut" - "place_before_peak" 
+    to the maximum of the "sensor_to_cut" + "place_after_peak" is cut out. 
+    In addition, columns with the smoothed data of the corresponding sensors are added. 
+
+    :param df: DateFrame with all sensors from one measurement
+    :type df: pandas DataFrame
+
+    :param sensor_to_cut: Sensor with which the time period is to be determined
+    :type sensor_to_cut: sting
+
+    :param sensors_norm: List of sensors to be normalised
+    :type sensors_norm: list
+
+    :return: df_corr
+    :rtype: pandas DataFrame
+    """
     place_before_peak = 1000
     place_after_peak = 10000
     step = 0.00001
@@ -202,8 +311,50 @@ def cut_peakarea(df, sensor_to_cut,sensors_norm):
     df_corr.set_index('time [s]', inplace=True)
     return df_corr
 
+##  saving the result df ##
+def save_df(df, path, name):
+    """This function saves a DataFrame to csv in the results folder.
+
+        :param df: DataFrame to save
+        :type df: pandas DataFrame
+
+        :param path: path to root directory of data
+        :type path: string
+
+        :param path: Name under which the file is to be saved
+        :type path: string
+        """
+    path = path + '\\results'
+    Path(path).mkdir(parents=True, exist_ok=True)
+    path = path + '\\' + name + '.csv'
+    print(name + 'saved as ' + path)
+    df.to_csv(path, sep=';', decimal=',', index = True)
+
 def read_file(path,decimal,name, path_out, object_raw, properties):
+    """This function reads files of the raw data. The data is evaluated
+    and features are extracted. A plot is created for each file.
+    The function returns a dict with all extracted features
+
+    :param path: 
+    :type path: string
+
+    :param decimal: 
+    :type decimal: string
+
+    :param name: 
+    :type name: string
+
+    :param path_out: 
+    :type path_out: string
+
+    :param object_raw: 
+    :type object_raw: 
+
+    :param properties: 
+    :type properties: dict
+
     
+    """
     threshold = properties['threshold']
     path = path + path[path.rfind('\\'):] + '.txt'
     dict_result = {}
