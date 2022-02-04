@@ -1,5 +1,5 @@
 """
-This module pltots  all extraceted features with mean and standard deviation.
+This module pltots  all extraceted features with mean and standard dev.
 
 :copyright: (c) 2022 by Matthias Muhr, Hochschule-Bonn-Rhein-Sieg
 :license: see LICENSE for more details.
