@@ -13,7 +13,6 @@ A PCA and an LDA are performed. Corresponding plots are created for this.
 :copyright: (c) 2022 by Matthias Muhr, Hochschule-Bonn-Rhein-Sieg
 :license: see LICENSE for more details.
 """
-
 from os import name
 import pandas as pd
 import seaborn as sns
