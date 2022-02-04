@@ -83,22 +83,63 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="read_files.extract_info">
 <span class="sig-prename descclassname"><span class="pre">read_files.</span></span><span class="sig-name descname"><span class="pre">extract_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/read_files.html#extract_info"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#read_files.extract_info" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>This function reads info file of each measurement and returns it as a dictionary
+the file contains every important information about the measurement.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>dictionary with infos</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>jsonstring (dictionary)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="read_files.extract_properties">
 <span class="sig-prename descclassname"><span class="pre">read_files.</span></span><span class="sig-name descname"><span class="pre">extract_properties</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/read_files.html#extract_properties"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#read_files.extract_properties" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>This function reads the properties file and returns it as a dictionary
+the file contains every important information about the data processing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>dictionary with properties</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>jsonstring (dictionary)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="read_files.read_json">
 <span class="sig-prename descclassname"><span class="pre">read_files.</span></span><span class="sig-name descname"><span class="pre">read_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/read_files.html#read_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#read_files.read_json" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>This function reads a json file  in the current directory and returns the corresponding string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>filename</strong> (<em>string</em>) – name of the json file</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>json file</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>jsonstring (string)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="read_files.scan_folder">
 <span class="sig-prename descclassname"><span class="pre">read_files.</span></span><span class="sig-name descname"><span class="pre">scan_folder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/read_files.html#scan_folder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#read_files.scan_folder" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>this is the main function for reading data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<em>string</em>) – path to data</p></li>
+<li><p><strong>properties</strong> (<em>dictionary</em>) – dictionary with parameters for processing</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 </section>
 

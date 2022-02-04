@@ -74,22 +74,52 @@
 
 
 <div class="viewcode-block" id="read_json"><a class="viewcode-back" href="../read_files.html#read_files.read_json">[docs]</a><span class="k">def</span> <span class="nf">read_json</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function reads a json file  in the current directory and returns the corresponding string.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        filename  (string): name of the json file  </span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        jsonstring (string): json file</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> <span class="k">as</span> <span class="n">json_file</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">js</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">json_file</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="extract_info"><a class="viewcode-back" href="../read_files.html#read_files.extract_info">[docs]</a><span class="k">def</span> <span class="nf">extract_info</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function reads info file of each measurement and returns it as a dictionary</span>
+<span class="sd">    the file contains every important information about the measurement.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        jsonstring (dictionary): dictionary with infos</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="nb">dict</span><span class="o">=</span><span class="p">{}</span>
     <span class="n">path</span> <span class="o">=</span> <span class="n">path</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\\</span><span class="s1">info.json&#39;</span>
     <span class="nb">dict</span> <span class="o">=</span> <span class="n">read_json</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
     <span class="k">return</span> <span class="nb">dict</span></div>
 
 <div class="viewcode-block" id="extract_properties"><a class="viewcode-back" href="../read_files.html#read_files.extract_properties">[docs]</a><span class="k">def</span> <span class="nf">extract_properties</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function reads the properties file and returns it as a dictionary</span>
+<span class="sd">    the file contains every important information about the data processing.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        jsonstring (dictionary): dictionary with properties</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">path</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="p">()</span><span class="o">.</span><span class="n">absolute</span><span class="p">())</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\\</span><span class="s1">properties.json&#39;</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
     <span class="nb">dict</span> <span class="o">=</span> <span class="n">read_json</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
     <span class="k">return</span> <span class="nb">dict</span></div>
 
 <div class="viewcode-block" id="scan_folder"><a class="viewcode-back" href="../read_files.html#read_files.scan_folder">[docs]</a><span class="k">def</span> <span class="nf">scan_folder</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    this is the main function for reading data. </span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        path (string): path to data</span>
+<span class="sd">        properties (dictionary): dictionary with parameters for processing</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">df_result</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
     <span class="c1"># properties = extract_properties()</span>
     <span class="n">df_result_raw</span> <span class="o">=</span> <span class="n">Sensor</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span> <span class="c1"># dataframe for each sensor with all measurements</span>
@@ -112,7 +142,8 @@
     <span class="n">df_result_raw</span><span class="o">.</span><span class="n">save_items</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="c1"># save the sensor df </span></div>
 
 
-<span class="c1"># scan_folder(&quot;C:\\Users\\Matthias\\Desktop\\Messaufbau\\dataaquisition\\data\\test&quot;)</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">scan_folder</span><span class="p">(</span><span class="s2">&quot;C:</span><span class="se">\\</span><span class="s2">Users</span><span class="se">\\</span><span class="s2">Matthias</span><span class="se">\\</span><span class="s2">Desktop</span><span class="se">\\</span><span class="s2">Messaufbau</span><span class="se">\\</span><span class="s2">dataaquisition</span><span class="se">\\</span><span class="s2">data</span><span class="se">\\</span><span class="s2">test&quot;</span><span class="p">)</span>
 </pre></div>
 
            </div>

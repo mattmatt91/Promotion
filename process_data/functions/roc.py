@@ -1,3 +1,11 @@
+"""
+This module computes the ROC curve and plots it.
+
+:copyright: (c) 2022 by Matthias Muhr, Hochschule-Bonn-Rhein-Sieg
+:license: see LICENSE for more details.
+"""
+
+
 import numpy as np
 import matplotlib.pyplot as plt
 from itertools import cycle
@@ -10,11 +18,27 @@ from sklearn.metrics import roc_auc_score
 
 
 def read_json(filename):
+    """
+    This function reads a json file  in the current directory and returns the corresponding string.
+
+    Args:
+        filename  (string): name of the json file  
+
+    Returns:
+        jsonstring (string): json file
+    """
     with open(filename) as json_file:
         return js.load(json_file)
 
 
 def extract_properties():
+    """
+    This function reads the properties file and returns it as a dictionary
+    the file contains every important information about the data processing.
+
+    Returns:
+        jsonstring (dictionary): dictionary with properties
+    """
     path = str(Path().absolute()) + '\\properties.json'
     print(path)
     dict = read_json(path)
@@ -22,6 +46,15 @@ def extract_properties():
 
 
 def save_jpeg(jpeg_object, path, name):
+    """
+    This function saves a figure as jpeg.
+    directory is root//plot//statistics.
+
+    Args:
+        jpeg_object (object): name of the json file
+        path (string): root path of data
+        name (string): name of the measurement
+    """
     path = path + '\\plots\\statistics'
     Path(path).mkdir(parents=True, exist_ok=True)
     path = path + '\\' + name + '.jpeg'
@@ -29,6 +62,14 @@ def save_jpeg(jpeg_object, path, name):
 
 
 def get_roc(df, path, properties):
+    """
+    This computes ROC values and plots it.
+
+    Args:
+        df (pandas.DataFrame): Dataframe with true and predicted values
+        path (string): root path for storing plots
+        properties (dictionary): dictionary with all important properties
+    """
     colors = properties['colors']
 
 
@@ -137,6 +178,12 @@ def get_roc(df, path, properties):
     plt.close()
 
 def read_roc(path):
+    """
+    This function computes roc of a local file, as standalone script.
+
+    Args:
+        path (string): path to file with true predict values
+    """
     properties = extract_properties()
     df = pd.read_csv(path)
     try:

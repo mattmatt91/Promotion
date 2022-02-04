@@ -80,15 +80,46 @@
              
   <section id="module-convert_plotly">
 <span id="convert-plotly-module"></span><h1>convert_plotly module<a class="headerlink" href="#module-convert_plotly" title="Permalink to this headline"></a></h1>
+<p>This module converts datasets into a format that can be used by plottly..</p>
+<dl class="field-list simple">
+<dt class="field-odd">copyright</dt>
+<dd class="field-odd"><ol class="loweralpha simple" start="3">
+<li><p>2022 by Matthias Muhr, Hochschule-Bonn-Rhein-Sieg</p></li>
+</ol>
+</dd>
+<dt class="field-even">license</dt>
+<dd class="field-even"><p>see LICENSE for more details.</p>
+</dd>
+</dl>
 <dl class="py function">
 <dt class="sig sig-object py" id="convert_plotly.convert_to_plotly">
 <span class="sig-prename descclassname"><span class="pre">convert_plotly.</span></span><span class="sig-name descname"><span class="pre">convert_to_plotly</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/convert_plotly.html#convert_to_plotly"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#convert_plotly.convert_to_plotly" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>This function transforms data from satadard format to a plottly suitable format.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>pandas.DataFrame</em>) – Dataframe to convert</p></li>
+<li><p><strong>name</strong> (<em>string</em>) – name for the data</p></li>
+<li><p><strong>path</strong> (<em>string</em>) – root path to save the plot</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="convert_plotly.save_fig">
 <span class="sig-prename descclassname"><span class="pre">convert_plotly.</span></span><span class="sig-name descname"><span class="pre">save_fig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fig</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/convert_plotly.html#save_fig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#convert_plotly.save_fig" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>This function saves a figure to a file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fig</strong> (<em>object</em>) – Figure to save</p></li>
+<li><p><strong>path</strong> (<em>string</em>) – path to root directory, figure is saved in root/entire_plots</p></li>
+<li><p><strong>name</strong> (<em>string</em>) – name for the saved file</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 </section>
 

@@ -80,30 +80,90 @@
              
   <section id="module-roc">
 <span id="roc-module"></span><h1>roc module<a class="headerlink" href="#module-roc" title="Permalink to this headline"></a></h1>
+<p>This module computes the ROC curve and plots it.</p>
+<dl class="field-list simple">
+<dt class="field-odd">copyright</dt>
+<dd class="field-odd"><ol class="loweralpha simple" start="3">
+<li><p>2022 by Matthias Muhr, Hochschule-Bonn-Rhein-Sieg</p></li>
+</ol>
+</dd>
+<dt class="field-even">license</dt>
+<dd class="field-even"><p>see LICENSE for more details.</p>
+</dd>
+</dl>
 <dl class="py function">
 <dt class="sig sig-object py" id="roc.extract_properties">
 <span class="sig-prename descclassname"><span class="pre">roc.</span></span><span class="sig-name descname"><span class="pre">extract_properties</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/roc.html#extract_properties"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#roc.extract_properties" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>This function reads the properties file and returns it as a dictionary
+the file contains every important information about the data processing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>dictionary with properties</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>jsonstring (dictionary)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="roc.get_roc">
 <span class="sig-prename descclassname"><span class="pre">roc.</span></span><span class="sig-name descname"><span class="pre">get_roc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/roc.html#get_roc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#roc.get_roc" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>This computes ROC values and plots it.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>pandas.DataFrame</em>) – Dataframe with true and predicted values</p></li>
+<li><p><strong>path</strong> (<em>string</em>) – root path for storing plots</p></li>
+<li><p><strong>properties</strong> (<em>dictionary</em>) – dictionary with all important properties</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="roc.read_json">
 <span class="sig-prename descclassname"><span class="pre">roc.</span></span><span class="sig-name descname"><span class="pre">read_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/roc.html#read_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#roc.read_json" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>This function reads a json file  in the current directory and returns the corresponding string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>filename</strong> (<em>string</em>) – name of the json file</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>json file</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>jsonstring (string)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="roc.read_roc">
 <span class="sig-prename descclassname"><span class="pre">roc.</span></span><span class="sig-name descname"><span class="pre">read_roc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/roc.html#read_roc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#roc.read_roc" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>This function computes roc of a local file, as standalone script.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>string</em>) – path to file with true predict values</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="roc.save_jpeg">
 <span class="sig-prename descclassname"><span class="pre">roc.</span></span><span class="sig-name descname"><span class="pre">save_jpeg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">jpeg_object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/roc.html#save_jpeg"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#roc.save_jpeg" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>This function saves a figure as jpeg.
+directory is root//plot//statistics.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>jpeg_object</strong> (<em>object</em>) – name of the json file</p></li>
+<li><p><strong>path</strong> (<em>string</em>) – root path of data</p></li>
+<li><p><strong>name</strong> (<em>string</em>) – name of the measurement</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 </section>
 

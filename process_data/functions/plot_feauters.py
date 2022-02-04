@@ -1,12 +1,24 @@
+"""
+This module pltots  all extraceted features with mean and stddev.
+
+:copyright: (c) 2022 by Matthias Muhr, Hochschule-Bonn-Rhein-Sieg
+:license: see LICENSE for more details.
+"""
+
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 from pathlib import Path
 
 
-
-
 def save_fig(fig, path, name):
+    """This function saves the fig object in the folder "results\\plots\\param_plots".
+
+        Args:
+            fig (Object): figure to save
+            path (string): path to root folder
+            name (string): figures name
+    """
     fig.tight_layout()
     path = path + '\\results\\plots\\param_plots'
     Path(path).mkdir(parents=True, exist_ok=True)
@@ -18,6 +30,16 @@ def save_fig(fig, path, name):
 
 
 def normalizedata(data, error):
+    """This function normalises data, including errors, between 1 and 0.
+
+        Args:
+            data (list): list with data to normalise
+            error (list): list with to data corresponding errors
+
+        Returns:
+            normalised_data (list): normalised data
+            normalised_error (list): normalised error
+    """
     normalized_data =  (data - np.min(data)) / (np.max(data) - np.min(data))
     noralized_error = (1/np.max(data))*error
     # print(normalized_data, noralized_error)
@@ -25,17 +47,20 @@ def normalizedata(data, error):
 
 
 def transform_table(path, df_mean, df_stabw, properties):
+    """this function creates a DataFrame with mean values
+    and errors including the units and calls the plot 
+    function for the data.
 
-    # use this for sorting samples
+        Args:
+            data (list): list with data to normalise
+            error (list): list with to data corresponding errors
 
-    # df_mean['order'] = [3, 0, 1, 4, 5, 2]
-    # df_stabw['order'] = [3, 0, 1, 4, 5, 2]
-    # df_mean.sort_values(by=['order'], inplace=True)
-    # df_stabw.sort_values(by=['order'], inplace=True)
-    # df_mean.drop(['order'], axis=1, inplace=True)
-    # df_stabw.drop(['order'], axis=1, inplace=True)
-
+        Returns:
+            normalised_data (list): normalised data
+            normalised_error (list): normalised error
+    """
     params = df_mean.T.index.tolist()
+    # creating dataframe with means and errors
     for param in params:
         # testen ob Einheit vorliegt
         try:
@@ -45,6 +70,7 @@ def transform_table(path, df_mean, df_stabw, properties):
         mean = df_mean[param]
         stabw = df_stabw[param]
         df_plot = pd.DataFrame({'mean': mean,'stabw': stabw})
+        # calling plot function
         plot_mean(path, df_plot, param, unit, properties)
 
 def plot_mean(root_path, df_plot, param, unit, properties):
@@ -85,5 +111,5 @@ def plot_features(path, properties):
 
 if __name__ == '__main__':
     path = 'E:\\Promotion\\Daten\\29.06.21_Paper_reduziert'
-    plot_param(path)
+    plot_features(path)
 

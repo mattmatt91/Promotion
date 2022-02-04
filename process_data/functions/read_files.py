@@ -8,22 +8,52 @@ import json as js
 
 
 def read_json(filename):
+    """
+    This function reads a json file  in the current directory and returns the corresponding string.
+
+    Args:
+        filename  (string): name of the json file  
+
+    Returns:
+        jsonstring (string): json file
+    """
     with open(filename) as json_file:
         return js.load(json_file)
 
 def extract_info(path):
+    """
+    This function reads info file of each measurement and returns it as a dictionary
+    the file contains every important information about the measurement.
+
+    Returns:
+        jsonstring (dictionary): dictionary with infos
+    """
     dict={}
     path = path + '\\info.json'
     dict = read_json(path)
     return dict
 
 def extract_properties():
+    """
+    This function reads the properties file and returns it as a dictionary
+    the file contains every important information about the data processing.
+
+    Returns:
+        jsonstring (dictionary): dictionary with properties
+    """
     path = str(Path().absolute()) + '\\properties.json'
     print(path)
     dict = read_json(path)
     return dict
 
 def scan_folder(path, properties):
+    """
+    this is the main function for reading data. 
+
+    Args:
+        path (string): path to data
+        properties (dictionary): dictionary with parameters for processing
+    """
     df_result = pd.DataFrame()
     # properties = extract_properties()
     df_result_raw = Sensor(properties) # dataframe for each sensor with all measurements
@@ -46,4 +76,5 @@ def scan_folder(path, properties):
     df_result_raw.save_items(path) # save the sensor df 
 
 
-# scan_folder("C:\\Users\\Matthias\\Desktop\\Messaufbau\\dataaquisition\\data\\test")
+if __name__ == '__main__':
+    scan_folder("C:\\Users\\Matthias\\Desktop\\Messaufbau\\dataaquisition\\data\\test")
