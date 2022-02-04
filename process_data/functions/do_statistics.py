@@ -36,6 +36,9 @@ from roc import get_roc
 
 
 def get_colors(i):
+    """
+    bkbadfadsf
+    """
     colors = []
     for n in range(i):
         colors.append('#%06X' % randint(0, 0xFFFFFF))
