@@ -1,16 +1,15 @@
-.. Sphinx Tutorial documentation master file, created by
-   sphinx-quickstart on Tue Nov 30 20:00:46 2021.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
-
-Welcome to Sphinx Tutorial's documentation!
+Welcome to process data documentation!
 ===========================================
+
+:ref:`set up your system and prepare data <start>`
+
+
 
 .. toctree::
    :maxdepth: 2
-
-   scripts.rst
-
+   
+   start
+   modules
 
 
 

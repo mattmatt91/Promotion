@@ -1,0 +1,4 @@
+
+
+for creating file that imports all libaries
+sphinx-apidoc -o ./source ../functions 

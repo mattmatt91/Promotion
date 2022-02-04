@@ -1,5 +1,5 @@
 from read_files import scan_folder, extract_properties
-from statistics import calculate
+from do_statistics import calculate
 from compare_measurements import compare
 from plot_feauters import  plot_features
 

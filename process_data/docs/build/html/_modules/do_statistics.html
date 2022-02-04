@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>do_statistics &mdash; process data 1 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> process data
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../start.html">set up</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">functions</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">process data</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="index.html">Module code</a> &raquo;</li>
+      <li>do_statistics</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for do_statistics</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">name</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScaler</span>
+<span class="kn">from</span> <span class="nn">sklearn.decomposition</span> <span class="kn">import</span> <span class="n">PCA</span>
+<span class="kn">from</span> <span class="nn">sklearn.discriminant_analysis</span> <span class="kn">import</span> <span class="n">LinearDiscriminantAnalysis</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">plotly.express</span> <span class="k">as</span> <span class="nn">px</span>
+<span class="kn">from</span> <span class="nn">sklearn.neighbors</span> <span class="kn">import</span> <span class="n">KNeighborsClassifier</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">classification_report</span>
+<span class="kn">from</span> <span class="nn">sklearn.svm</span> <span class="kn">import</span> <span class="n">SVC</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">GridSearchCV</span>
+<span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">randint</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">LeaveOneOut</span>
+<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">metrics</span>
+<span class="kn">from</span> <span class="nn">roc</span> <span class="kn">import</span> <span class="n">get_roc</span>
+
+
+
+<div class="viewcode-block" id="get_colors"><a class="viewcode-back" href="../do_statistics.html#do_statistics.get_colors">[docs]</a><span class="k">def</span> <span class="nf">get_colors</span><span class="p">(</span><span class="n">i</span><span class="p">):</span>
+    <span class="n">colors</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span><span class="p">):</span>
+        <span class="n">colors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;#</span><span class="si">%06X</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mh">0xFFFFFF</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">colors</span></div>
+
+
+<div class="viewcode-block" id="save_string"><a class="viewcode-back" href="../do_statistics.html#do_statistics.save_string">[docs]</a><span class="k">def</span> <span class="nf">save_string</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">path</span><span class="p">[:</span><span class="n">path</span><span class="o">.</span><span class="n">rfind</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">&#39;</span><span class="p">)]</span>
+    <span class="n">Path</span><span class="p">(</span><span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">path</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\\</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;.txt&#39;</span>
+    <span class="n">text_file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">string</span><span class="p">:</span>
+        <span class="n">text_file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+    <span class="n">text_file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="create_droplist"><a class="viewcode-back" href="../do_statistics.html#do_statistics.create_droplist">[docs]</a><span class="k">def</span> <span class="nf">create_droplist</span><span class="p">(</span><span class="n">keywords</span><span class="p">,</span> <span class="n">cols</span><span class="p">):</span>
+    <span class="n">drops</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">keywords</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">cols</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">col</span><span class="p">:</span>
+                <span class="n">drops</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">col</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">drops</span></div>
+
+
+<div class="viewcode-block" id="save_df"><a class="viewcode-back" href="../do_statistics.html#do_statistics.save_df">[docs]</a><span class="k">def</span> <span class="nf">save_df</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+    <span class="n">Path</span><span class="p">(</span><span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">path</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\\</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;.csv&#39;</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;;&#39;</span><span class="p">,</span> <span class="n">decimal</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="save_html"><a class="viewcode-back" href="../do_statistics.html#do_statistics.save_html">[docs]</a><span class="k">def</span> <span class="nf">save_html</span><span class="p">(</span><span class="n">html_object</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">path</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\\</span><span class="s1">plots</span><span class="se">\\</span><span class="s1">statistics&#39;</span>
+    <span class="n">Path</span><span class="p">(</span><span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">path</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\\</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;.html&#39;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    <span class="n">html_object</span><span class="o">.</span><span class="n">write_html</span><span class="p">(</span><span class="n">path</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="save_jpeg"><a class="viewcode-back" href="../do_statistics.html#do_statistics.save_jpeg">[docs]</a><span class="k">def</span> <span class="nf">save_jpeg</span><span class="p">(</span><span class="n">jpeg_object</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">path</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\\</span><span class="s1">plots</span><span class="se">\\</span><span class="s1">statistics&#39;</span>
+    <span class="n">Path</span><span class="p">(</span><span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">path</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\\</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;.jpeg&#39;</span>
+    <span class="n">jpeg_object</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">path</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="get_statistics"><a class="viewcode-back" href="../do_statistics.html#do_statistics.get_statistics">[docs]</a><span class="k">def</span> <span class="nf">get_statistics</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;processing statistics...&#39;</span><span class="p">)</span>
+    <span class="n">samples</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+    <span class="n">statistics_list</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">df_mean</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+    <span class="n">df_std</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">sample</span> <span class="ow">in</span> <span class="n">samples</span><span class="p">:</span>
+        <span class="n">df_stat</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">index</span> <span class="o">==</span> <span class="n">sample</span><span class="p">]</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+        <span class="n">save_df</span><span class="p">(</span><span class="n">df_stat</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">sample</span><span class="p">)</span>
+        <span class="n">statistics_list</span><span class="p">[</span><span class="n">sample</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_stat</span>
+        <span class="n">df_mean</span><span class="p">[</span><span class="n">sample</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_stat</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="s1">&#39;mean&#39;</span><span class="p">]</span>
+        <span class="n">df_std</span><span class="p">[</span><span class="n">sample</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_stat</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="s1">&#39;std&#39;</span><span class="p">]</span>
+    <span class="n">save_df</span><span class="p">(</span><span class="n">df_mean</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="s1">&#39;mean&#39;</span><span class="p">)</span>
+    <span class="n">save_df</span><span class="p">(</span><span class="n">df_std</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="s1">&#39;std&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="create_sample_dict"><a class="viewcode-back" href="../do_statistics.html#do_statistics.create_sample_dict">[docs]</a><span class="k">def</span> <span class="nf">create_sample_dict</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
+    <span class="n">colors</span> <span class="o">=</span> <span class="n">properties</span><span class="p">[</span><span class="s1">&#39;colors&#39;</span><span class="p">]</span>
+    <span class="n">samples</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+    <span class="n">sample_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">color_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">sample</span> <span class="ow">in</span> <span class="n">samples</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">sample</span> <span class="o">==</span> <span class="s1">&#39; TNT&#39;</span><span class="p">:</span>
+            <span class="n">sample</span> <span class="o">=</span> <span class="s1">&#39;TNT&#39;</span>
+        <span class="n">sample_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sample</span><span class="p">)</span>
+        <span class="n">color_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">colors</span><span class="p">[</span><span class="n">sample</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">color_list</span><span class="p">,</span> <span class="n">sample_list</span></div>
+
+
+<div class="viewcode-block" id="calc_pca"><a class="viewcode-back" href="../do_statistics.html#do_statistics.calc_pca">[docs]</a><span class="k">def</span> <span class="nf">calc_pca</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">df_names</span><span class="p">,</span> <span class="n">properties</span><span class="p">,</span> <span class="n">browser</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">dimension</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">drop_keywords</span><span class="o">=</span><span class="p">[]):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;processing pca...&#39;</span><span class="p">)</span>
+    <span class="n">drop_list</span> <span class="o">=</span> <span class="n">create_droplist</span><span class="p">(</span><span class="n">drop_keywords</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">drop_list</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">color_list</span><span class="p">,</span> <span class="n">sample_list</span> <span class="o">=</span> <span class="n">create_sample_dict</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">properties</span><span class="p">)</span>
+    <span class="n">scalar</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
+    <span class="n">scalar</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+    <span class="n">scaled_data</span> <span class="o">=</span> <span class="n">scalar</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+    <span class="n">pca</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">pca</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">scaled_data</span><span class="p">)</span>
+    <span class="n">x_pca</span> <span class="o">=</span> <span class="n">pca</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">scaled_data</span><span class="p">)</span>
+    <span class="c1"># create df for plotting with PCs and samples as index</span>
+    <span class="n">df_x_pca</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">x_pca</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="s1">&#39;PC1 PC2 PC3&#39;</span><span class="o">.</span><span class="n">split</span><span class="p">())</span>
+    <span class="c1"># plot pca</span>
+    <span class="n">axis_label</span> <span class="o">=</span> <span class="s1">&#39;PC&#39;</span>
+    <span class="n">additive_labels</span> <span class="o">=</span> <span class="p">[</span><span class="nb">round</span><span class="p">(</span><span class="n">pca</span><span class="o">.</span><span class="n">explained_variance_ratio_</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="mi">2</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)]</span>
+    <span class="n">plot_components</span><span class="p">(</span><span class="n">color_list</span><span class="p">,</span> <span class="n">df_x_pca</span><span class="p">,</span> <span class="n">sample_list</span><span class="p">,</span> <span class="n">df_names</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;PCA&#39;</span><span class="p">,</span> <span class="n">browser</span><span class="o">=</span><span class="n">browser</span><span class="p">,</span> <span class="n">dimension</span><span class="o">=</span><span class="n">dimension</span><span class="p">,</span> <span class="n">axis_label</span><span class="o">=</span><span class="n">axis_label</span><span class="p">,</span> <span class="n">additiv_labels</span><span class="o">=</span><span class="n">additive_labels</span><span class="p">)</span>
+    <span class="c1"># Loadings</span>
+    <span class="n">process_loadings</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">pca</span><span class="o">.</span><span class="n">components_</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="s1">&#39;PC1 PC2 PC3&#39;</span><span class="o">.</span><span class="n">split</span><span class="p">()),</span> <span class="n">path</span><span class="p">)</span></div>
+
+
+
+
+
+<div class="viewcode-block" id="process_loadings"><a class="viewcode-back" href="../do_statistics.html#do_statistics.process_loadings">[docs]</a><span class="k">def</span> <span class="nf">process_loadings</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span> <span class="c1"># creates a df with the loadings and a column for sensor and feature</span>
+    <span class="n">df_components</span> <span class="o">=</span> <span class="n">get_true_false_matrix</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+
+    <span class="n">plot_loadings_heat</span><span class="p">(</span><span class="n">df_components</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+    <span class="n">save_df</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="s1">&#39;PCA_loadings&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="get_true_false_matrix"><a class="viewcode-back" href="../do_statistics.html#do_statistics.get_true_false_matrix">[docs]</a><span class="k">def</span> <span class="nf">get_true_false_matrix</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">T</span>
+    <span class="n">sensors</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[:</span><span class="n">x</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">tolist</span><span class="p">()]</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;sensors&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sensors</span>
+    <span class="n">features</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">:]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">tolist</span><span class="p">()]</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;features&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">features</span>
+    <span class="k">return</span> <span class="n">df</span></div>
+
+
+<div class="viewcode-block" id="plot_loadings_heat"><a class="viewcode-back" href="../do_statistics.html#do_statistics.plot_loadings_heat">[docs]</a><span class="k">def</span> <span class="nf">plot_loadings_heat</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">convert_df_pd</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;value_abs&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;value_abs_norm&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">normalize_data</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;value_abs&#39;</span><span class="p">])</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;value_norm&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">normalize_data</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">])</span>
+    <span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="s2">&quot;viridis&quot;</span><span class="p">,</span> <span class="n">as_cmap</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">sns</span><span class="o">.</span><span class="n">set_theme</span><span class="p">()</span>
+    
+    <span class="c1"># hier werden einige Plots zu den Loadings erstellt</span>
+    <span class="n">sns</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="s2">&quot;whitegrid&quot;</span><span class="p">)</span>
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>  <span class="c1"># Sample figsize in inches</span>
+    <span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;PC&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;value&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;sensor&#39;</span><span class="p">,</span> <span class="n">ci</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">estimator</span><span class="o">=</span><span class="nb">sum</span><span class="p">)</span>
+    <span class="c1"># ax.tick_params(axis=&#39;x&#39;, rotation=45)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;total variance of the sensors per principal component&#39;</span><span class="p">)</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;sensor&#39;</span> <span class="o">+</span> <span class="s1">&#39;_loadings&#39;</span>
+    <span class="n">save_jpeg</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>  <span class="c1"># Sample figsize in inches</span>
+    <span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;sensor&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;value_abs&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">ci</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">estimator</span><span class="o">=</span><span class="nb">sum</span><span class="p">)</span>
+    <span class="c1"># ax.tick_params(axis=&#39;x&#39;, rotation=45)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;total variance for each sensor&#39;</span><span class="p">)</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;sensor&#39;</span> <span class="o">+</span> <span class="s1">&#39;_loadings_simple&#39;</span>
+    <span class="n">save_jpeg</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="convert_df_pd"><a class="viewcode-back" href="../do_statistics.html#do_statistics.convert_df_pd">[docs]</a><span class="k">def</span> <span class="nf">convert_df_pd</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="c1"># formt den df um sodass pc keine Spalten mehr sind</span>
+    <span class="n">pcs</span> <span class="o">=</span> <span class="s1">&#39;PC1 PC2 PC3&#39;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+    <span class="n">df_new</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;sensors&#39;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;features&#39;</span><span class="p">],</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;features&#39;</span><span class="p">]))):</span>
+        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">pcs</span><span class="p">:</span>
+            <span class="n">df_new</span> <span class="o">=</span> <span class="n">df_new</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;sensor&#39;</span><span class="p">:</span> <span class="n">i</span><span class="p">,</span> <span class="s1">&#39;feature&#39;</span><span class="p">:</span> <span class="n">m</span><span class="p">,</span> <span class="s1">&#39;PC&#39;</span><span class="p">:</span> <span class="n">n</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">n</span><span class="p">]},</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">df_new</span></div>
+
+
+<div class="viewcode-block" id="normalize_data"><a class="viewcode-back" href="../do_statistics.html#do_statistics.normalize_data">[docs]</a><span class="k">def</span> <span class="nf">normalize_data</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">data</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">data</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">data</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="calc_lda"><a class="viewcode-back" href="../do_statistics.html#do_statistics.calc_lda">[docs]</a><span class="k">def</span> <span class="nf">calc_lda</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">df_names</span><span class="p">,</span> <span class="n">properties</span><span class="p">,</span> <span class="n">browser</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">dimension</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">drop_keywords</span><span class="o">=</span><span class="p">[]):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;processing lda...&#39;</span><span class="p">)</span>
+    <span class="n">drop_list</span> <span class="o">=</span> <span class="n">create_droplist</span><span class="p">(</span><span class="n">drop_keywords</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">drop_list</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">color_list</span><span class="p">,</span> <span class="n">sample_list</span> <span class="o">=</span> <span class="n">create_sample_dict</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">properties</span><span class="p">)</span>
+    <span class="n">scalar</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
+    <span class="n">scalar</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+    <span class="n">scaled_data</span> <span class="o">=</span> <span class="n">scalar</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+    <span class="n">lda</span> <span class="o">=</span> <span class="n">LinearDiscriminantAnalysis</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">x_lda</span> <span class="o">=</span> <span class="n">lda</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">scaled_data</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">)</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">scaled_data</span><span class="p">)</span>
+    <span class="n">df_x_lda</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">x_lda</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="s1">&#39;C1 C2 C3&#39;</span><span class="o">.</span><span class="n">split</span><span class="p">())</span>
+
+    <span class="n">axis_label</span> <span class="o">=</span> <span class="s1">&#39;C&#39;</span>
+    <span class="n">plot_components</span><span class="p">(</span><span class="n">color_list</span><span class="p">,</span> <span class="n">df_x_lda</span><span class="p">,</span> <span class="n">sample_list</span><span class="p">,</span> <span class="n">df_names</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;LDA&#39;</span><span class="p">,</span> <span class="n">browser</span><span class="o">=</span><span class="n">browser</span><span class="p">,</span> <span class="n">dimension</span><span class="o">=</span><span class="n">dimension</span><span class="p">,</span> <span class="n">axis_label</span><span class="o">=</span><span class="n">axis_label</span><span class="p">)</span>
+    <span class="n">cross_validate</span><span class="p">(</span><span class="n">lda</span><span class="p">,</span> <span class="n">scaled_data</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">properties</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="cross_validate"><a class="viewcode-back" href="../do_statistics.html#do_statistics.cross_validate">[docs]</a><span class="k">def</span> <span class="nf">cross_validate</span><span class="p">(</span><span class="n">function</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
+    <span class="n">df_result</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+    <span class="n">loo</span> <span class="o">=</span> <span class="n">LeaveOneOut</span><span class="p">()</span>
+    <span class="n">loo</span><span class="o">.</span><span class="n">get_n_splits</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">train_index</span><span class="p">,</span> <span class="n">test_index</span> <span class="ow">in</span> <span class="n">loo</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+        <span class="n">x_train</span><span class="p">,</span> <span class="n">x_test</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">train_index</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="n">test_index</span><span class="p">]</span>
+        <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">train_index</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="n">test_index</span><span class="p">]</span>
+        <span class="n">function</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">x_train</span><span class="p">)</span>
+        <span class="n">predictions</span> <span class="o">=</span> <span class="n">function</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x_test</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;true&#39;</span><span class="p">:</span> <span class="n">y_test</span><span class="p">,</span> <span class="s1">&#39;predict&#39;</span><span class="p">:</span> <span class="n">predictions</span><span class="p">})</span>
+        <span class="n">result</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;predict&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;true&#39;</span><span class="p">]</span>
+        <span class="n">df_result</span> <span class="o">=</span> <span class="n">df_result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;error rate: &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">((</span><span class="n">df_result</span><span class="p">[</span><span class="n">df_result</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="kc">False</span><span class="p">][</span><span class="s1">&#39;value&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">()</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">df_result</span><span class="p">))</span><span class="o">*</span><span class="mi">100</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;%&#39;</span><span class="p">)</span>
+    <span class="n">sns</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">font_scale</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
+    <span class="n">get_roc</span><span class="p">(</span><span class="n">df_result</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">properties</span><span class="p">)</span>
+    <span class="n">df_conf</span> <span class="o">=</span> <span class="n">create_confusion</span><span class="p">(</span><span class="n">df_result</span><span class="p">)</span>
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>  <span class="c1"># Sample figsize in inches</span>
+    <span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">df_conf</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">linewidths</span><span class="o">=</span><span class="mf">.5</span><span class="p">,</span> <span class="n">annot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;g&#39;</span><span class="p">,</span> <span class="n">cbar</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;viridis&quot;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+    <span class="n">save_jpeg</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="s1">&#39;heatmap_crossvalidation_LDA&#39;</span><span class="p">)</span></div>
+    <span class="c1"># plt.show()</span>
+
+
+<div class="viewcode-block" id="create_confusion"><a class="viewcode-back" href="../do_statistics.html#do_statistics.create_confusion">[docs]</a><span class="k">def</span> <span class="nf">create_confusion</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+    <span class="n">labels</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;true&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
+    <span class="n">df_conf</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">labels</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;true&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;true&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">():</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">df</span><span class="p">[(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;true&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">i</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;predict&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">n</span><span class="p">)][</span><span class="s1">&#39;true&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+            <span class="n">df_conf</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>  <span class="c1"># zeilen sind true spalten predict</span>
+    <span class="k">return</span> <span class="n">df_conf</span></div>
+
+
+<div class="viewcode-block" id="plot_components"><a class="viewcode-back" href="../do_statistics.html#do_statistics.plot_components">[docs]</a><span class="k">def</span> <span class="nf">plot_components</span><span class="p">(</span><span class="n">colors</span><span class="p">,</span> <span class="n">x_r</span><span class="p">,</span> <span class="n">samples</span><span class="p">,</span> <span class="n">df_names</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">axis_label</span><span class="o">=</span><span class="s1">&#39;axis&#39;</span><span class="p">,</span> <span class="n">browser</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">dimension</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">additiv_labels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">]):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">browser</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">dimension</span><span class="p">:</span>
+            <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+            <span class="n">threedee</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s1">&#39;3d&#39;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">color</span><span class="p">,</span> <span class="n">target_name</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">colors</span><span class="p">,</span> <span class="n">samples</span><span class="p">):</span>
+                <span class="n">threedee</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x_r</span><span class="p">[</span><span class="n">x_r</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">get_level_values</span><span class="p">(</span><span class="s1">&#39;sample&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="n">target_name</span><span class="p">][</span><span class="n">axis_label</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="mi">1</span><span class="p">)],</span>
+                                 <span class="n">x_r</span><span class="p">[</span><span class="n">x_r</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">get_level_values</span><span class="p">(</span><span class="s1">&#39;sample&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="n">target_name</span><span class="p">][</span><span class="n">axis_label</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="mi">2</span><span class="p">)],</span>
+                                 <span class="n">x_r</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">x_r</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">get_level_values</span><span class="p">(</span><span class="s1">&#39;sample&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="n">target_name</span><span class="p">][</span><span class="n">axis_label</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="mi">3</span><span class="p">)],</span>
+                                 <span class="n">s</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">.8</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">target_name</span><span class="p">)</span>
+            <span class="n">threedee</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;best&#39;</span><span class="p">,</span> <span class="n">shadow</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">scatterpoints</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">threedee</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{0}{1}</span><span class="s1"> </span><span class="si">{2}</span><span class="s1"> %&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">axis_label</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">additiv_labels</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+            <span class="n">threedee</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{0}{1}</span><span class="s1"> </span><span class="si">{2}</span><span class="s1"> %&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">axis_label</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">additiv_labels</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+            <span class="n">threedee</span><span class="o">.</span><span class="n">set_zlabel</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{0}{1}</span><span class="s1"> </span><span class="si">{2}</span><span class="s1"> %&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">axis_label</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">additiv_labels</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span>
+
+        <span class="c1"># 2D-Plot</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">dimension</span><span class="p">:</span>
+            <span class="n">twodee</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">color</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">target_name</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">colors</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">colors</span><span class="p">)),</span> <span class="n">samples</span><span class="p">):</span>
+                <span class="n">twodee</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x_r</span><span class="p">[</span><span class="n">x_r</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">get_level_values</span><span class="p">(</span><span class="s1">&#39;sample&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="n">target_name</span><span class="p">][</span><span class="n">axis_label</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="mi">1</span><span class="p">)],</span>
+                               <span class="n">x_r</span><span class="p">[</span><span class="n">x_r</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">get_level_values</span><span class="p">(</span><span class="s1">&#39;sample&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="n">target_name</span><span class="p">][</span><span class="n">axis_label</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="mi">2</span><span class="p">)],</span>
+                               <span class="n">s</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">.8</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">target_name</span><span class="p">)</span>
+            <span class="n">twodee</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;best&#39;</span><span class="p">,</span> <span class="n">shadow</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">scatterpoints</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> 
+            <span class="n">twodee</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{0}{1}</span><span class="s1"> </span><span class="si">{2}</span><span class="s1"> %&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">axis_label</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">additiv_labels</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+            <span class="n">twodee</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{0}{1}</span><span class="s1"> </span><span class="si">{2}</span><span class="s1"> %&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">axis_label</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">additiv_labels</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+
+        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>    
+    <span class="k">if</span> <span class="n">browser</span><span class="p">:</span>
+        <span class="n">axis_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">axis_label</span><span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)]</span>
+        <span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">scatter_3d</span><span class="p">(</span><span class="n">x_r</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">axis_names</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">y</span><span class="o">=</span><span class="n">axis_names</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">z</span><span class="o">=</span><span class="n">axis_names</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">x_r</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">get_level_values</span><span class="p">(</span><span class="s1">&#39;sample&#39;</span><span class="p">),</span>
+                            <span class="n">hover_data</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">df_names</span><span class="o">.</span><span class="n">tolist</span><span class="p">()})</span>
+        <span class="c1"># fig.show()</span>
+        <span class="n">save_html</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="calculate"><a class="viewcode-back" href="../do_statistics.html#do_statistics.calculate">[docs]</a><span class="k">def</span> <span class="nf">calculate</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">properties</span><span class="p">,</span> <span class="n">statistic</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">pca</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">lda</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">svm</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">knn</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">browser</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">dimension</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="c1"># preparing result.csv for statistics</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">path</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\\</span><span class="s1">Results&#39;</span>
+    <span class="n">path_results</span> <span class="o">=</span> <span class="n">path</span><span class="o">+</span> <span class="s1">&#39;</span><span class="se">\\</span><span class="s1">Result.csv&#39;</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">path_results</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;;&#39;</span><span class="p">,</span> <span class="n">decimal</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+    <span class="n">df_names</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">&#39;rate&#39;</span><span class="p">,</span> <span class="s1">&#39;duration&#39;</span><span class="p">,</span> <span class="s1">&#39;sensors&#39;</span><span class="p">,</span> <span class="s1">&#39;path&#39;</span><span class="p">,</span> <span class="s1">&#39;droptime&#39;</span><span class="p">,</span> <span class="s1">&#39;height&#39;</span><span class="p">,</span>
+       <span class="s1">&#39;sample_number&#39;</span><span class="p">,</span> <span class="s1">&#39;info&#39;</span><span class="p">,</span> <span class="s1">&#39;datetime&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="c1"># select sensors to drop for statisctics e.g. name</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="s1">&#39;sample&#39;</span><span class="p">],</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># do statistics</span>
+    <span class="k">if</span> <span class="n">statistic</span><span class="p">:</span>
+        <span class="n">get_statistics</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">pca</span><span class="p">:</span>
+        <span class="n">calc_pca</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">df_names</span><span class="p">,</span> <span class="n">properties</span><span class="p">,</span> <span class="n">browser</span><span class="o">=</span><span class="n">browser</span><span class="p">,</span> <span class="n">dimension</span><span class="o">=</span><span class="n">dimension</span><span class="p">,</span> <span class="n">drop_keywords</span><span class="o">=</span><span class="p">[])</span>
+    <span class="k">if</span> <span class="n">lda</span><span class="p">:</span>
+        <span class="n">calc_lda</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">df_names</span><span class="p">,</span> <span class="n">properties</span><span class="p">,</span> <span class="n">browser</span><span class="o">=</span><span class="n">browser</span><span class="p">,</span> <span class="n">dimension</span><span class="o">=</span><span class="n">dimension</span><span class="p">,</span> <span class="n">drop_keywords</span><span class="o">=</span><span class="p">[])</span></div>
+    
+
+
+
+
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="s1">&#39;E:</span><span class="se">\\</span><span class="s1">Promotion\Daten</span><span class="se">\\</span><span class="s1">29.06.21_Paper_reduziert&#39;</span>
+    <span class="n">calculate</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Matthias Muhr.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

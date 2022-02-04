@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>do_statistics module &mdash; process data 1 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="sensors module" href="sensors.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> process data
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="start.html">set up</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">functions</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="compare_measurements.html">compare_measurements module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="convert_plotly.html">convert_plotly module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="main.html">main module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_exemplary.html">plot_exemplary module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_feauters.html">plot_feauters module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="read_files.html">read_files module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="roc.html">roc module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sensors.html">sensors module</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">do_statistics module</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">process data</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="modules.html">functions</a> &raquo;</li>
+      <li>do_statistics module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/do_statistics.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-do_statistics">
+<span id="do-statistics-module"></span><h1>do_statistics module<a class="headerlink" href="#module-do_statistics" title="Permalink to this headline"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="do_statistics.calc_lda">
+<span class="sig-prename descclassname"><span class="pre">do_statistics.</span></span><span class="sig-name descname"><span class="pre">calc_lda</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df_names</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">properties</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">browser</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dimension</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">drop_keywords</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/do_statistics.html#calc_lda"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#do_statistics.calc_lda" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="do_statistics.calc_pca">
+<span class="sig-prename descclassname"><span class="pre">do_statistics.</span></span><span class="sig-name descname"><span class="pre">calc_pca</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df_names</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">properties</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">browser</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dimension</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">drop_keywords</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/do_statistics.html#calc_pca"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#do_statistics.calc_pca" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="do_statistics.calculate">
+<span class="sig-prename descclassname"><span class="pre">do_statistics.</span></span><span class="sig-name descname"><span class="pre">calculate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">properties</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">statistic</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pca</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lda</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">svm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">knn</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">browser</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dimension</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/do_statistics.html#calculate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#do_statistics.calculate" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="do_statistics.convert_df_pd">
+<span class="sig-prename descclassname"><span class="pre">do_statistics.</span></span><span class="sig-name descname"><span class="pre">convert_df_pd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/do_statistics.html#convert_df_pd"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#do_statistics.convert_df_pd" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="do_statistics.create_confusion">
+<span class="sig-prename descclassname"><span class="pre">do_statistics.</span></span><span class="sig-name descname"><span class="pre">create_confusion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/do_statistics.html#create_confusion"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#do_statistics.create_confusion" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="do_statistics.create_droplist">
+<span class="sig-prename descclassname"><span class="pre">do_statistics.</span></span><span class="sig-name descname"><span class="pre">create_droplist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">keywords</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cols</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/do_statistics.html#create_droplist"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#do_statistics.create_droplist" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="do_statistics.create_sample_dict">
+<span class="sig-prename descclassname"><span class="pre">do_statistics.</span></span><span class="sig-name descname"><span class="pre">create_sample_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/do_statistics.html#create_sample_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#do_statistics.create_sample_dict" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="do_statistics.cross_validate">
+<span class="sig-prename descclassname"><span class="pre">do_statistics.</span></span><span class="sig-name descname"><span class="pre">cross_validate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">function</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/do_statistics.html#cross_validate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#do_statistics.cross_validate" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="do_statistics.get_colors">
+<span class="sig-prename descclassname"><span class="pre">do_statistics.</span></span><span class="sig-name descname"><span class="pre">get_colors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/do_statistics.html#get_colors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#do_statistics.get_colors" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="do_statistics.get_statistics">
+<span class="sig-prename descclassname"><span class="pre">do_statistics.</span></span><span class="sig-name descname"><span class="pre">get_statistics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/do_statistics.html#get_statistics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#do_statistics.get_statistics" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="do_statistics.get_true_false_matrix">
+<span class="sig-prename descclassname"><span class="pre">do_statistics.</span></span><span class="sig-name descname"><span class="pre">get_true_false_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/do_statistics.html#get_true_false_matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#do_statistics.get_true_false_matrix" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="do_statistics.normalize_data">
+<span class="sig-prename descclassname"><span class="pre">do_statistics.</span></span><span class="sig-name descname"><span class="pre">normalize_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/do_statistics.html#normalize_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#do_statistics.normalize_data" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="do_statistics.plot_components">
+<span class="sig-prename descclassname"><span class="pre">do_statistics.</span></span><span class="sig-name descname"><span class="pre">plot_components</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">colors</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_r</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">samples</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df_names</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axis_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'axis'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">browser</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dimension</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">additiv_labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['',</span> <span class="pre">'',</span> <span class="pre">'']</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/do_statistics.html#plot_components"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#do_statistics.plot_components" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="do_statistics.plot_loadings_heat">
+<span class="sig-prename descclassname"><span class="pre">do_statistics.</span></span><span class="sig-name descname"><span class="pre">plot_loadings_heat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/do_statistics.html#plot_loadings_heat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#do_statistics.plot_loadings_heat" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="do_statistics.process_loadings">
+<span class="sig-prename descclassname"><span class="pre">do_statistics.</span></span><span class="sig-name descname"><span class="pre">process_loadings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/do_statistics.html#process_loadings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#do_statistics.process_loadings" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="do_statistics.save_df">
+<span class="sig-prename descclassname"><span class="pre">do_statistics.</span></span><span class="sig-name descname"><span class="pre">save_df</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/do_statistics.html#save_df"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#do_statistics.save_df" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="do_statistics.save_html">
+<span class="sig-prename descclassname"><span class="pre">do_statistics.</span></span><span class="sig-name descname"><span class="pre">save_html</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">html_object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/do_statistics.html#save_html"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#do_statistics.save_html" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="do_statistics.save_jpeg">
+<span class="sig-prename descclassname"><span class="pre">do_statistics.</span></span><span class="sig-name descname"><span class="pre">save_jpeg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">jpeg_object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/do_statistics.html#save_jpeg"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#do_statistics.save_jpeg" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="do_statistics.save_string">
+<span class="sig-prename descclassname"><span class="pre">do_statistics.</span></span><span class="sig-name descname"><span class="pre">save_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/do_statistics.html#save_string"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#do_statistics.save_string" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="sensors.html" class="btn btn-neutral float-left" title="sensors module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Matthias Muhr.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
