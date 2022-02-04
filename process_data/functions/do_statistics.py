@@ -1,3 +1,19 @@
+"""
+This function calculates statistical values and performs multivariate
+statistics. The values from the **results.csv** file are used for this.
+
+A PCA and an LDA are performed. Corresponding plots are created for this.
+
+
+:info: In the calculate function, parameters of the measurements can be deleted
+ from the evaluation. (For example, if the same substance is used for
+ all measurements. This property could be removed from the calculation)
+
+
+:copyright: (c) 2022 by Matthias Muhr, Hochschule-Bonn-Rhein-Sieg
+:license: see LICENSE for more details.
+"""
+
 from os import name
 import pandas as pd
 import seaborn as sns

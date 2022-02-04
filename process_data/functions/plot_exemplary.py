@@ -1,3 +1,12 @@
+"""
+This module plots exemplary measurements. A plot is created for each sensor. For these, a file must be created manually for each sensor in which the corresponding samples (column name must correspond to the name of the sample) are entered. In addition, a time axis should be available.
+The file name must be created as follows:
+**sensorname** _compare.csv
+These measurements must be stored in a folder called results//exemplary. 
+
+:copyright: (c) 2022 by Matthias Muhr, Hochschule-Bonn-Rhein-Sieg
+:license: see LICENSE for more details.
+"""
 
 import pandas as pd
 import pandas as pd
@@ -7,18 +16,33 @@ from read_files import extract_properties
 
 
 def save_fig(fig, path, name):
+    """
+    This function saves the fig object in the folder "results\\plots\\exemplary".
+
+    Args:
+        fig (Object): figure to save
+        path (string): path to root folder
+        name (string): figures name
+    """
     fig.tight_layout()
-    # print(path)
-    path = path + '\\entire_plots'
+    path = path + 'results\\plots\\exemplary'
     Path(path).mkdir(parents=True, exist_ok=True)
     path = path + '\\' + name + '.jpeg'
-    # print(path)
-    # plt.show()
     fig.savefig(path)
     plt.close(fig)
 
-def plot_ex(df, path, sensor, x_lim_plot, colors):
 
+def plot_exemplary(df, path, sensor, x_lim_plot, colors):
+    """
+    This function plots measurements from the passed DataFrame.
+
+    Args:
+        df (pandas.DataFrame): DataFrame with data of measurents from one sensor
+        path (string): path to root folder
+        sensor (string): name of the sensor
+        x_lim_plot (list): list with lower and upper x limit in seconds
+        colors (dictionary): dictionary with colors for sensors
+    """
     fig, ax = plt.subplots()
     for i, in df.columns:
         ax.plot(df.index, df[i], color=colors[i], label=i, linewidth=1)
@@ -31,14 +55,32 @@ def plot_ex(df, path, sensor, x_lim_plot, colors):
 
 
 def read(path, sensor, root_path, x_lim_plot, colors):
+    """
+    This function reads files with the exemplary measurements,
+     prepares them and calls the plot function.
+
+    Args:
+        path (string): path to file
+        sensor (string): name of the sensor
+        root_path (string): path to root folder
+        x_lim_plot (list): list with lower and upper x limit in seconds
+        colors (dictionary): dictionary with colors for sensors
+    """
     print(path)
     df = pd.read_csv(path, decimal=',', sep='\t')
     df.set_index('time [s]', inplace=True)
     print(sensor)
-    plot_ex(df, root_path, sensor, x_lim_plot, colors)
+    plot_exemplary(df, root_path, sensor, x_lim_plot, colors)
 
 
-def main(root_path): # diese Dateien müssen manuell ertellt werden
+def main(root_path):
+    """
+    This is the main function of the module.
+    It reads the data of the exemplary measurements and plots them.
+
+    Args:
+        root_path (string): path to root folder
+    """
     properties = extract_properties()
     sensors = properties['sensors']
     path_list =[]
@@ -52,5 +94,5 @@ def main(root_path): # diese Dateien müssen manuell ertellt werden
 
 
 if __name__ == '__main__':
-    root_path = 'C:\\Users\\Matthias\\Desktop\\Messaufbau\\dataaquisition\\data\\test_auto\\results\\plots\\param_plots'
+    root_path = 'root_path = "C:\\Users\\Matthias\\Desktop\\Messaufbau\\dataaquisition\\data\\test_small'
     main(root_path)

@@ -64,7 +64,14 @@
            <div itemprop="articleBody">
              
   <h1>Source code for compare_measurements</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module creates plots with all measurements per sample and sensor.</span>
+
+<span class="sd">:copyright: (c) 2022 by Matthias Muhr, Hochschule-Bonn-Rhein-Sieg</span>
+<span class="sd">:license: see LICENSE for more details.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
@@ -73,9 +80,17 @@
 
 
 <div class="viewcode-block" id="save_fig"><a class="viewcode-back" href="../compare_measurements.html#compare_measurements.save_fig">[docs]</a><span class="k">def</span> <span class="nf">save_fig</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function saves the fig object in the folder &quot;results\\plots\\plots_compare&quot;.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        fig (Object): figure to save</span>
+<span class="sd">        path (string): path to root folder</span>
+<span class="sd">        name (string): figures name</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
     <span class="c1"># print(path)</span>
-    <span class="n">path</span> <span class="o">=</span> <span class="n">path</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\\</span><span class="s1">plots</span><span class="se">\\</span><span class="s1">plots&#39;</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">path</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\\</span><span class="s1">plots</span><span class="se">\\</span><span class="s1">plots_compare&#39;</span>
     <span class="n">Path</span><span class="p">(</span><span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">path</span> <span class="o">=</span> <span class="n">path</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\\</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;.jpeg&#39;</span>
     <span class="c1"># print(path)</span>
@@ -84,6 +99,16 @@
     <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="plot"><a class="viewcode-back" href="../compare_measurements.html#compare_measurements.plot">[docs]</a><span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">names</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span> <span class="c1">#creates plots for every sensor with all measurments</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function creates plots from the passed data. One plot per sensor and sample with all measurements.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        df (pandas.DataFrame): Dataframe with prepared data from measurements</span>
+<span class="sd">        name (string): name of sensor and sample</span>
+<span class="sd">        path (string): path to root folder</span>
+<span class="sd">        names (): list with name of measurements</span>
+<span class="sd">        properties (dictionary): properties is a dictionary with all parameters for evaluating the data</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;plotting </span><span class="si">{0}</span><span class="s1">-data&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
     <span class="n">x_lim_plot</span> <span class="o">=</span> <span class="n">properties</span><span class="p">[</span><span class="s1">&#39;x_lim_plot&#39;</span><span class="p">]</span>
     <span class="n">x_lim_plot_start</span> <span class="o">=</span> <span class="n">x_lim_plot</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
@@ -107,6 +132,16 @@
         <span class="n">save_fig</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">title</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="read"><a class="viewcode-back" href="../compare_measurements.html#compare_measurements.read">[docs]</a><span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">root_path</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function reads files with the data of the individual sensors</span>
+<span class="sd">    with all measurements, prepares them and passes them to the plot function.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        path (string): path to file</span>
+<span class="sd">        name (string): name of sensor and sample</span>
+<span class="sd">        root_path (string): path to foot folder</span>
+<span class="sd">        properties (dictionary): properties is a dictionary with all parameters for evaluating the data</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">decimal</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;;&#39;</span><span class="p">)</span>
     <span class="n">df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;time [s]&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">names</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span>
@@ -116,6 +151,14 @@
 
 
 <div class="viewcode-block" id="compare"><a class="viewcode-back" href="../compare_measurements.html#compare_measurements.compare">[docs]</a><span class="k">def</span> <span class="nf">compare</span><span class="p">(</span><span class="n">root_path</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This is the main function of the module. It reads all files with data</span>
+<span class="sd">    from one sensor and all measurements. Plots are created.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        root_path (string): path to foot folder</span>
+<span class="sd">        properties (dictionary): properties is a dictionary with all parameters for evaluating the data</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">root_path</span> <span class="o">=</span> <span class="n">root_path</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\\</span><span class="s1">results&#39;</span>
     <span class="n">sensors</span> <span class="o">=</span> <span class="n">properties</span><span class="p">[</span><span class="s1">&#39;sensors&#39;</span><span class="p">]</span>
     <span class="n">path_list</span> <span class="o">=</span><span class="p">[]</span>

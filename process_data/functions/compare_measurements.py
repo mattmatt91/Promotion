@@ -1,3 +1,10 @@
+"""
+This module creates plots with all measurements per sample and sensor.
+
+:copyright: (c) 2022 by Matthias Muhr, Hochschule-Bonn-Rhein-Sieg
+:license: see LICENSE for more details.
+"""
+
 import pandas as pd
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -7,9 +14,17 @@ import plotly.express as px
 
 
 def save_fig(fig, path, name):
+    """
+    This function saves the fig object in the folder "results\\plots\\plots_compare".
+
+    Args:
+        fig (Object): figure to save
+        path (string): path to root folder
+        name (string): figures name
+    """
     fig.tight_layout()
     # print(path)
-    path = path + '\\plots\\plots'
+    path = path + '\\plots\\plots_compare'
     Path(path).mkdir(parents=True, exist_ok=True)
     path = path + '\\' + name + '.jpeg'
     # print(path)
@@ -18,6 +33,16 @@ def save_fig(fig, path, name):
     plt.close(fig)
 
 def plot(df, name, path, names, properties): #creates plots for every sensor with all measurments
+    """
+    This function creates plots from the passed data. One plot per sensor and sample with all measurements.
+
+    Args:
+        df (pandas.DataFrame): Dataframe with prepared data from measurements
+        name (string): name of sensor and sample
+        path (string): path to root folder
+        names (): list with name of measurements
+        properties (dictionary): properties is a dictionary with all parameters for evaluating the data
+    """
     print('plotting {0}-data'.format(name))
     x_lim_plot = properties['x_lim_plot']
     x_lim_plot_start = x_lim_plot[name][0]
@@ -41,6 +66,16 @@ def plot(df, name, path, names, properties): #creates plots for every sensor wit
         save_fig(fig, path, title)
 
 def read(path, name, root_path, properties):
+    """
+    This function reads files with the data of the individual sensors
+    with all measurements, prepares them and passes them to the plot function.
+
+    Args:
+        path (string): path to file
+        name (string): name of sensor and sample
+        root_path (string): path to foot folder
+        properties (dictionary): properties is a dictionary with all parameters for evaluating the data
+    """
     df = pd.read_csv(path, decimal=',', sep=';')
     df.set_index('time [s]', inplace=True)
     names = df.columns
@@ -50,6 +85,14 @@ def read(path, name, root_path, properties):
 
 
 def compare(root_path, properties):
+    """
+    This is the main function of the module. It reads all files with data
+    from one sensor and all measurements. Plots are created.
+
+    Args:
+        root_path (string): path to foot folder
+        properties (dictionary): properties is a dictionary with all parameters for evaluating the data
+    """
     root_path = root_path + '\\results'
     sensors = properties['sensors']
     path_list =[]

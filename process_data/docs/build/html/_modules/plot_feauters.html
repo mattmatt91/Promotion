@@ -64,15 +64,28 @@
            <div itemprop="articleBody">
              
   <h1>Source code for plot_feauters</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module pltots  all extraceted features with mean and standard deviation.</span>
+
+<span class="sd">:copyright: (c) 2022 by Matthias Muhr, Hochschule-Bonn-Rhein-Sieg</span>
+<span class="sd">:license: see LICENSE for more details.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
 
 
-
-
 <div class="viewcode-block" id="save_fig"><a class="viewcode-back" href="../plot_feauters.html#plot_feauters.save_fig">[docs]</a><span class="k">def</span> <span class="nf">save_fig</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function saves the fig object in the folder &quot;results\\plots\\param_plots&quot;.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        fig (Object): figure to save</span>
+<span class="sd">        path (string): path to root folder</span>
+<span class="sd">        name (string): figures name</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
     <span class="n">path</span> <span class="o">=</span> <span class="n">path</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\\</span><span class="s1">results</span><span class="se">\\</span><span class="s1">plots</span><span class="se">\\</span><span class="s1">param_plots&#39;</span>
     <span class="n">Path</span><span class="p">(</span><span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -84,6 +97,17 @@
 
 
 <div class="viewcode-block" id="normalizedata"><a class="viewcode-back" href="../plot_feauters.html#plot_feauters.normalizedata">[docs]</a><span class="k">def</span> <span class="nf">normalizedata</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">error</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function normalises data, including errors, between 1 and 0.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        data (list): list with data to normalise</span>
+<span class="sd">        error (list): list with to data corresponding errors</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        normalised_data (list): normalised data</span>
+<span class="sd">        normalised_error (list): normalised error</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">normalized_data</span> <span class="o">=</span>  <span class="p">(</span><span class="n">data</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">data</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
     <span class="n">noralized_error</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">data</span><span class="p">))</span><span class="o">*</span><span class="n">error</span>
     <span class="c1"># print(normalized_data, noralized_error)</span>
@@ -91,17 +115,19 @@
 
 
 <div class="viewcode-block" id="transform_table"><a class="viewcode-back" href="../plot_feauters.html#plot_feauters.transform_table">[docs]</a><span class="k">def</span> <span class="nf">transform_table</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">df_mean</span><span class="p">,</span> <span class="n">df_stabw</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function creates a DataFrame with mean values</span>
+<span class="sd">    and errors including the units for every feauer and calls the plot </span>
+<span class="sd">    function for them.</span>
 
-    <span class="c1"># use this for sorting samples</span>
-
-    <span class="c1"># df_mean[&#39;order&#39;] = [3, 0, 1, 4, 5, 2]</span>
-    <span class="c1"># df_stabw[&#39;order&#39;] = [3, 0, 1, 4, 5, 2]</span>
-    <span class="c1"># df_mean.sort_values(by=[&#39;order&#39;], inplace=True)</span>
-    <span class="c1"># df_stabw.sort_values(by=[&#39;order&#39;], inplace=True)</span>
-    <span class="c1"># df_mean.drop([&#39;order&#39;], axis=1, inplace=True)</span>
-    <span class="c1"># df_stabw.drop([&#39;order&#39;], axis=1, inplace=True)</span>
-
+<span class="sd">    Args:</span>
+<span class="sd">        path (string): path to store the plots</span>
+<span class="sd">        df_mean (pandas.DataFrame): DataFrame with means of all feauters</span>
+<span class="sd">        df_stabw (pandas.DataFrame): DataFrame with standard deviation of all feauters</span>
+<span class="sd">        properties (dictionary): dictionary with parameters for processing</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">params</span> <span class="o">=</span> <span class="n">df_mean</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+    <span class="c1"># creating dataframe with means and errors</span>
     <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">params</span><span class="p">:</span>
         <span class="c1"># testen ob Einheit vorliegt</span>
         <span class="k">try</span><span class="p">:</span>
@@ -111,9 +137,21 @@
         <span class="n">mean</span> <span class="o">=</span> <span class="n">df_mean</span><span class="p">[</span><span class="n">param</span><span class="p">]</span>
         <span class="n">stabw</span> <span class="o">=</span> <span class="n">df_stabw</span><span class="p">[</span><span class="n">param</span><span class="p">]</span>
         <span class="n">df_plot</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;mean&#39;</span><span class="p">:</span> <span class="n">mean</span><span class="p">,</span><span class="s1">&#39;stabw&#39;</span><span class="p">:</span> <span class="n">stabw</span><span class="p">})</span>
+        <span class="c1"># calling plot function</span>
         <span class="n">plot_mean</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">df_plot</span><span class="p">,</span> <span class="n">param</span><span class="p">,</span> <span class="n">unit</span><span class="p">,</span> <span class="n">properties</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="plot_mean"><a class="viewcode-back" href="../plot_feauters.html#plot_feauters.plot_mean">[docs]</a><span class="k">def</span> <span class="nf">plot_mean</span><span class="p">(</span><span class="n">root_path</span><span class="p">,</span> <span class="n">df_plot</span><span class="p">,</span> <span class="n">param</span><span class="p">,</span> <span class="n">unit</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
+<div class="viewcode-block" id="plot_mean"><a class="viewcode-back" href="../plot_feauters.html#plot_feauters.plot_mean">[docs]</a><span class="k">def</span> <span class="nf">plot_mean</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">df_plot</span><span class="p">,</span> <span class="n">param</span><span class="p">,</span> <span class="n">unit</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function plots the mean value with standard</span>
+<span class="sd">    deviation for the given DataFrame of a property.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        path (string): path to store the plots</span>
+<span class="sd">        df_plot (pandas.DataFrame): Dataframe with mean and standard deviation of one feauter for all Samples</span>
+<span class="sd">        param (string): name of the feauter</span>
+<span class="sd">        unit (string): unit of the feauter</span>
+<span class="sd">        properties (dictionary): dictionary with parameters for processing</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">colors</span> <span class="o">=</span> <span class="n">properties</span><span class="p">[</span><span class="s1">&#39;colors&#39;</span><span class="p">]</span>
     <span class="c1"># Create lists for the plot</span>
     <span class="n">samples</span> <span class="o">=</span> <span class="n">df_plot</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
@@ -135,9 +173,17 @@
     <span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
-    <span class="n">save_fig</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">root_path</span><span class="p">,</span> <span class="n">param</span><span class="p">)</span></div>
+    <span class="n">save_fig</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">param</span><span class="p">)</span></div>
+
 
 <div class="viewcode-block" id="plot_features"><a class="viewcode-back" href="../plot_feauters.html#plot_feauters.plot_features">[docs]</a><span class="k">def</span> <span class="nf">plot_features</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function reads and plots the mean and standard deviation files of all characteristics and samples.</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        path (string): root path to data</span>
+<span class="sd">        properties (dictionary): dictionary with parameters for processing</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">path_mean</span> <span class="o">=</span> <span class="n">path</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\\</span><span class="s1">results</span><span class="se">\\</span><span class="s1">mean.csv&#39;</span>
     <span class="n">path_stabw</span> <span class="o">=</span> <span class="n">path</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\\</span><span class="s1">results</span><span class="se">\\</span><span class="s1">std.csv&#39;</span>
     <span class="n">df_mean</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">path_mean</span><span class="p">,</span> <span class="n">decimal</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;;&#39;</span><span class="p">)</span>
@@ -151,7 +197,7 @@
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
     <span class="n">path</span> <span class="o">=</span> <span class="s1">&#39;E:</span><span class="se">\\</span><span class="s1">Promotion</span><span class="se">\\</span><span class="s1">Daten</span><span class="se">\\</span><span class="s1">29.06.21_Paper_reduziert&#39;</span>
-    <span class="n">plot_param</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    <span class="n">plot_features</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
 
 </pre></div>
 

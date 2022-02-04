@@ -80,30 +80,102 @@
              
   <section id="module-plot_feauters">
 <span id="plot-feauters-module"></span><h1>plot_feauters module<a class="headerlink" href="#module-plot_feauters" title="Permalink to this headline"></a></h1>
+<p>This module pltots  all extraceted features with mean and standard deviation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">copyright</dt>
+<dd class="field-odd"><ol class="loweralpha simple" start="3">
+<li><p>2022 by Matthias Muhr, Hochschule-Bonn-Rhein-Sieg</p></li>
+</ol>
+</dd>
+<dt class="field-even">license</dt>
+<dd class="field-even"><p>see LICENSE for more details.</p>
+</dd>
+</dl>
 <dl class="py function">
 <dt class="sig sig-object py" id="plot_feauters.normalizedata">
 <span class="sig-prename descclassname"><span class="pre">plot_feauters.</span></span><span class="sig-name descname"><span class="pre">normalizedata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plot_feauters.html#normalizedata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plot_feauters.normalizedata" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>This function normalises data, including errors, between 1 and 0.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>list</em>) – list with data to normalise</p></li>
+<li><p><strong>error</strong> (<em>list</em>) – list with to data corresponding errors</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>normalised data
+normalised_error (list): normalised error</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>normalised_data (list)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="plot_feauters.plot_features">
 <span class="sig-prename descclassname"><span class="pre">plot_feauters.</span></span><span class="sig-name descname"><span class="pre">plot_features</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plot_feauters.html#plot_features"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plot_feauters.plot_features" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>This function reads and plots the mean and standard deviation files of all characteristics and samples.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<em>string</em>) – root path to data</p></li>
+<li><p><strong>properties</strong> (<em>dictionary</em>) – dictionary with parameters for processing</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="plot_feauters.plot_mean">
-<span class="sig-prename descclassname"><span class="pre">plot_feauters.</span></span><span class="sig-name descname"><span class="pre">plot_mean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df_plot</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unit</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plot_feauters.html#plot_mean"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plot_feauters.plot_mean" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<span class="sig-prename descclassname"><span class="pre">plot_feauters.</span></span><span class="sig-name descname"><span class="pre">plot_mean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df_plot</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unit</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plot_feauters.html#plot_mean"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plot_feauters.plot_mean" title="Permalink to this definition"></a></dt>
+<dd><p>This function plots the mean value with standard
+deviation for the given DataFrame of a property.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<em>string</em>) – path to store the plots</p></li>
+<li><p><strong>df_plot</strong> (<em>pandas.DataFrame</em>) – Dataframe with mean and standard deviation of one feauter for all Samples</p></li>
+<li><p><strong>param</strong> (<em>string</em>) – name of the feauter</p></li>
+<li><p><strong>unit</strong> (<em>string</em>) – unit of the feauter</p></li>
+<li><p><strong>properties</strong> (<em>dictionary</em>) – dictionary with parameters for processing</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="plot_feauters.save_fig">
 <span class="sig-prename descclassname"><span class="pre">plot_feauters.</span></span><span class="sig-name descname"><span class="pre">save_fig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fig</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plot_feauters.html#save_fig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plot_feauters.save_fig" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>This function saves the fig object in the folder “resultsplotsparam_plots”.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fig</strong> (<em>Object</em>) – figure to save</p></li>
+<li><p><strong>path</strong> (<em>string</em>) – path to root folder</p></li>
+<li><p><strong>name</strong> (<em>string</em>) – figures name</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="plot_feauters.transform_table">
 <span class="sig-prename descclassname"><span class="pre">plot_feauters.</span></span><span class="sig-name descname"><span class="pre">transform_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df_mean</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df_stabw</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plot_feauters.html#transform_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plot_feauters.transform_table" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>This function creates a DataFrame with mean values
+and errors including the units for every feauer and calls the plot
+function for them.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<em>string</em>) – path to store the plots</p></li>
+<li><p><strong>df_mean</strong> (<em>pandas.DataFrame</em>) – DataFrame with means of all feauters</p></li>
+<li><p><strong>df_stabw</strong> (<em>pandas.DataFrame</em>) – DataFrame with standard deviation of all feauters</p></li>
+<li><p><strong>properties</strong> (<em>dictionary</em>) – dictionary with parameters for processing</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 </section>
 

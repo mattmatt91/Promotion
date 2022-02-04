@@ -79,6 +79,24 @@
              
   <section id="module-do_statistics">
 <span id="do-statistics-module"></span><h1>do_statistics module<a class="headerlink" href="#module-do_statistics" title="Permalink to this headline"></a></h1>
+<p>This function calculates statistical values and performs multivariate
+statistics. The values from the <strong>results.csv</strong> file are used for this.</p>
+<p>A PCA and an LDA are performed. Corresponding plots are created for this.</p>
+<dl class="field-list simple">
+<dt class="field-odd">info</dt>
+<dd class="field-odd"><p>In the calculate function, parameters of the measurements can be deleted
+from the evaluation. (For example, if the same substance is used for
+all measurements. This property could be removed from the calculation)</p>
+</dd>
+<dt class="field-even">copyright</dt>
+<dd class="field-even"><ol class="loweralpha simple" start="3">
+<li><p>2022 by Matthias Muhr, Hochschule-Bonn-Rhein-Sieg</p></li>
+</ol>
+</dd>
+<dt class="field-odd">license</dt>
+<dd class="field-odd"><p>see LICENSE for more details.</p>
+</dd>
+</dl>
 <dl class="py function">
 <dt class="sig sig-object py" id="do_statistics.calc_lda">
 <span class="sig-prename descclassname"><span class="pre">do_statistics.</span></span><span class="sig-name descname"><span class="pre">calc_lda</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df_names</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">properties</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">browser</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dimension</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">drop_keywords</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/do_statistics.html#calc_lda"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#do_statistics.calc_lda" title="Permalink to this definition"></a></dt>
