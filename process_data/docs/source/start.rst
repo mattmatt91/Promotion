@@ -5,6 +5,7 @@ set up
 _____________
 
 1. install requirements.txt 
+   download `requirements.txt <>`
 2. chek format of your data
 3. run code
 
