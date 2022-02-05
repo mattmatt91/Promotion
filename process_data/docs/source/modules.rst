@@ -3,7 +3,7 @@
 info
 ====
 
-Run the main module to analyse the data.
+Run the *main* module to analyse the data.
 You can comment out the parts of the evaluation that are not needed.
 in the *properties.json* file you can adjust the path to the data as well 
 as parameters for the evaluation and the plots.
