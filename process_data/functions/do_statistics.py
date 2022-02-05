@@ -34,24 +34,6 @@ from sklearn import metrics
 from roc import get_roc
 
 
-
-def get_colors(i):
-    colors = []
-    for n in range(i):
-        colors.append('#%06X' % randint(0, 0xFFFFFF))
-    return colors
-
-
-def save_string(string, path, name):
-    path = path[:path.rfind('\\')]
-    Path(path).mkdir(parents=True, exist_ok=True)
-    path = path + '\\' + name + '.txt'
-    text_file = open(path, "w")
-    for s in string:
-        text_file.write(s)
-    text_file.close()
-
-
 def create_droplist(keywords, cols):
     drops = []
     for key in keywords:
