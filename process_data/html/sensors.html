@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>sensors module &mdash; process data 1 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="do_statistics module" href="do_statistics.html" />
+    <link rel="prev" title="roc module" href="roc.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> process data
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="start.html">set up</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">functions</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="compare_measurements.html">compare_measurements module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="convert_plotly.html">convert_plotly module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="main.html">main module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_exemplary.html">plot_exemplary module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_feauters.html">plot_feauters module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="read_files.html">read_files module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="roc.html">roc module</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">sensors module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="do_statistics.html">do_statistics module</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">process data</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="modules.html">functions</a> &raquo;</li>
+      <li>sensors module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/sensors.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-sensors">
+<span id="sensors-module"></span><h1>sensors module<a class="headerlink" href="#module-sensors" title="Permalink to this headline"></a></h1>
+<p>This module exrtacts features from the data, saves the feauters
+from all measurements to global results file and creates
+one file for every sensor with all measurements.</p>
+<dl class="field-list simple">
+<dt class="field-odd">copyright</dt>
+<dd class="field-odd"><ol class="loweralpha simple" start="3">
+<li><p>2022 by Matthias Muhr, Hochschule-Bonn-Rhein-Sieg</p></li>
+</ol>
+</dd>
+<dt class="field-even">license</dt>
+<dd class="field-even"><p>see LICENSE for more details.</p>
+</dd>
+</dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="sensors.Plot">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sensors.</span></span><span class="sig-name descname"><span class="pre">Plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sensors.html#Plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sensors.Plot" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>This class creates plot objects. For each one, an image with all sensors of a measurement is created.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>string</em>) – Name of the measurement</p></li>
+<li><p><strong>size</strong> (<em>int</em>) – Number of sensors to be plotted</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="sensors.Plot.add_subplot">
+<span class="sig-name descname"><span class="pre">add_subplot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df_corr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">properties</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">results_half</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">results_full</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">peaks</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sensors.html#Plot.add_subplot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sensors.Plot.add_subplot" title="Permalink to this definition"></a></dt>
+<dd><p>This function assigns a subplot for the corresponding sensor to the plot object</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sensor</strong> (<em>string</em>) – Name of the sensor</p></li>
+<li><p><strong>df_corr</strong> (<em>pandas.DataFrame</em>) – Dataframe with prepared data from measurement</p></li>
+<li><p><strong>properties</strong> (<em>dictionary</em>) – properties is a dictionary with all parameters for evaluating the data</p></li>
+<li><p><strong>results_half</strong> (<em>numpy.array</em>) – Array with from measurement extracted feauters for the half peak</p></li>
+<li><p><strong>results_full</strong> (<em>numpy.array</em>) – Array with from measurement extracted feauters for the full peak</p></li>
+<li><p><strong>peaks</strong> (<em>numpy.array</em>) – Array with from measurement extracted feauters for detected peaks</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sensors.Plot.show_fig">
+<span class="sig-name descname"><span class="pre">show_fig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sensors.html#Plot.show_fig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sensors.Plot.show_fig" title="Permalink to this definition"></a></dt>
+<dd><p>This function saves the created plot object in the folder “resultsplotssingle_measurements”.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>string</em>) – Path to the folder in which the measurement folders are stored</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sensors.Sensor">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sensors.</span></span><span class="sig-name descname"><span class="pre">Sensor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sensors.html#Sensor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sensors.Sensor" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>This is for creating objects for every sensor and stores the data from all measurements
+in this object. Sensor names are picked up in properties. One DataFrame for every sensor is created</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>properties</strong> (<em>dictionary</em>) – properties is a dictionary with all parameters for evaluating the data</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="sensors.Sensor.add_item">
+<span class="sig-name descname"><span class="pre">add_item</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sensors.html#Sensor.add_item"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sensors.Sensor.add_item" title="Permalink to this definition"></a></dt>
+<dd><p>This function sorts the passed DataFrame into those of the sensor
+object and names the respective columns with the name of the measurement.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>pandas.DataFrame</em>) – The columns of the DataFrame should match those in the properties.json file.</p></li>
+<li><p><strong>name</strong> (<em>string</em>) – Measurement name</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sensors.Sensor.save_items">
+<span class="sig-name descname"><span class="pre">save_items</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sensors.html#Sensor.save_items"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sensors.Sensor.save_items" title="Permalink to this definition"></a></dt>
+<dd><p>This function saves all DataFrames contained in the sensor object, one file
+is saved per sensor. A folder “results” is created in the root folder where
+the files are stored.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>string</em>) – Path to the folder in which the measurement folders are stored</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sensors.cut_peakarea">
+<span class="sig-prename descclassname"><span class="pre">sensors.</span></span><span class="sig-name descname"><span class="pre">cut_peakarea</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sensor_to_cut</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sensors_norm</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sensors.html#cut_peakarea"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sensors.cut_peakarea" title="Permalink to this definition"></a></dt>
+<dd><p>This function cuts out the sigbificant range of a measurement.
+A part from the maximum of the “sensor_to_cut” - “place_before_peak”
+to the maximum of the “sensor_to_cut” + “place_after_peak” is cut out.
+In addition, columns with the smoothed data of the corresponding sensors are added.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>pandas.DataFrame</em>) – DateFrame with all sensors from one measurement</p></li>
+<li><p><strong>sensor_to_cut</strong> (<em>string</em>) – Sensor with which the time period is to be determined</p></li>
+<li><p><strong>sensors_norm</strong> (<em>list</em>) – List of sensors to be normalised</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>DataFrame with significant range of measurement with smoothed values</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>df_corr (pandas.DataFrame)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sensors.evaluate_sensor">
+<span class="sig-prename descclassname"><span class="pre">sensors.</span></span><span class="sig-name descname"><span class="pre">evaluate_sensor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sensors.html#evaluate_sensor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sensors.evaluate_sensor" title="Permalink to this definition"></a></dt>
+<dd><p>This function calculates the slope of a peak from exceeding the threshold to the maximum.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>pandas.DataFrame</em>) – DateFrame with all sensors from one measurement</p></li>
+<li><p><strong>sensor</strong> (<em>string</em>) – sensor to evaluate</p></li>
+<li><p><strong>threshold</strong> (<em>float</em>) – Value from which an exceeding of the measuring range is determined</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>extracted peaks
+properties (dictionary): properties of measurement
+results_half (numpy.array): extracted feauters from peak half
+results_full (numpy.array): extracted feauters from peak full
+result_dict (dictionary): dictionary with extracted feauters</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>peaks (numpy.array)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sensors.get_slope">
+<span class="sig-prename descclassname"><span class="pre">sensors.</span></span><span class="sig-name descname"><span class="pre">get_slope</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sensors.html#get_slope"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sensors.get_slope" title="Permalink to this definition"></a></dt>
+<dd><p>This function calculates the slope of a peak from exceeding the threshold to the maximum.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>list</em>) – x Values from which the slope is to be determined</p></li>
+<li><p><strong>t</strong> (<em>list</em>) – time section from which the slope is to be determined</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>slope of the section</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>slope (float)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sensors.read_file">
+<span class="sig-prename descclassname"><span class="pre">sensors.</span></span><span class="sig-name descname"><span class="pre">read_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decimal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_out</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">object_raw</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sensors.html#read_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sensors.read_file" title="Permalink to this definition"></a></dt>
+<dd><p>This function reads files of the raw data. The data is evaluated
+and features are extracted. A plot is created for each file.
+The function returns a dict with all extracted features</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<em>string</em>) – path to measurements file</p></li>
+<li><p><strong>decimal</strong> (<em>string</em>) – decimal of stored data</p></li>
+<li><p><strong>name</strong> (<em>string</em>) – name of the measurement</p></li>
+<li><p><strong>path_out</strong> (<em>string</em>) – path to save the figures</p></li>
+<li><p><strong>object_raw</strong> (<em>object</em>) – figure object for plotting measurement</p></li>
+<li><p><strong>properties</strong> (<em>dictionary</em>) – properties from properties json</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>dictionary with all extracted feauters for a measurement</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict_result (dictionary)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sensors.running_mean">
+<span class="sig-prename descclassname"><span class="pre">sensors.</span></span><span class="sig-name descname"><span class="pre">running_mean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sensors.html#running_mean"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sensors.running_mean" title="Permalink to this definition"></a></dt>
+<dd><p>This function calculates a moving average of a time series of data. Here N is the sample interval over which the smoothing takes place.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>x</strong> (<em>list</em>) – Time series to be smoothed</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Returns the smoothed data</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>smoothed data (list)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sensors.save_df">
+<span class="sig-prename descclassname"><span class="pre">sensors.</span></span><span class="sig-name descname"><span class="pre">save_df</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sensors.html#save_df"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sensors.save_df" title="Permalink to this definition"></a></dt>
+<dd><p>This function saves a DataFrame to csv in the results folder.</p>
+<dl class="simple">
+<dt>Param:</dt><dd><p>df (pandas.DataFrame): DataFrame to save
+path (string): path to root directory of data
+name (string): Name under which the file is to be saved</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sensors.width_clip">
+<span class="sig-prename descclassname"><span class="pre">sensors.</span></span><span class="sig-name descname"><span class="pre">width_clip</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sensors.html#width_clip"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sensors.width_clip" title="Permalink to this definition"></a></dt>
+<dd><p>This function extracts the feauter “width clip”, which calculates the length at which a signal is too large for the measuring range.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>list</em>) – Time series from which the feature is to be extracted</p></li>
+<li><p><strong>threshold</strong> (<em>float</em>) – Value from which an exceeding of the measuring range is</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Returns the length in which the signal is greater than the measuring range.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>width clip (float)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="roc.html" class="btn btn-neutral float-left" title="roc module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="do_statistics.html" class="btn btn-neutral float-right" title="do_statistics module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Matthias Muhr.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>do_statistics module &mdash; process data 1 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="sensors module" href="sensors.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> process data
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="start.html">set up</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">functions</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="compare_measurements.html">compare_measurements module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="convert_plotly.html">convert_plotly module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="main.html">main module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_exemplary.html">plot_exemplary module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_feauters.html">plot_feauters module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="read_files.html">read_files module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="roc.html">roc module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sensors.html">sensors module</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">do_statistics module</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">process data</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="modules.html">functions</a> &raquo;</li>
+      <li>do_statistics module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/do_statistics.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-do_statistics">
+<span id="do-statistics-module"></span><h1>do_statistics module<a class="headerlink" href="#module-do_statistics" title="Permalink to this headline"></a></h1>
+<p>This function calculates statistical values and performs multivariate
+statistics. The values from the <strong>results.csv</strong> file are used for this.</p>
+<p>A PCA and an LDA are performed. Corresponding plots are created for this.</p>
+<dl class="field-list simple">
+<dt class="field-odd">info</dt>
+<dd class="field-odd"><p>In the calculate function, parameters of the measurements can be deleted
+from the evaluation. (For example, if the same substance is used for
+all measurements. This property could be removed from the calculation)</p>
+</dd>
+<dt class="field-even">copyright</dt>
+<dd class="field-even"><ol class="loweralpha simple" start="3">
+<li><p>2022 by Matthias Muhr, Hochschule-Bonn-Rhein-Sieg</p></li>
+</ol>
+</dd>
+<dt class="field-odd">license</dt>
+<dd class="field-odd"><p>see LICENSE for more details.</p>
+</dd>
+</dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="do_statistics.calc_lda">
+<span class="sig-prename descclassname"><span class="pre">do_statistics.</span></span><span class="sig-name descname"><span class="pre">calc_lda</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df_names</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">properties</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">browser</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dimension</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">drop_keywords</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/do_statistics.html#calc_lda"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#do_statistics.calc_lda" title="Permalink to this definition"></a></dt>
+<dd><p>This function calculates a LDA with the data and calls the plot function. Plots are safed
+in a file in //results// folder. Cross-validation is carried out (leave one out).
+The results are presented in a confusion matrix and by means of an ROC curve.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>pandas.DataFrame</em>) – DataFrame with data form result.csv</p></li>
+<li><p><strong>path</strong> (<em>string</em>) – root path to data</p></li>
+<li><p><strong>df_names</strong> (<em>list</em>) – names of all measurements</p></li>
+<li><p><strong>properties</strong> (<em>dictionary</em>) – properties is a dictionary with all parameters for evaluating the data</p></li>
+<li><p><strong>browser</strong> (<em>bool</em>) – With <strong>True</strong> the plot is created as <em>html</em> (Plottly), with <strong>False</strong> as <em>jpeg</em> (matplotlib)</p></li>
+<li><p><strong>dimension</strong> (<em>bool</em>) – If <strong>True</strong>, a <em>3D</em> plot is created, if <strong>False</strong>, a <em>2D</em> plot is created.</p></li>
+<li><p><strong>drop_keywords</strong> (<em>list</em>) – list with all feauters to drop before calculatin pca</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="do_statistics.calc_pca">
+<span class="sig-prename descclassname"><span class="pre">do_statistics.</span></span><span class="sig-name descname"><span class="pre">calc_pca</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df_names</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">properties</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">browser</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dimension</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">drop_keywords</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/do_statistics.html#calc_pca"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#do_statistics.calc_pca" title="Permalink to this definition"></a></dt>
+<dd><p>This function calculates a PCA with the data and calls the plot function. Components and
+Loadings are safed in a file in //results// folder.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>pandas.DataFrame</em>) – DataFrame with data form result.csv</p></li>
+<li><p><strong>path</strong> (<em>string</em>) – root path to data</p></li>
+<li><p><strong>df_names</strong> (<em>list</em>) – names of all measurements</p></li>
+<li><p><strong>properties</strong> (<em>dictionary</em>) – properties is a dictionary with all parameters for evaluating the data</p></li>
+<li><p><strong>browser</strong> (<em>bool</em>) – With <strong>True</strong> the plot is created as <em>html</em> (Plottly), with <strong>False</strong> as <em>jpeg</em> (matplotlib)</p></li>
+<li><p><strong>dimension</strong> (<em>bool</em>) – If <strong>True</strong>, a <em>3D</em> plot is created, if <strong>False</strong>, a <em>2D</em> plot is created.</p></li>
+<li><p><strong>drop_keywords</strong> (<em>list</em>) – list with all feauters to drop before calculatin pca</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="do_statistics.calculate">
+<span class="sig-prename descclassname"><span class="pre">do_statistics.</span></span><span class="sig-name descname"><span class="pre">calculate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">properties</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">statistic</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pca</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lda</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">browser</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dimension</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/do_statistics.html#calculate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#do_statistics.calculate" title="Permalink to this definition"></a></dt>
+<dd><p>This is the main function of this module. It calculates some statistics, LDA and PCA. Plots are created</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<em>string</em>) – root path to data</p></li>
+<li><p><strong>properties</strong> (<em>dictionary</em>) – properties is a dictionary with all parameters for evaluating the data</p></li>
+<li><p><strong>pca</strong> (<em>bool</em>) – If True, PCA is executed (<em>default</em>)</p></li>
+<li><p><strong>lda</strong> (<em>bool</em>) – If True, LDA is executed (<em>default</em>)</p></li>
+<li><p><strong>browser</strong> (<em>bool</em>) – With <strong>True</strong> the plot is created as <em>html</em> (Plottly), with <strong>False</strong> as <em>jpeg</em> (matplotlib)</p></li>
+<li><p><strong>dimension</strong> (<em>bool</em>) – If <strong>True</strong>, a <em>3D</em> plot is created, if <strong>False</strong>, a <em>2D</em> plot is created.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="do_statistics.convert_df_pd">
+<span class="sig-prename descclassname"><span class="pre">do_statistics.</span></span><span class="sig-name descname"><span class="pre">convert_df_pd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/do_statistics.html#convert_df_pd"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#do_statistics.convert_df_pd" title="Permalink to this definition"></a></dt>
+<dd><p>This function reshapes and transposes the passed DataFrame.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>df</strong> (<em>pandas.DataFrame</em>) – DataFrame in</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>reshaped  DataFrame</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>df_converted (pandas.DataFrame)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="do_statistics.create_confusion">
+<span class="sig-prename descclassname"><span class="pre">do_statistics.</span></span><span class="sig-name descname"><span class="pre">create_confusion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/do_statistics.html#create_confusion"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#do_statistics.create_confusion" title="Permalink to this definition"></a></dt>
+<dd><p>This function creates a confusion matrix with the passed results of the cross validation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>df</strong> (<em>pandas.DataFrame</em>) – DataFrame with predicted and true values from all measurements</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>DataFrame with confusion matrix. rows are true and columns predicted values</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>df_conf (pandas.DataFrame)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="do_statistics.create_droplist">
+<span class="sig-prename descclassname"><span class="pre">do_statistics.</span></span><span class="sig-name descname"><span class="pre">create_droplist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">keywords</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cols</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/do_statistics.html#create_droplist"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#do_statistics.create_droplist" title="Permalink to this definition"></a></dt>
+<dd><p>This function creates a list with all feauters in which the given keywords occur.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>keywords</strong> (<em>list</em>) – list with keywords to drop</p></li>
+<li><p><strong>cols</strong> (<em>list</em>) – list with feauters</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="do_statistics.create_sample_list">
+<span class="sig-prename descclassname"><span class="pre">do_statistics.</span></span><span class="sig-name descname"><span class="pre">create_sample_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/do_statistics.html#create_sample_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#do_statistics.create_sample_list" title="Permalink to this definition"></a></dt>
+<dd><p>This function return a list with a with all occurring
+samples and one with the corresponding plot colours.</p>
+<dl class="simple">
+<dt>Param:</dt><dd><p>df (pandas.DataFrame): DataFrame with data form result.csv
+properties (dictionary): properties is a dictionary with all parameters for evaluating the data</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>list with sample corresponding plot colours
+sample_list (list): list with occuring samples</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>color_list (list)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="do_statistics.cross_validate">
+<span class="sig-prename descclassname"><span class="pre">do_statistics.</span></span><span class="sig-name descname"><span class="pre">cross_validate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">function</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/do_statistics.html#cross_validate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#do_statistics.cross_validate" title="Permalink to this definition"></a></dt>
+<dd><p>This function performs a cross-validation (leave one out). The corresponding plot function is called.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>function</strong> (<em>oobject</em>) – predictor function</p></li>
+<li><p><strong>x</strong> (<em>numpy.array</em>) – x data for learning and prediction</p></li>
+<li><p><strong>y</strong> (<em>list</em>) – y data for learning and prediction</p></li>
+<li><p><strong>path</strong> (<em>string</em>) – root path to data</p></li>
+<li><p><strong>properties</strong> (<em>dictionary</em>) – properties is a dictionary with all parameters for evaluating the data</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="do_statistics.get_statistics">
+<span class="sig-prename descclassname"><span class="pre">do_statistics.</span></span><span class="sig-name descname"><span class="pre">get_statistics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/do_statistics.html#get_statistics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#do_statistics.get_statistics" title="Permalink to this definition"></a></dt>
+<dd><p>This function calculates statistical characteristics of the data.</p>
+<dl class="simple">
+<dt>Param:</dt><dd><p>df (pandas.DataFrame): DataFrame with data form result.csv
+path (string): root path to data</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="do_statistics.get_true_false_matrix">
+<span class="sig-prename descclassname"><span class="pre">do_statistics.</span></span><span class="sig-name descname"><span class="pre">get_true_false_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/do_statistics.html#get_true_false_matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#do_statistics.get_true_false_matrix" title="Permalink to this definition"></a></dt>
+<dd><p>This function reshapes and transposes the DataFrame with the passed loadings.
+Columns with feauter and sensor are reshaped into two individual columns.</p>
+<blockquote>
+<div><p>Args:
+df (pandas.DataFrame): DataFrame Loadings of PCA</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>reshaped  and transposed DataFrame with Components of PCA</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>df (pandas.DataFrame)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="do_statistics.normalize_data">
+<span class="sig-prename descclassname"><span class="pre">do_statistics.</span></span><span class="sig-name descname"><span class="pre">normalize_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/do_statistics.html#normalize_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#do_statistics.normalize_data" title="Permalink to this definition"></a></dt>
+<dd><p>This function normalises values between 0 and 1.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>list</em>) – list with data</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>list with normalised data</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>data (list)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="do_statistics.plot_components">
+<span class="sig-prename descclassname"><span class="pre">do_statistics.</span></span><span class="sig-name descname"><span class="pre">plot_components</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">colors</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_r</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">samples</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df_names</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axis_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'axis'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">browser</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dimension</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">additiv_labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['',</span> <span class="pre">'',</span> <span class="pre">'']</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/do_statistics.html#plot_components"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#do_statistics.plot_components" title="Permalink to this definition"></a></dt>
+<dd><p>This function creates plots. 2D and 3D plots can be created. These are created with
+matplotlib or plottly. They can be saved as jpeg or html.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>colors</strong> (<em>list</em>) – list with all colours that occur</p></li>
+<li><p><strong>x_r</strong> (<em>numpy.array</em>) – x data to plot</p></li>
+<li><p><strong>samples</strong> (<em>list</em>) – list with all samples that occur</p></li>
+<li><p><strong>df_names</strong> (<em>list</em>) – names of all measurements</p></li>
+<li><p><strong>path</strong> (<em>string</em>) – root path to data</p></li>
+<li><p><strong>name</strong> (<em>string</em>) – name to save the plot, default is <em>None</em></p></li>
+<li><p><strong>axis_label</strong> (<em>string</em>) – label for axis, default is <strong>axis</strong></p></li>
+<li><p><strong>browser</strong> (<em>bool</em>) – With <strong>True</strong> the plot is created as <em>html</em> (Plottly), with <strong>False</strong> as <em>jpeg</em> (matplotlib)</p></li>
+<li><p><strong>dimension</strong> (<em>bool</em>) – If <strong>True</strong>, a <em>3D</em> plot is created, if <strong>False</strong>, a <em>2D</em> plot is created.</p></li>
+<li><p><strong>additiv_labels</strong> (<em>list</em>) – list with additiv labels for each axis, , default is empty</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="do_statistics.plot_loadings_heat">
+<span class="sig-prename descclassname"><span class="pre">do_statistics.</span></span><span class="sig-name descname"><span class="pre">plot_loadings_heat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/do_statistics.html#plot_loadings_heat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#do_statistics.plot_loadings_heat" title="Permalink to this definition"></a></dt>
+<dd><p>This function creates a heat plot and other plots with the loadings of the PCA.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>pandas.DataFrame</em>) – DataFrame with Components of PCA</p></li>
+<li><p><strong>path</strong> (<em>string</em>) – root path to data</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="do_statistics.process_loadings">
+<span class="sig-prename descclassname"><span class="pre">do_statistics.</span></span><span class="sig-name descname"><span class="pre">process_loadings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/do_statistics.html#process_loadings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#do_statistics.process_loadings" title="Permalink to this definition"></a></dt>
+<dd><p>This function calculates the loadings of the PCA with the transferred components and creates a heat plot.
+The loadings are stored in //results//.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>pandas.DataFrame</em>) – DataFrame with Components of PCA</p></li>
+<li><p><strong>path</strong> (<em>string</em>) – root path to data</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="do_statistics.save_df">
+<span class="sig-prename descclassname"><span class="pre">do_statistics.</span></span><span class="sig-name descname"><span class="pre">save_df</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/do_statistics.html#save_df"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#do_statistics.save_df" title="Permalink to this definition"></a></dt>
+<dd><p>This function saves a DataFrame to csv in the results folder.</p>
+<dl class="simple">
+<dt>Param:</dt><dd><p>df (pandas.DataFrame): DataFrame to save
+path (string): path to root directory of data
+name (string): Name under which the file is to be saved</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="do_statistics.save_html">
+<span class="sig-prename descclassname"><span class="pre">do_statistics.</span></span><span class="sig-name descname"><span class="pre">save_html</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">html_object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/do_statistics.html#save_html"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#do_statistics.save_html" title="Permalink to this definition"></a></dt>
+<dd><p>This Function saves a plottly figure as html to plots//statistics.</p>
+<dl class="simple">
+<dt>Param:</dt><dd><p>html_object (object): plottly html object to save
+path (string): path to root directory of data
+name (string): Name to save figure</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="do_statistics.save_jpeg">
+<span class="sig-prename descclassname"><span class="pre">do_statistics.</span></span><span class="sig-name descname"><span class="pre">save_jpeg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">jpeg_object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/do_statistics.html#save_jpeg"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#do_statistics.save_jpeg" title="Permalink to this definition"></a></dt>
+<dd><p>This Function saves a  figure as jpeg to plots//statistics.</p>
+<dl class="simple">
+<dt>Param:</dt><dd><p>html_object (object): plottly figure to save
+path (string): path to root directory of data
+name (string): Name to save figure</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="sensors.html" class="btn btn-neutral float-left" title="sensors module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Matthias Muhr.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

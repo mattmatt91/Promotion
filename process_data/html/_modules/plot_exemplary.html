@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>plot_exemplary &mdash; process data 1 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> process data
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../start.html">set up</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">functions</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">process data</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="index.html">Module code</a> &raquo;</li>
+      <li>plot_exemplary</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for plot_exemplary</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module plots exemplary measurements. A plot is created for each sensor. For these, a file must be created manually for each sensor in which the corresponding samples (column name must correspond to the name of the sample) are entered. In addition, a time axis should be available.</span>
+<span class="sd">The file name must be created as follows:</span>
+<span class="sd">**sensorname** _compare.csv</span>
+<span class="sd">These measurements must be stored in a folder called results//exemplary. </span>
+
+<span class="sd">:copyright: (c) 2022 by Matthias Muhr, Hochschule-Bonn-Rhein-Sieg</span>
+<span class="sd">:license: see LICENSE for more details.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">read_files</span> <span class="kn">import</span> <span class="n">extract_properties</span>
+
+
+<div class="viewcode-block" id="save_fig"><a class="viewcode-back" href="../plot_exemplary.html#plot_exemplary.save_fig">[docs]</a><span class="k">def</span> <span class="nf">save_fig</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function saves the fig object in the folder &quot;results\\plots\\exemplary&quot;.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        fig (Object): figure to save</span>
+<span class="sd">        path (string): path to root folder</span>
+<span class="sd">        name (string): figures name</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">path</span> <span class="o">+</span> <span class="s1">&#39;results</span><span class="se">\\</span><span class="s1">plots</span><span class="se">\\</span><span class="s1">exemplary&#39;</span>
+    <span class="n">Path</span><span class="p">(</span><span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">path</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\\</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;.jpeg&#39;</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="plot_exemplary"><a class="viewcode-back" href="../plot_exemplary.html#plot_exemplary.plot_exemplary">[docs]</a><span class="k">def</span> <span class="nf">plot_exemplary</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">sensor</span><span class="p">,</span> <span class="n">x_lim_plot</span><span class="p">,</span> <span class="n">colors</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function plots measurements from the passed DataFrame.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        df (pandas.DataFrame): DataFrame with data of measurents from one sensor</span>
+<span class="sd">        path (string): path to root folder</span>
+<span class="sd">        sensor (string): name of the sensor</span>
+<span class="sd">        x_lim_plot (list): list with lower and upper x limit in seconds</span>
+<span class="sd">        colors (dictionary): dictionary with colors for sensors</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="n">x_lim_plot</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">x_lim_plot</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;time [s]&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;voltage [V]&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+    <span class="n">save_fig</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">sensor</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="read"><a class="viewcode-back" href="../plot_exemplary.html#plot_exemplary.read">[docs]</a><span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">sensor</span><span class="p">,</span> <span class="n">root_path</span><span class="p">,</span> <span class="n">x_lim_plot</span><span class="p">,</span> <span class="n">colors</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function reads files with the exemplary measurements,</span>
+<span class="sd">     prepares them and calls the plot function.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        path (string): path to file</span>
+<span class="sd">        sensor (string): name of the sensor</span>
+<span class="sd">        root_path (string): path to root folder</span>
+<span class="sd">        x_lim_plot (list): list with lower and upper x limit in seconds</span>
+<span class="sd">        colors (dictionary): dictionary with colors for sensors</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">decimal</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;time [s]&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">sensor</span><span class="p">)</span>
+    <span class="n">plot_exemplary</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">root_path</span><span class="p">,</span> <span class="n">sensor</span><span class="p">,</span> <span class="n">x_lim_plot</span><span class="p">,</span> <span class="n">colors</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="main"><a class="viewcode-back" href="../plot_exemplary.html#plot_exemplary.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">root_path</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This is the main function of the module.</span>
+<span class="sd">    It reads the data of the exemplary measurements and plots them.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        root_path (string): path to root folder</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">properties</span> <span class="o">=</span> <span class="n">extract_properties</span><span class="p">()</span>
+    <span class="n">sensors</span> <span class="o">=</span> <span class="n">properties</span><span class="p">[</span><span class="s1">&#39;sensors&#39;</span><span class="p">]</span>
+    <span class="n">path_list</span> <span class="o">=</span><span class="p">[]</span>
+    <span class="p">[</span><span class="n">path_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">root_path</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\\</span><span class="s1">results</span><span class="se">\\</span><span class="s1">exemplary</span><span class="se">\\</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="n">x</span> <span class="o">+</span> <span class="s1">&#39;_Vergleich.csv&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">sensors</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">path_list</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;reading: &#39;</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+    <span class="n">x_lim_plot</span> <span class="o">=</span> <span class="n">properties</span><span class="p">[</span><span class="s1">&#39;x_lim_plot&#39;</span><span class="p">]</span>
+    <span class="n">colors</span> <span class="o">=</span> <span class="n">properties</span><span class="p">[</span><span class="s1">&#39;colors&#39;</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">path</span><span class="p">,</span> <span class="n">sensor</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">path_list</span><span class="p">,</span> <span class="n">sensors</span><span class="p">):</span>
+        <span class="n">read</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">sensor</span><span class="p">,</span> <span class="n">root_path</span><span class="p">,</span> <span class="n">x_lim_plot</span><span class="p">,</span> <span class="n">colors</span><span class="p">)</span></div>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">root_path</span> <span class="o">=</span> <span class="s1">&#39;root_path = &quot;C:</span><span class="se">\\</span><span class="s1">Users</span><span class="se">\\</span><span class="s1">Matthias</span><span class="se">\\</span><span class="s1">Desktop</span><span class="se">\\</span><span class="s1">Messaufbau</span><span class="se">\\</span><span class="s1">dataaquisition</span><span class="se">\\</span><span class="s1">data</span><span class="se">\\</span><span class="s1">test_small&#39;</span>
+    <span class="n">main</span><span class="p">(</span><span class="n">root_path</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Matthias Muhr.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
