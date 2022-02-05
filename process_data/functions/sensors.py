@@ -62,6 +62,8 @@ class Sensor:
             save_df(self.df_dict[sensor], path, name)
 
 
+######################################################################################################################
+## this class creates plots with all sensors for every measurement ##
 class Plot:
     """
     This class creates plot objects. For each one, an image with all sensors of a measurement is created.
@@ -322,7 +324,7 @@ def read_file(path,decimal,name, path_out, object_raw, properties):
     Returns:
         dict_result (dictionary): dictionary with all extracted feauters for a measurement
     """
-    threshold = properties['threshold']
+    sensors = properties['sensors']
     path = path + path[path.rfind('\\'):] + '.txt'
     dict_result = {}
     df_measurement = pd.read_csv(path, delimiter='\t', decimal=decimal, dtype=float)
@@ -330,7 +332,7 @@ def read_file(path,decimal,name, path_out, object_raw, properties):
     object_raw.add_item(df_corr, name) # adding data from measurement to df for each sensor including all measurements
     fig = Plot(name,len(df_corr.columns))
     for this_sensor in df_corr.columns:
-        peaks, properties, results_half, results_full, this_dict_result = evaluate_sensor(df_corr, this_sensor, threshold[this_sensor])
+        peaks, properties, results_half, results_full, this_dict_result = evaluate_sensor(df_corr, this_sensor, sensors[this_sensor]['threshold'])
         dict_result.update(this_dict_result)
         fig.add_subplot(this_sensor, df_corr, properties, results_half, results_full, peaks)
     fig.show_fig(path_out)

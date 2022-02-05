@@ -43,9 +43,9 @@ def plot(df, name, path, names, properties): #creates plots for every sensor wit
         properties (dictionary): properties is a dictionary with all parameters for evaluating the data
     """
     print('plotting {0}-data'.format(name))
-    x_lim_plot = properties['x_lim_plot']
-    x_lim_plot_start = x_lim_plot[name][0]
-    x_lim_plot_end = x_lim_plot[name][1]
+    x_lim_plot = properties['sensors'][name]['x_lim_plot']
+    x_lim_plot_start = x_lim_plot[0]
+    x_lim_plot_end = x_lim_plot[1]
 
     for sample, sample_name in zip(set(df.columns.tolist()), names):
         title = name + '_' + sample

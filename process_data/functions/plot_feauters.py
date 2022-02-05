@@ -86,7 +86,7 @@ def plot_mean(path, df_plot, param, unit, properties):
         unit (string): unit of the feauter
         properties (dictionary): dictionary with parameters for processing
     """
-    colors = properties['colors']
+    colors = properties['colors_samples']
     # Create lists for the plot
     samples = df_plot.index.tolist()
     x_pos = np.arange(len(samples))

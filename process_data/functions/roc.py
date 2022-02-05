@@ -70,9 +70,7 @@ def get_roc(df, path, properties):
         path (string): root path for storing plots
         properties (dictionary): dictionary with all important properties
     """
-    colors = properties['colors']
-
-
+    colors = properties['colors_samples']
     samples = df['true'].unique()
     dict_samples = {}
     for sample, i in zip(samples, range(len(samples))):
@@ -153,7 +151,7 @@ def get_roc(df, path, properties):
         linewidth=4,
     )
 
-    # plot roc for each sensor
+    # plot roc for each sample
     for i in range(len(classes)):
         sample = samples[i]
         plt.plot(

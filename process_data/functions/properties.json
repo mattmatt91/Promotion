@@ -1,58 +1,59 @@
 {
     "root_path": "C:\\Users\\Matthias\\Desktop\\Messaufbau\\dataaquisition\\data\\test_small",
 
-    
-    "threshold": 
-            {
-                "VIS1": 0.1,
-                "IR1": 0.5,
-                "VIS2": 0.1,
-                "IR2": 0.5,
-                "Mikro": 0.025,
-                "Piezo": 0.005,
-                "Mikro_nm": 0.025,
-                "Piezo_nm": 0.005
-            },
-
-    "x_lim_plot": 
-            {
-                "VIS1": [0.008, 0.015],
-                "IR1": [0.008, 0.03],
-                "VIS2": [0.008, 0.015],
-                "IR2": [0.008, 0.03],
-                "Mikro": [0.008, 1.0],
-                "Piezo": [0.008, 1.0],
-                "Mikro_nm": [0.008, 1.0],
-                "Piezo_nm": [0.008, 1.0]
-            },
-
     "sensors":
-        [
-            "Mikro",
-            "Piezo",
-            "Mikro_nm",
-            "Piezo_nm",
-            "VIS1",
-            "IR1",
-            "VIS2",
-            "IR2"
-        ],
-
-
-        "sensors_colors":
         {
-            "Mikro":["red"],
-            "Piezo":["green"],
-            "Mikro_nm":["blue"],
-            "Piezo_nm":["yellow"],
-            "VIS1":["orange"],
-            "IR1":["lime"],
-            "VIS2":["darkred"],
-            "IR2":["darkblue"]
+            "VIS1":
+                {
+                    "threshold": 0.1,
+                    "x_lim_plot": [0.008, 0.015],
+                    "color": "red"
+                },
+            "IR1": 
+                {
+                    "threshold": 0.5,
+                    "x_lim_plot": [0.008, 0.03],
+                    "color": "blue"
+                },
+            "VIS2":
+                {
+                    "threshold": 0.1,
+                    "x_lim_plot": [0.008, 0.015],
+                    "color": "green"
+                },
+            "IR2":
+                {
+                    "threshold": 0.5,
+                    "x_lim_plot": [0.008, 0.03],
+                    "color": "yellow"
+                },
+            "Mikro":
+                {
+                    "threshold": 0.025,
+                    "x_lim_plot": [0.008, 1.0],
+                    "color": "orange"
+                },
+            "Piezo":
+                {
+                    "threshold": 0.005,
+                    "x_lim_plot": [0.008, 1.0],
+                    "color": "darkblue"
+                },
+            "Mikro_nm":
+                {
+                    "threshold": 0.025,
+                    "x_lim_plot": [0.008, 1.0],
+                    "color": "darkred"
+                },
+            "Piezo_nm":
+                {
+                    "threshold": 0.05,
+                    "x_lim_plot": [0.008, 1.0],
+                    "color": "lime"
+                } 
         },
 
-    "colors":
-        
+    "colors_samples": 
         {
             "Blank": "cornflowerblue",
             "Sugar": "red",

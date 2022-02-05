@@ -38,7 +38,8 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="start.html">set up</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="modules.html">functions</a><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="modules.html">info</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html#id1">functions</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="compare_measurements.html">compare_measurements module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="convert_plotly.html">convert_plotly module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="main.html">main module</a></li>
@@ -66,7 +67,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="modules.html">functions</a> &raquo;</li>
+          <li><a href="modules.html">info</a> &raquo;</li>
       <li>do_statistics module</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/do_statistics.rst.txt" rel="nofollow"> View page source</a>
@@ -165,10 +166,7 @@ Loadings are safed in a file in //results// folder.</p>
 <dd class="field-odd"><p><strong>df</strong> (<em>pandas.DataFrame</em>) – DataFrame in</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>reshaped  DataFrame</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>df_converted (pandas.DataFrame)</p>
+<dd class="field-even"><p><strong>df_converted</strong> (<em>pandas.DataFrame</em>) – reshaped  DataFrame</p>
 </dd>
 </dl>
 </dd></dl>
@@ -182,10 +180,7 @@ Loadings are safed in a file in //results// folder.</p>
 <dd class="field-odd"><p><strong>df</strong> (<em>pandas.DataFrame</em>) – DataFrame with predicted and true values from all measurements</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>DataFrame with confusion matrix. rows are true and columns predicted values</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>df_conf (pandas.DataFrame)</p>
+<dd class="field-even"><p><strong>df_conf</strong> (<em>pandas.DataFrame</em>) – DataFrame with confusion matrix. rows are true and columns predicted values</p>
 </dd>
 </dl>
 </dd></dl>
@@ -216,11 +211,10 @@ properties (dictionary): properties is a dictionary with all parameters for eval
 </dl>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>list with sample corresponding plot colours
-sample_list (list): list with occuring samples</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>color_list (list)</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>color_list</strong> (<em>list</em>) – list with sample corresponding plot colours</p></li>
+<li><p><strong>sample_list</strong> (<em>list</em>) – list with occuring samples</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -264,10 +258,7 @@ df (pandas.DataFrame): DataFrame Loadings of PCA</p>
 </div></blockquote>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>reshaped  and transposed DataFrame with Components of PCA</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>df (pandas.DataFrame)</p>
+<dd class="field-odd"><p><strong>df</strong> (<em>pandas.DataFrame</em>) – reshaped  and transposed DataFrame with Components of PCA</p>
 </dd>
 </dl>
 </dd></dl>
@@ -281,10 +272,7 @@ df (pandas.DataFrame): DataFrame Loadings of PCA</p>
 <dd class="field-odd"><p><strong>data</strong> (<em>list</em>) – list with data</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>list with normalised data</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>data (list)</p>
+<dd class="field-even"><p><strong>data</strong> (<em>list</em>) – list with normalised data</p>
 </dd>
 </dl>
 </dd></dl>

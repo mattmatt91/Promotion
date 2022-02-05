@@ -131,7 +131,7 @@ def create_sample_list(df, properties):
         color_list (list): list with sample corresponding plot colours
         sample_list (list): list with occuring samples
     """
-    colors = properties['colors']
+    colors = properties['colors_samples']
     samples = df.index.unique().tolist()
     sample_list = []
     color_list = []
