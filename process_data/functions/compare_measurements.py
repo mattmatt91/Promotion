@@ -6,7 +6,6 @@ This module creates plots with all measurements per sample and sensor.
 """
 
 import pandas as pd
-import pandas as pd
 import matplotlib.pyplot as plt
 from pathlib import Path
 import numpy as np

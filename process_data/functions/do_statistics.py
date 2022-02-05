@@ -35,6 +35,13 @@ from roc import get_roc
 
 
 def create_droplist(keywords, cols):
+    """
+    This function creates a list with all feauters in which the given keywords occur.
+
+    Args:
+        keywords (list): list with keywords to drop
+        cols (list): list with feauters
+    """
     drops = []
     for key in keywords:
         for col in cols:
@@ -44,12 +51,28 @@ def create_droplist(keywords, cols):
 
 
 def save_df(df, path, name):
+    """
+    This function saves a DataFrame to csv in the results folder.
+
+    Param:
+        df (pandas.DataFrame): DataFrame to save
+        path (string): path to root directory of data
+        name (string): Name under which the file is to be saved
+    """
     Path(path).mkdir(parents=True, exist_ok=True)
     path = path + '\\' + name + '.csv'
     df.to_csv(path, sep=';', decimal='.', index=True)
 
 
 def save_html(html_object, path, name):
+    """
+    This Function saves a plottly figure as html to plots//statistics.
+
+    Param:
+        html_object (object): plottly html object to save
+        path (string): path to root directory of data
+        name (string): Name to save figure
+    """
     path = path + '\\plots\\statistics'
     Path(path).mkdir(parents=True, exist_ok=True)
     path = path + '\\' + name + '.html'
@@ -58,6 +81,14 @@ def save_html(html_object, path, name):
 
 
 def save_jpeg(jpeg_object, path, name):
+    """
+    This Function saves a  figure as jpeg to plots//statistics.
+
+    Param:
+        html_object (object): plottly figure to save
+        path (string): path to root directory of data
+        name (string): Name to save figure
+    """
     path = path + '\\plots\\statistics'
     Path(path).mkdir(parents=True, exist_ok=True)
     path = path + '\\' + name + '.jpeg'
@@ -65,6 +96,13 @@ def save_jpeg(jpeg_object, path, name):
 
 
 def get_statistics(df, path):
+    """
+    This function calculates statistical characteristics of the data.
+
+    Param:
+        df (pandas.DataFrame): DataFrame with data form result.csv
+        path (string): root path to data
+    """
     print('processing statistics...')
     samples = df.index.unique().tolist()
     statistics_list = {}
@@ -80,12 +118,25 @@ def get_statistics(df, path):
     save_df(df_std.T, path, 'std')
 
 
-def create_sample_dict(df, properties):
+def create_sample_list(df, properties):
+    """
+    This function return a list with a with all occurring 
+    samples and one with the corresponding plot colours.
+
+    Param:
+        df (pandas.DataFrame): DataFrame with data form result.csv
+        properties (dictionary): properties is a dictionary with all parameters for evaluating the data
+
+    Returns:
+        color_list (list): list with sample corresponding plot colours
+        sample_list (list): list with occuring samples
+    """
     colors = properties['colors']
     samples = df.index.unique().tolist()
     sample_list = []
     color_list = []
     for sample in samples:
+        # remove this for new data
         if sample == ' TNT':
             sample = 'TNT'
         sample_list.append(sample)
@@ -94,10 +145,23 @@ def create_sample_dict(df, properties):
 
 
 def calc_pca(df, path, df_names, properties, browser=True, dimension=True, drop_keywords=[]):
+    """
+    This function calculates a PCA with the data and calls the plot function. Components and
+    Loadings are safed in a file in //results// folder.
+
+    Args:
+        df (pandas.DataFrame): DataFrame with data form result.csv
+        path (string): root path to data
+        df_names (list): names of all measurements
+        properties (dictionary): properties is a dictionary with all parameters for evaluating the data
+        browser (bool): With **True** the plot is created as *html* (Plottly), with **False** as *jpeg* (matplotlib)
+        dimension (bool): If **True**, a *3D* plot is created, if **False**, a *2D* plot is created.
+        drop_keywords (list): list with all feauters to drop before calculatin pca
+    """
     print('processing pca...')
     drop_list = create_droplist(drop_keywords, df.columns)
     df.drop(drop_list, axis=1, inplace=True)
-    color_list, sample_list = create_sample_dict(df, properties)
+    color_list, sample_list = create_sample_list(df, properties)
     scalar = StandardScaler()
     scalar.fit(df)
     scaled_data = scalar.transform(df)
@@ -106,18 +170,28 @@ def calc_pca(df, path, df_names, properties, browser=True, dimension=True, drop_
     x_pca = pca.transform(scaled_data)
     # create df for plotting with PCs and samples as index
     df_x_pca = pd.DataFrame(x_pca, index=df.index, columns='PC1 PC2 PC3'.split())
+    components = pd.DataFrame(pca.components_, columns=df.columns, index='PC1 PC2 PC3'.split())
     # plot pca
     axis_label = 'PC'
     additive_labels = [round(pca.explained_variance_ratio_[i], 2) for i in range(3)]
     plot_components(color_list, df_x_pca, sample_list, df_names, path, name='PCA', browser=browser, dimension=dimension, axis_label=axis_label, additiv_labels=additive_labels)
+    save_df(components, path, 'PCA_components')
     # Loadings
-    process_loadings(pd.DataFrame(pca.components_, columns=df.columns, index='PC1 PC2 PC3'.split()), path)
+    process_loadings(components, path)
 
 
 
 
 
 def process_loadings(df, path): # creates a df with the loadings and a column for sensor and feature
+    """
+    This function calculates the loadings of the PCA with the transferred components and creates a heat plot. 
+    The loadings are stored in //results//.
+    
+    Args:
+        df (pandas.DataFrame): DataFrame with Components of PCA
+        path (string): root path to data
+    """
     df_components = get_true_false_matrix(df)
 
     plot_loadings_heat(df_components, path)
@@ -125,6 +199,16 @@ def process_loadings(df, path): # creates a df with the loadings and a column fo
 
 
 def get_true_false_matrix(df):
+    """
+    This function reshapes and transposes the DataFrame with the passed loadings.
+    Columns with feauter and sensor are reshaped into two individual columns. 
+
+        Args:
+        df (pandas.DataFrame): DataFrame Loadings of PCA
+
+    Returns:
+        df (pandas.DataFrame): reshaped  and transposed DataFrame with Components of PCA
+    """
     df = df.T
     sensors = [x[:x.find('_')] for x in df.index.tolist()]
     df['sensors'] = sensors
@@ -134,6 +218,14 @@ def get_true_false_matrix(df):
 
 
 def plot_loadings_heat(df, path):
+    """
+    This function creates a heat plot and other plots with the loadings of the PCA.
+
+    Args:
+        df (pandas.DataFrame): DataFrame with Components of PCA
+        path (string): root path to data
+    """
+    # preparing dataframe
     df = convert_df_pd(df)
     df['value_abs'] = df['value'].abs()
     df['value_abs_norm'] = normalize_data(df['value_abs'])
@@ -141,7 +233,7 @@ def plot_loadings_heat(df, path):
     sns.color_palette("viridis", as_cmap=True)
     sns.set_theme()
     
-    # hier werden einige Plots zu den Loadings erstellt
+    # creating plot 1: total variance of the sensors per principal component
     sns.set_style("whitegrid")
     fig, ax = plt.subplots(figsize=(10, 10))  # Sample figsize in inches
     sns.barplot(x="PC", y="value", data=df, ax=ax, hue='sensor', ci=None, estimator=sum)
@@ -150,37 +242,70 @@ def plot_loadings_heat(df, path):
     name = 'sensor' + '_loadings'
     save_jpeg(fig, path, name)
     plt.close()
-    fig, ax = plt.subplots(figsize=(10, 10))  # Sample figsize in inches
+
+    # creating plot 2: total variance for each sensor
+    fig, ax = plt.subplots(figsize=(10, 10))
     sns.barplot(x="sensor", y="value_abs", data=df, ax=ax, ci=None, estimator=sum)
-    # ax.tick_params(axis='x', rotation=45)
+    # ax.tick_params(axis='x', rotation=45) # rotating label
     ax.set_ylabel('total variance for each sensor')
     name = 'sensor' + '_loadings_simple'
     save_jpeg(fig, path, name)
     plt.close()
-    plt.show()
+    # plt.show()
 
 
 def convert_df_pd(df):
+    """
+    This function reshapes and transposes the passed DataFrame.
+
+    Args:
+        df (pandas.DataFrame): DataFrame in
+
+    Returns:
+        df_converted (pandas.DataFrame): reshaped  DataFrame 
+    """
     df.reset_index(drop=True, inplace=True)
     # formt den df um sodass pc keine Spalten mehr sind
     pcs = 'PC1 PC2 PC3'.split()
-    df_new = pd.DataFrame()
+    df_converted = pd.DataFrame()
     for i, m, k in zip(df['sensors'], df['features'], range(len(df['features']))):
         for n in pcs:
-            df_new = df_new.append({'sensor': i, 'feature': m, 'PC': n, 'value': df.iloc[k][n]}, ignore_index=True)
-    return df_new
+            df_converted = df_converted.append({'sensor': i, 'feature': m, 'PC': n, 'value': df.iloc[k][n]}, ignore_index=True)
+    return df_converted
 
 
 def normalize_data(data):
+    """
+    This function normalises values between 0 and 1.
+
+    Args:
+        data (list): list with data
+
+    Returns:
+        data (list): list with normalised data
+    """
     return (data - np.min(data)) / (np.max(data) - np.min(data))
 
 
-
 def calc_lda(df, path, df_names, properties, browser=True, dimension=True, drop_keywords=[]):
+    """
+    This function calculates a LDA with the data and calls the plot function. Plots are safed 
+    in a file in //results// folder. Cross-validation is carried out (leave one out).
+    The results are presented in a confusion matrix and by means of an ROC curve.
+
+    Args:
+        df (pandas.DataFrame): DataFrame with data form result.csv
+        path (string): root path to data
+        df_names (list): names of all measurements
+        properties (dictionary): properties is a dictionary with all parameters for evaluating the data
+        browser (bool): With **True** the plot is created as *html* (Plottly), with **False** as *jpeg* (matplotlib)
+        dimension (bool): If **True**, a *3D* plot is created, if **False**, a *2D* plot is created.
+        drop_keywords (list): list with all feauters to drop before calculatin pca
+    """
     print('processing lda...')
     drop_list = create_droplist(drop_keywords, df.columns)
     df.drop(drop_list, axis=1, inplace=True)
-    color_list, sample_list = create_sample_dict(df, properties)
+    color_list, sample_list = create_sample_list(df, properties)
     scalar = StandardScaler()
     scalar.fit(df)
     scaled_data = scalar.transform(df)
@@ -192,7 +317,18 @@ def calc_lda(df, path, df_names, properties, browser=True, dimension=True, drop_
     plot_components(color_list, df_x_lda, sample_list, df_names, path, name='LDA', browser=browser, dimension=dimension, axis_label=axis_label)
     cross_validate(lda, scaled_data, df.index, path, properties)
 
+
 def cross_validate(function, x, y, path, properties):
+    """
+    This function performs a cross-validation (leave one out). The corresponding plot function is called. 
+
+    Args:
+        function (oobject): predictor function
+        x (numpy.array): x data for learning and prediction
+        y (list): y data for learning and prediction
+        path (string): root path to data
+        properties (dictionary): properties is a dictionary with all parameters for evaluating the data
+    """
     df_result = pd.DataFrame()
     loo = LeaveOneOut()
     loo.get_n_splits(x)
@@ -214,10 +350,18 @@ def cross_validate(function, x, y, path, properties):
     plt.yticks(rotation=0)
     plt.tight_layout()
     save_jpeg(fig, path, 'heatmap_crossvalidation_LDA')
-    # plt.show()
 
 
 def create_confusion(df):
+    """
+    This function creates a confusion matrix with the passed results of the cross validation.
+
+    Args:
+        df (pandas.DataFrame): DataFrame with predicted and true values from all measurements
+
+    Returns:
+        df_conf (pandas.DataFrame): DataFrame with confusion matrix. rows are true and columns predicted values
+    """
     labels = df['true'].unique()
     df_conf = pd.DataFrame(columns=labels, index=labels)
     for i in df['true'].unique():
@@ -228,6 +372,22 @@ def create_confusion(df):
 
 
 def plot_components(colors, x_r, samples, df_names, path, name=None, axis_label='axis', browser=False, dimension=True, additiv_labels=['', '', '']):
+    """
+    This function creates plots. 2D and 3D plots can be created. These are created with
+    matplotlib or plottly. They can be saved as jpeg or html.
+
+    Args:
+        colors (list): list with all colours that occur
+        x_r (numpy.array): x data to plot
+        samples (list): list with all samples that occur
+        df_names (list): names of all measurements 
+        path (string): root path to data
+        name (string): name to save the plot, default is *None*
+        axis_label (string): label for axis, default is **axis**
+        browser (bool): With **True** the plot is created as *html* (Plottly), with **False** as *jpeg* (matplotlib)
+        dimension (bool): If **True**, a *3D* plot is created, if **False**, a *2D* plot is created.
+        additiv_labels (list): list with additiv labels for each axis, , default is empty
+    """
     if not browser:
         if dimension:
             fig = plt.figure()
@@ -263,7 +423,18 @@ def plot_components(colors, x_r, samples, df_names, path, name=None, axis_label=
     plt.close()
 
 
-def calculate(path, properties, statistic=True, pca=True, lda=True, svm=False, knn=False, browser=False, dimension=False):
+def calculate(path, properties, statistic=True, pca=True, lda=True, browser=False, dimension=False):
+    """
+    This is the main function of this module. It calculates some statistics, LDA and PCA. Plots are created 
+
+    Args:
+        path (string): root path to data
+        properties (dictionary): properties is a dictionary with all parameters for evaluating the data
+        pca (bool): If True, PCA is executed (*default*)
+        lda (bool): If True, LDA is executed (*default*)
+        browser (bool): With **True** the plot is created as *html* (Plottly), with **False** as *jpeg* (matplotlib)
+        dimension (bool): If **True**, a *3D* plot is created, if **False**, a *2D* plot is created.
+    """
     # preparing result.csv for statistics
     path = path + '\\Results'
     path_results = path+ '\\Result.csv'
