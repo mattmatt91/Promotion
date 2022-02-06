@@ -31,7 +31,7 @@ def save_fig(fig, path, name):
     fig.savefig(path)
     plt.close(fig)
 
-def plot(df, name, path, names, properties): #creates plots for every sensor with all measurments
+def plot(df, name, path, names, properties): #creates plots for every sensor with all measurments   
     """
     This function creates plots from the passed data. One plot per sensor and sample with all measurements.
 
@@ -42,6 +42,7 @@ def plot(df, name, path, names, properties): #creates plots for every sensor wit
         names (): list with name of measurements
         properties (dictionary): properties is a dictionary with all parameters for evaluating the data
     """
+    plot_properties = properties['plot_properties']['compare_plots']
     print('plotting {0}-data'.format(name))
     x_lim_plot = properties['sensors'][name]['x_lim_plot']
     x_lim_plot_start = x_lim_plot[0]
@@ -49,7 +50,7 @@ def plot(df, name, path, names, properties): #creates plots for every sensor wit
 
     for sample, sample_name in zip(set(df.columns.tolist()), names):
         title = name + '_' + sample
-        fig, ax = plt.subplots()
+        fig, ax = plt.subplots(figsize=plot_properties['size'])
 
         #use this for centering around peak
         # t_max = df[sample].max()
@@ -59,10 +60,14 @@ def plot(df, name, path, names, properties): #creates plots for every sensor wit
         
         ax.plot(df.index, df[sample])
         plt.xlim(x_lim_plot_start, x_lim_plot_end)
-        ax.set(xlabel=df.index.name, ylabel='voltage [V]')
-        # plt.show()
+        plt.xlabel(df.index.name, fontsize=plot_properties['label_size'])
+        plt.ylabel('voltage [V]', fontsize=plot_properties['label_size'])
+        plt.yticks(fontsize=plot_properties['font_size'])
+        plt.xticks(fontsize=plot_properties['font_size'])
         ax.grid()
+        # plt.show()
         save_fig(fig, path, title)
+        plt.close()
 
 def read(path, name, root_path, properties):
     """

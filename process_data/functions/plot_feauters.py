@@ -75,6 +75,7 @@ def transform_table(path, df_mean, df_stabw, properties):
         plot_mean(path, df_plot, param, unit, properties)
 
 def plot_mean(path, df_plot, param, unit, properties):
+    plot_properties = properties['plot_properties']['compare_plots']
     """
     This function plots the mean value with standard
     deviation for the given DataFrame of a property.
@@ -95,19 +96,28 @@ def plot_mean(path, df_plot, param, unit, properties):
     # mean, error = normalizedata(mean, error)
 
     fig, ax = plt.subplots()
-    barlist = ax.bar(x_pos, mean, yerr=error, align='center', alpha=0.5, ecolor='black', capsize=10)
+    barlist = ax.bar(x_pos, mean, yerr=error, align='center', alpha=0.5, ecolor='black', capsize=plot_properties['label_size'])
+
+    ### remove this for new data ###
     for sample, i in zip(samples, range(len(samples))):
         if sample == ' TNT':
             sample = 'TNT'
         barlist[i].set_color(colors[sample])
+    ################################
+
     ytitle = 'mean ' + unit
     ax.set_ylabel(ytitle)
     ax.set_xticks(x_pos)
     ax.set_xticklabels(samples)
     ax.yaxis.grid(True)
     plt.xticks(rotation=45)
+    plt.ylabel('voltage [V]', fontsize=plot_properties['label_size'])
+    plt.yticks(fontsize=plot_properties['font_size'])
+    plt.xticks(fontsize=plot_properties['font_size'])
     plt.tight_layout()
+    # plt.show()
     save_fig(fig, path, param)
+    plt.close()
 
 
 def plot_features(path, properties):

@@ -118,20 +118,20 @@
                     "label_size":20,
                     "legend_size": 30
                 },
-            "paramplot":
+            "param_plot":
                 {
                     "dpi": 4,
                     "size": [4,5],
-                    "font_size": 12,
-                    "label_size": 202,
+                    "font_size": 20,
+                    "label_size": 20,
                     "legend_size": 20
                 },
             "compare_plots":
                 {
                     "dpi": 4,
-                    "size": [4,5],
-                    "font_size": 12,
-                    "label_size": 202,
+                    "size": [10,10],
+                    "font_size": 20,
+                    "label_size": 20,
                     "legend_size": 20
                 },
             "confusion_matrix":

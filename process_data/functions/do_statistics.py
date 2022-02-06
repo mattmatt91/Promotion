@@ -421,7 +421,7 @@ def plot_components(colors, x_r, samples, df_names, path, properties, name=None,
         # 2D-Plot
         if not dimension:
             plot_properties = properties['plot_properties'][ "components_plot_2D"]
-            twodee = plt.figure(figsize=properties['plot_properties'][ "components_plot_2D"]['size']).add_subplot()
+            twodee = plt.figure(figsize=plot_properties['size']).add_subplot()
             for color, i, target_name in zip(colors, np.arange(len(colors)), samples):
                 twodee.scatter(x_r[x_r.index.get_level_values('sample') == target_name][axis_label + str(1)],
                                x_r[x_r.index.get_level_values('sample') == target_name][axis_label + str(2)],
