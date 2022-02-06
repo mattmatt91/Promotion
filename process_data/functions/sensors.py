@@ -135,7 +135,7 @@ class Plot:
         path = path + '\\' + self.name + '.jpeg'
         
         self.fig.tight_layout()
-        plt.show()
+        # plt.show()
         self.fig.savefig(path)
         plt.close(self.fig)
 

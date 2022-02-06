@@ -14,6 +14,7 @@ A PCA and an LDA are performed. Corresponding plots are created for this.
 :license: see LICENSE for more details.
 """
 from os import name
+from tkinter import font
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -174,16 +175,16 @@ def calc_pca(df, path, df_names, properties, browser=True, dimension=True, drop_
     # plot pca
     axis_label = 'PC'
     additive_labels = [round(pca.explained_variance_ratio_[i], 2) for i in range(3)]
-    plot_components(color_list, df_x_pca, sample_list, df_names, path, name='PCA', browser=browser, dimension=dimension, axis_label=axis_label, additiv_labels=additive_labels)
+    plot_components(color_list, df_x_pca, sample_list, df_names, path, properties, name='PCA', browser=browser, dimension=dimension, axis_label=axis_label, additiv_labels=additive_labels)
     save_df(components, path, 'PCA_components')
     # Loadings
-    process_loadings(components, path)
+    process_loadings(components, path, properties)
 
 
 
 
 
-def process_loadings(df, path): # creates a df with the loadings and a column for sensor and feature
+def process_loadings(df, path, properties): # creates a df with the loadings and a column for sensor and feature
     """
     This function calculates the loadings of the PCA with the transferred components and creates a heat plot. 
     The loadings are stored in //results//.
@@ -191,10 +192,11 @@ def process_loadings(df, path): # creates a df with the loadings and a column fo
     Args:
         df (pandas.DataFrame): DataFrame with Components of PCA
         path (string): root path to data
+        properties (dictionary): properties is a dictionary with all parameters for evaluating the data
     """
     df_components = get_true_false_matrix(df)
 
-    plot_loadings_heat(df_components, path)
+    plot_loadings_heat(df_components, path, properties)
     save_df(df, path, 'PCA_loadings')
 
 
@@ -217,13 +219,14 @@ def get_true_false_matrix(df):
     return df
 
 
-def plot_loadings_heat(df, path):
+def plot_loadings_heat(df, path, properties):
     """
     This function creates a heat plot and other plots with the loadings of the PCA.
 
     Args:
         df (pandas.DataFrame): DataFrame with Components of PCA
         path (string): root path to data
+        properties (dictionary): properties is a dictionary with all parameters for evaluating the data
     """
     # preparing dataframe
     df = convert_df_pd(df)
@@ -235,23 +238,27 @@ def plot_loadings_heat(df, path):
     
     # creating plot 1: total variance of the sensors per principal component
     sns.set_style("whitegrid")
-    fig, ax = plt.subplots(figsize=(10, 10))  # Sample figsize in inches
-    sns.barplot(x="PC", y="value", data=df, ax=ax, hue='sensor', ci=None, estimator=sum)
-    # ax.tick_params(axis='x', rotation=45)
-    ax.set_ylabel('total variance of the sensors per principal component')
+    fig, ax = plt.subplots(figsize=properties['plot_properties']['loadings_plot']['size'])  # Sample figsize in inches
+    ax.set_ylabel('total variance of the sensors per principal component', fontsize = properties['plot_properties']['loadings_plot']['font_size'])
+    ax.set_xlabel('PC', fontsize = properties['plot_properties']['loadings_plot']['font_size'])
+    sns.barplot(x="PC", y="value", data=df, ax=ax, hue='sensor', ci=None, estimator=sum) 
+    ax.tick_params(labelsize=properties['plot_properties']['loadings_plot']['label_size'])
+    ax.legend(frameon=True, fontsize=properties['plot_properties']['loadings_plot']['legend_size'])
     name = 'sensor' + '_loadings'
     save_jpeg(fig, path, name)
+    # plt.show()
     plt.close()
 
     # creating plot 2: total variance for each sensor
-    fig, ax = plt.subplots(figsize=(10, 10))
+    fig, ax = plt.subplots(figsize=properties['plot_properties']['loadings_plot']['size'])
     sns.barplot(x="sensor", y="value_abs", data=df, ax=ax, ci=None, estimator=sum)
-    # ax.tick_params(axis='x', rotation=45) # rotating label
-    ax.set_ylabel('total variance for each sensor')
+    ax.set_ylabel('total variance for each sensor', fontsize = properties['plot_properties']['loadings_plot']['font_size'])
+    ax.set_xlabel('sensor', fontsize = properties['plot_properties']['loadings_plot']['font_size'])
     name = 'sensor' + '_loadings_simple'
     save_jpeg(fig, path, name)
-    plt.close()
     # plt.show()
+    plt.close()
+    
 
 
 def convert_df_pd(df):
@@ -314,7 +321,7 @@ def calc_lda(df, path, df_names, properties, browser=True, dimension=True, drop_
     df_x_lda = pd.DataFrame(x_lda, index=df.index, columns='C1 C2 C3'.split())
 
     axis_label = 'C'
-    plot_components(color_list, df_x_lda, sample_list, df_names, path, name='LDA', browser=browser, dimension=dimension, axis_label=axis_label)
+    plot_components(color_list, df_x_lda, sample_list, df_names, path, properties, name='LDA', browser=browser, dimension=dimension, axis_label=axis_label)
     cross_validate(lda, scaled_data, df.index, path, properties)
 
 
@@ -340,17 +347,22 @@ def cross_validate(function, x, y, path, properties):
         result = pd.DataFrame({'true': y_test, 'predict': predictions})
         result['value'] = result['predict'] == result['true']
         df_result = df_result.append(result, ignore_index=True)
-
     print('error rate: ' + str((df_result[df_result['value'] == False]['value'].count()/len(df_result))*100) + '%')
-    sns.set(font_scale=1.5)
-    get_roc(df_result, path, properties)
+
     df_conf = create_confusion(df_result)
-    fig, ax = plt.subplots(figsize=(10, 10))  # Sample figsize in inches
-    sns.heatmap(df_conf.fillna(0), linewidths=.5, annot=True, fmt='g', cbar=False, cmap="viridis", ax=ax)
-    plt.yticks(rotation=0)
+    fig, ax = plt.subplots(figsize=properties['plot_properties']['confusion_matrix']['size'])
+    font_size = properties['plot_properties']['confusion_matrix']['font_size']
+    sns.heatmap(df_conf.fillna(0), linewidths=.5, annot=True, fmt='g', cbar=False, cmap="viridis", ax=ax, annot_kws={"size": font_size})
+    ax.set_ylabel('true', fontsize = properties['plot_properties']['confusion_matrix']['label_size'])
+    ax.set_xlabel('predicted', fontsize = properties['plot_properties']['confusion_matrix']['label_size'])
+    plt.yticks(rotation=45)
     plt.tight_layout()
     save_jpeg(fig, path, 'heatmap_crossvalidation_LDA')
-
+    # plt.show()
+    plt.close()
+    
+    # computing cor curve
+    get_roc(df_result, path, properties)
 
 def create_confusion(df):
     """
@@ -371,7 +383,7 @@ def create_confusion(df):
     return df_conf
 
 
-def plot_components(colors, x_r, samples, df_names, path, name=None, axis_label='axis', browser=False, dimension=True, additiv_labels=['', '', '']):
+def plot_components(colors, x_r, samples, df_names, path, properties, name=None, axis_label='axis', browser=False, dimension=True, additiv_labels=['', '', '']):
     """
     This function creates plots. 2D and 3D plots can be created. These are created with
     matplotlib or plottly. They can be saved as jpeg or html.
@@ -387,39 +399,57 @@ def plot_components(colors, x_r, samples, df_names, path, name=None, axis_label=
         browser (bool): With **True** the plot is created as *html* (Plottly), with **False** as *jpeg* (matplotlib)
         dimension (bool): If **True**, a *3D* plot is created, if **False**, a *2D* plot is created.
         additiv_labels (list): list with additiv labels for each axis, , default is empty
-    """
+    """ 
     if not browser:
         if dimension:
-            fig = plt.figure()
+            plot_properties = properties['plot_properties'][ "components_plot_3D"]
+            fig = plt.figure(figsize=plot_properties['size'])   
             threedee = fig.add_subplot(111, projection='3d')
             for color, target_name in zip(colors, samples):
                 threedee.scatter(x_r[x_r.index.get_level_values('sample') == target_name][axis_label + str(1)],
                                  x_r[x_r.index.get_level_values('sample') == target_name][axis_label + str(2)],
                                  x_r.loc[x_r.index.get_level_values('sample') == target_name][axis_label + str(3)],
-                                 s=30, color=color, alpha=.8, label=target_name)
+                                 s= plot_properties['dot'], color=color, alpha=.8, label=target_name)
+
+            threedee.tick_params(axis='both', labelsize=properties['plot_properties'][ "components_plot_3D"]['font_size'])
             threedee.legend(loc='best', shadow=False, scatterpoints=1)
-            threedee.set_xlabel('{0}{1} {2} %'.format(axis_label, 1, additiv_labels[0]))
-            threedee.set_ylabel('{0}{1} {2} %'.format(axis_label, 2, additiv_labels[1]))
-            threedee.set_zlabel('{0}{1} {2} %'.format(axis_label, 3, additiv_labels[2]))
+            threedee.set_xlabel('{0}{1} {2} %'.format(axis_label, 1, additiv_labels[0]),fontsize=plot_properties['label_size'])
+            threedee.set_ylabel('{0}{1} {2} %'.format(axis_label, 2, additiv_labels[1]),fontsize=plot_properties['label_size'])
+            threedee.set_zlabel('{0}{1} {2} %'.format(axis_label, 3, additiv_labels[2]),fontsize=plot_properties['label_size'])
+            
 
         # 2D-Plot
         if not dimension:
-            twodee = plt.figure().add_subplot()
+            plot_properties = properties['plot_properties'][ "components_plot_2D"]
+            twodee = plt.figure(figsize=properties['plot_properties'][ "components_plot_2D"]['size']).add_subplot()
             for color, i, target_name in zip(colors, np.arange(len(colors)), samples):
                 twodee.scatter(x_r[x_r.index.get_level_values('sample') == target_name][axis_label + str(1)],
                                x_r[x_r.index.get_level_values('sample') == target_name][axis_label + str(2)],
-                               s=30, color=color, alpha=.8, label=target_name)
+                               s=plot_properties['dot'], color=color, alpha=.8, label=target_name)
+
             twodee.legend(loc='best', shadow=False, scatterpoints=1) 
-            twodee.set_xlabel('{0}{1} {2} %'.format(axis_label, 1, additiv_labels[0]))
-            twodee.set_ylabel('{0}{1} {2} %'.format(axis_label, 2, additiv_labels[1]))
+            twodee.set_xlabel('{0}{1} {2} %'.format(axis_label, 1, additiv_labels[0]),fontsize=plot_properties['label_size'])
+            twodee.set_ylabel('{0}{1} {2} %'.format(axis_label, 2, additiv_labels[1]),fontsize=plot_properties['label_size'])
 
         plt.show()    
     if browser:
+        
+        ### einarbeiten für reihenfolge ###
+        # category_orders={"day": ["Thur", "Fri", "Sat", "Sun"],
+
+        plot_properties = properties['plot_properties'][ "components_plot_html"]
         axis_names = [axis_label+ str(i+1) for i in range(3)]
         fig = px.scatter_3d(x_r, x=axis_names[0], y=axis_names[1], z=axis_names[2], color=x_r.index.get_level_values('sample'),
                             hover_data={'name': df_names.tolist()})
-        # fig.show()
+        # setting up legend
+        fig.update_layout(legend=dict(orientation="v", font=dict(size=plot_properties['legend_size'])))
+        # setting up label and font
+        fig.update_layout(font=dict(size=plot_properties['label_size']))
+        # setting up axis labels
+        fig.update_layout(yaxis = dict(tickfont = dict(size=plot_properties['font_size'])))
+
         save_html(fig, path, name)
+        # fig.show()
     plt.close()
 
 

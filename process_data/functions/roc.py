@@ -172,7 +172,7 @@ def get_roc(df, path, properties):
     plt.legend(loc=0)
     plt.tight_layout()
     save_jpeg(fig, path, 'roc')
-    plt.show()
+    # plt.show()
     plt.close()
 
 def read_roc(path):
@@ -190,6 +190,7 @@ def read_roc(path):
         pass
     # print(df)
     get_roc(df, '', properties)
+    plt.show()
 
 if __name__ == '__main__':
     read_roc('roc1.txt')

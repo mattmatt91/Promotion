@@ -78,10 +78,69 @@
     
         "plot_properties":
         {   
-            "measurement_plot": {"dpi": 100, "size": [10,7]},
-            "PCA LDA": {"dpi": 4, "size": [4,5]},
-            "paramplot": {"dpi": 4, "size": [4,5]},
-            "compare_plots": {"dpi": 4, "size": [4,5]},
-            "confusion_matrix": {"dpi": 4, "size": [4,5]}
+            "measurement_plot":
+                {
+                    "dpi": 100,
+                    "size": [10,7],
+                    "font_size": 35,
+                    "label_size": 20,
+                    "legend_size": 20
+                },
+            "loadings_plot":
+                {
+                    "dpi": 100,
+                    "size": [7,7],
+                    "font_size": 35,
+                    "label_size": 20,
+                    "legend_size": 20
+                },
+            "components_plot_2D":
+                {
+                    "dpi": 200,
+                    "size": [10,10],
+                    "font_size": 12,
+                    "label_size": 202,
+                    "legend_size": 20,
+                    "dot": 50
+                },
+            "components_plot_3D":
+                {
+                    "dpi": 200,
+                    "size": [10,10],
+                    "font_size": 12,
+                    "label_size": 20,
+                    "legend_size": 300,
+                    "dot": 50
+                },
+            "components_plot_html":
+                {
+                    "font_size": 20,
+                    "label_size":20,
+                    "legend_size": 30
+                },
+            "paramplot":
+                {
+                    "dpi": 4,
+                    "size": [4,5],
+                    "font_size": 12,
+                    "label_size": 202,
+                    "legend_size": 20
+                },
+            "compare_plots":
+                {
+                    "dpi": 4,
+                    "size": [4,5],
+                    "font_size": 12,
+                    "label_size": 202,
+                    "legend_size": 20
+                },
+            "confusion_matrix":
+                {
+                    "dpi": 100,
+                    "size": [10,10],
+                    "font_size": 100,
+                    "label_size": 100,
+                    "count_size": 30
+                }
         }
 }
