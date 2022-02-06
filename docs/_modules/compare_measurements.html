@@ -36,7 +36,8 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="../start.html">set up</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../modules.html">functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">info</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html#id1">functions</a></li>
 </ul>
 
         </div>
@@ -109,9 +110,9 @@
 <span class="sd">        properties (dictionary): properties is a dictionary with all parameters for evaluating the data</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;plotting </span><span class="si">{0}</span><span class="s1">-data&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
-    <span class="n">x_lim_plot</span> <span class="o">=</span> <span class="n">properties</span><span class="p">[</span><span class="s1">&#39;x_lim_plot&#39;</span><span class="p">]</span>
-    <span class="n">x_lim_plot_start</span> <span class="o">=</span> <span class="n">x_lim_plot</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
-    <span class="n">x_lim_plot_end</span> <span class="o">=</span> <span class="n">x_lim_plot</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">x_lim_plot</span> <span class="o">=</span> <span class="n">properties</span><span class="p">[</span><span class="s1">&#39;sensors&#39;</span><span class="p">][</span><span class="n">name</span><span class="p">][</span><span class="s1">&#39;x_lim_plot&#39;</span><span class="p">]</span>
+    <span class="n">x_lim_plot_start</span> <span class="o">=</span> <span class="n">x_lim_plot</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">x_lim_plot_end</span> <span class="o">=</span> <span class="n">x_lim_plot</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 
     <span class="k">for</span> <span class="n">sample</span><span class="p">,</span> <span class="n">sample_name</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()),</span> <span class="n">names</span><span class="p">):</span>
         <span class="n">title</span> <span class="o">=</span> <span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="n">sample</span>
