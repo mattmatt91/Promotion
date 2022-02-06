@@ -239,7 +239,7 @@
     <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
     <span class="n">save_jpeg</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="s1">&#39;roc&#39;</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    <span class="c1"># plt.show()</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="read_roc"><a class="viewcode-back" href="../roc.html#roc.read_roc">[docs]</a><span class="k">def</span> <span class="nf">read_roc</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
@@ -256,7 +256,8 @@
     <span class="k">except</span><span class="p">:</span>
         <span class="k">pass</span>
     <span class="c1"># print(df)</span>
-    <span class="n">get_roc</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">properties</span><span class="p">)</span></div>
+    <span class="n">get_roc</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">properties</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
     <span class="n">read_roc</span><span class="p">(</span><span class="s1">&#39;roc1.txt&#39;</span><span class="p">)</span>
