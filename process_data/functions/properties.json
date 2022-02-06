@@ -78,7 +78,7 @@
     
         "plot_properties":
         {   
-            "measurement_plot": {"dpi": 4, "size": [4,5]},
+            "measurement_plot": {"dpi": 100, "size": [10,7]},
             "PCA LDA": {"dpi": 4, "size": [4,5]},
             "paramplot": {"dpi": 4, "size": [4,5]},
             "compare_plots": {"dpi": 4, "size": [4,5]},

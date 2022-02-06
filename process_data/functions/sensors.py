@@ -71,18 +71,21 @@ class Plot:
     Args:
         name (string): Name of the measurement
         size (int): Number of sensors to be plotted
+        properties (dictionary): properties is a dictionary with all parameters for evaluating the data
     """
 
-    def __init__(self,name, size):
+    def __init__(self,name, size, properties):
         """
         constructor method
         """
-        self.fig, self.axs = plt.subplots(size, sharex=True, figsize=(14, 8))
+        self.properties = properties
+        self.fig, self.axs = plt.subplots(size, sharex=True, dpi=properties['plot_properties']['measurement_plot']['dpi'],
+         figsize=properties['plot_properties']['measurement_plot']['size'])
         self.name = name
-        #self.fig.suptitle(name)
         self.i = 0
 
-    def add_subplot(self, sensor, df_corr, properties, results_half, results_full, peaks):
+
+    def add_subplot(self, sensor, df_corr, peak_properties, results_half, results_full, peaks):
         """This function assigns a subplot for the corresponding sensor to the plot object
 
         Args:
@@ -93,25 +96,26 @@ class Plot:
             results_full (numpy.array): Array with from measurement extracted feauters for the full peak
             peaks (numpy.array): Array with from measurement extracted feauters for detected peaks
         """
-        self.axs[self.i].plot(df_corr[sensor])
+
+        self.axs[self.i].plot(df_corr[sensor], color=self.properties['sensors'][sensor]['color'])
         ## print peaks in plot
         if peaks.size != 0:
             self.axs[self.i].plot(df_corr.index[peaks], df_corr[sensor][df_corr.index[peaks]], "x")
-            self.axs[self.i].vlines(x=df_corr.index[peaks][0], ymin=df_corr[sensor][df_corr.index[peaks][0]] - properties["prominences"],
+            self.axs[self.i].vlines(x=df_corr.index[peaks][0], ymin=df_corr[sensor][df_corr.index[peaks][0]] - peak_properties["prominences"],
                        ymax=df_corr[sensor][df_corr.index[peaks][0]], color="C1")
-            self.axs[self.i].hlines(y=properties["width_heights"], xmin=df_corr.index[int(properties["left_ips"])],
-                       xmax=df_corr.index[int(properties["right_ips"])], color="C1")
+            self.axs[self.i].hlines(y=peak_properties["width_heights"], xmin=df_corr.index[int(peak_properties["left_ips"])],
+                       xmax=df_corr.index[int(peak_properties["right_ips"])], color="C1")
             self.axs[self.i].hlines(y=results_full[1], xmin=df_corr.index[int(results_full[2])],
                        xmax=df_corr.index[int(results_full[3])],
                        color="C2")
             self.axs[self.i].hlines(y=results_half[1], xmin=df_corr.index[int(results_half[2])],
                        xmax=df_corr.index[int(results_half[3])],
                        color="C2")
-        # self.axs[self.i].set_title(sensor)
-        self.axs[self.i].set(xlabel='time [s]', ylabel=sensor + ' [V]')
+        label = sensor + ' [V]'
+        self.axs[self.i].set_ylabel(label, rotation=0, loc='top')
         self.axs[self.i].grid()
         try:
-            self.axs[self.i].set_yticks(np.arange(0,np.max(df_corr[sensor]),np.max(df_corr[sensor])/3))
+            self.axs[self.i].set_yticks(np.arange(0,np.max(df_corr[sensor]),round(np.max(df_corr[sensor])/3, 2)))
         except:
             self.axs[self.i].set_yticks(np.arange(0,5,5/3))
         self.i = self.i +1
@@ -122,11 +126,16 @@ class Plot:
         Args:
             path (string): Path to the folder in which the measurement folders are stored
         """
+        self.axs[-1].set(xlabel="time [s]")
+        # axs_merge = sel
+        self.axs[-1].get_shared_x_axes().join(*self.axs)
         self.fig.tight_layout()
         path = path + '\\results\\plots\\single_measurements'
         Path(path).mkdir(parents=True, exist_ok=True)
         path = path + '\\' + self.name + '.jpeg'
-        # plt.show()
+        
+        self.fig.tight_layout()
+        plt.show()
         self.fig.savefig(path)
         plt.close(self.fig)
 
@@ -211,7 +220,7 @@ def evaluate_sensor(df, sensor, threshold):
             results_full (numpy.array): extracted feauters from peak full
             result_dict (dictionary): dictionary with extracted feauters
         """
-    peaks, properties = find_peaks(df[sensor], prominence=0, width=1, distance=20000, height=threshold)
+    peaks, peak_properties = find_peaks(df[sensor], prominence=0, width=1, distance=20000, height=threshold)
     results_half = peak_widths(df[sensor], peaks, rel_height=0.5)
     results_full = peak_widths(df[sensor], peaks, rel_height=0.99)
     try:
@@ -252,7 +261,7 @@ def evaluate_sensor(df, sensor, threshold):
         except:
             result_dict[name] = 0
 
-    return (peaks, properties, results_half, results_full, result_dict)
+    return (peaks, peak_properties, results_half, results_full, result_dict)
 
 
 def cut_peakarea(df, sensor_to_cut,sensors_norm):
@@ -330,11 +339,11 @@ def read_file(path,decimal,name, path_out, object_raw, properties):
     df_measurement = pd.read_csv(path, delimiter='\t', decimal=decimal, dtype=float)
     df_corr = cut_peakarea(df_measurement, properties['sensor_to_cut'], properties['sensors_norm'])
     object_raw.add_item(df_corr, name) # adding data from measurement to df for each sensor including all measurements
-    fig = Plot(name,len(df_corr.columns))
+    fig = Plot(name,len(df_corr.columns), properties)
     for this_sensor in df_corr.columns:
-        peaks, properties, results_half, results_full, this_dict_result = evaluate_sensor(df_corr, this_sensor, sensors[this_sensor]['threshold'])
+        peaks, peak_properties, results_half, results_full, this_dict_result = evaluate_sensor(df_corr, this_sensor, sensors[this_sensor]['threshold'])
         dict_result.update(this_dict_result)
-        fig.add_subplot(this_sensor, df_corr, properties, results_half, results_full, peaks)
+        fig.add_subplot(this_sensor, df_corr, peak_properties, results_half, results_full, peaks)
     fig.show_fig(path_out)
     return dict_result
 
