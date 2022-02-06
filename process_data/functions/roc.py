@@ -15,6 +15,7 @@ from sklearn.preprocessing import label_binarize
 from pathlib import Path
 import json as js
 from sklearn.metrics import roc_auc_score
+import matplotlib
 
 
 def read_json(filename):
@@ -128,8 +129,12 @@ def get_roc(df, path, properties):
     print("ROC AUC scores:\n{:.6f} (macro),\n{:.6f} ""(weighted by prevalence)".format(macro_roc_auc_ovr, weighted_roc_auc_ovr))
 
     ## Plot all ROC curves ## 
+    plot_properties = properties['plot_properties']['roc_plot']
     lw = 2
     fig = plt.figure(figsize=[10,10])
+    plt.yticks(size=plot_properties['font_size'], rotation=30)
+    plt.xticks(size=plot_properties['font_size'], rotation=30)
+    
 
     # plot micro
     plt.plot(
@@ -164,15 +169,15 @@ def get_roc(df, path, properties):
 
     # plot diagonal
     plt.plot([0, 1], [0, 1], "k--", lw=lw)
-
+    matplotlib.rcParams['legend.fontsize'] = plot_properties['legend_size']
     plt.xlim([-.01, 1.01])
     plt.ylim([0.0, 1.05])
-    plt.xlabel("False Positive Rate")
-    plt.ylabel("True Positive Rate")
+    plt.xlabel("False Positive Rate", fontsize = plot_properties['label_size'])
+    plt.ylabel("True Positive Rate", fontsize = plot_properties['label_size'])
     plt.legend(loc=0)
     plt.tight_layout()
     save_jpeg(fig, path, 'roc')
-    # plt.show()
+    plt.show()
     plt.close()
 
 def read_roc(path):

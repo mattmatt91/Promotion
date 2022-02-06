@@ -138,9 +138,17 @@
                 {
                     "dpi": 100,
                     "size": [10,10],
-                    "font_size": 100,
-                    "label_size": 100,
-                    "count_size": 30
+                    "font_size": 20,
+                    "label_size": 30,
+                    "count_size": 20
+                },
+            "roc_plot":
+                {
+                    "dpi": 100,
+                    "size": [10,10],
+                    "font_size": 20,
+                    "label_size": 30,
+                    "legend_size": 20
                 }
         }
 }

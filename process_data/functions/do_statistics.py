@@ -336,6 +336,7 @@ def cross_validate(function, x, y, path, properties):
         path (string): root path to data
         properties (dictionary): properties is a dictionary with all parameters for evaluating the data
     """
+    plot_properties = properties['plot_properties']["confusion_matrix"]
     df_result = pd.DataFrame()
     loo = LeaveOneOut()
     loo.get_n_splits(x)
@@ -350,12 +351,13 @@ def cross_validate(function, x, y, path, properties):
     print('error rate: ' + str((df_result[df_result['value'] == False]['value'].count()/len(df_result))*100) + '%')
 
     df_conf = create_confusion(df_result)
-    fig, ax = plt.subplots(figsize=properties['plot_properties']['confusion_matrix']['size'])
-    font_size = properties['plot_properties']['confusion_matrix']['font_size']
+    fig, ax = plt.subplots(figsize=plot_properties['size'])
+    font_size = plot_properties['count_size']
     sns.heatmap(df_conf.fillna(0), linewidths=.5, annot=True, fmt='g', cbar=False, cmap="viridis", ax=ax, annot_kws={"size": font_size})
-    ax.set_ylabel('true', fontsize = properties['plot_properties']['confusion_matrix']['label_size'])
-    ax.set_xlabel('predicted', fontsize = properties['plot_properties']['confusion_matrix']['label_size'])
-    plt.yticks(rotation=45)
+    ax.set_ylabel('true', fontsize = plot_properties['label_size'])
+    ax.set_xlabel('predicted', fontsize = plot_properties['label_size'])
+    plt.yticks(size=plot_properties['font_size'], rotation=30)
+    plt.xticks(size=plot_properties['font_size'], rotation=30)
     plt.tight_layout()
     save_jpeg(fig, path, 'heatmap_crossvalidation_LDA')
     # plt.show()
