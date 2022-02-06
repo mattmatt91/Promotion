@@ -192,5 +192,5 @@ def read_roc(path):
     get_roc(df, '', properties)
 
 if __name__ == '__main__':
-    read_roc('C:\\Users\\mmuhr-adm\\Desktop\\GitHub\\Promotion\\process_data\\functions\\roc1.txt')
+    read_roc('roc1.txt')
     
