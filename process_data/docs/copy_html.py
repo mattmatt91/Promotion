@@ -1,9 +1,7 @@
 from re import T
 import shutil
 import os
-from pathlib import Path
-from datetime import datetime
- 
+
 
 def copy_files():
     current_directory = os.getcwd()
