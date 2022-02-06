@@ -91,7 +91,7 @@ class Plot:
         Args:
             sensor (string): Name of the sensor
             df_corr (pandas.DataFrame): Dataframe with prepared data from measurement
-            properties (dictionary): properties is a dictionary with all parameters for evaluating the data
+            peak_properties (dictionary): peak_properties is a dictionary with data about extracted peaks
             results_half (numpy.array): Array with from measurement extracted feauters for the half peak
             results_full (numpy.array): Array with from measurement extracted feauters for the full peak
             peaks (numpy.array): Array with from measurement extracted feauters for detected peaks
