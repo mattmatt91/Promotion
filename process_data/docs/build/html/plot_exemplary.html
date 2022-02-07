@@ -109,7 +109,7 @@ It reads the data of the exemplary measurements and plots them.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="plot_exemplary.plot_exemplary">
-<span class="sig-prename descclassname"><span class="pre">plot_exemplary.</span></span><span class="sig-name descname"><span class="pre">plot_exemplary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_lim_plot</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">colors</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plot_exemplary.html#plot_exemplary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plot_exemplary.plot_exemplary" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">plot_exemplary.</span></span><span class="sig-name descname"><span class="pre">plot_exemplary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plot_exemplary.html#plot_exemplary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plot_exemplary.plot_exemplary" title="Permalink to this definition"></a></dt>
 <dd><p>This function plots measurements from the passed DataFrame.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -117,8 +117,7 @@ It reads the data of the exemplary measurements and plots them.</p>
 <li><p><strong>df</strong> (<em>pandas.DataFrame</em>) – DataFrame with data of measurents from one sensor</p></li>
 <li><p><strong>path</strong> (<em>string</em>) – path to root folder</p></li>
 <li><p><strong>sensor</strong> (<em>string</em>) – name of the sensor</p></li>
-<li><p><strong>x_lim_plot</strong> (<em>list</em>) – list with lower and upper x limit in seconds</p></li>
-<li><p><strong>colors</strong> (<em>dictionary</em>) – dictionary with colors for sensors</p></li>
+<li><p><strong>properties</strong> (<em>dictionary</em>) – properties is a dictionary with all parameters for evaluating the data</p></li>
 </ul>
 </dd>
 </dl>
@@ -126,7 +125,7 @@ It reads the data of the exemplary measurements and plots them.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="plot_exemplary.read">
-<span class="sig-prename descclassname"><span class="pre">plot_exemplary.</span></span><span class="sig-name descname"><span class="pre">read</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">root_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_lim_plot</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">colors</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plot_exemplary.html#read"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plot_exemplary.read" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">plot_exemplary.</span></span><span class="sig-name descname"><span class="pre">read</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">root_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plot_exemplary.html#read"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plot_exemplary.read" title="Permalink to this definition"></a></dt>
 <dd><dl class="simple">
 <dt>This function reads files with the exemplary measurements,</dt><dd><p>prepares them and calls the plot function.</p>
 </dd>
@@ -137,8 +136,7 @@ It reads the data of the exemplary measurements and plots them.</p>
 <li><p><strong>path</strong> (<em>string</em>) – path to file</p></li>
 <li><p><strong>sensor</strong> (<em>string</em>) – name of the sensor</p></li>
 <li><p><strong>root_path</strong> (<em>string</em>) – path to root folder</p></li>
-<li><p><strong>x_lim_plot</strong> (<em>list</em>) – list with lower and upper x limit in seconds</p></li>
-<li><p><strong>colors</strong> (<em>dictionary</em>) – dictionary with colors for sensors</p></li>
+<li><p><strong>properties</strong> (<em>dictionary</em>) – properties is a dictionary with all parameters for evaluating the data</p></li>
 </ul>
 </dd>
 </dl>

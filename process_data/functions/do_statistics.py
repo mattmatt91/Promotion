@@ -33,6 +33,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.model_selection import LeaveOneOut
 from sklearn import metrics
 from roc import get_roc
+import matplotlib
 
 
 def create_droplist(keywords, cols):
@@ -405,7 +406,8 @@ def plot_components(colors, x_r, samples, df_names, path, properties, name=None,
     if not browser:
         if dimension:
             plot_properties = properties['plot_properties'][ "components_plot_3D"]
-            fig = plt.figure(figsize=plot_properties['size'])   
+            matplotlib.rcParams['legend.fontsize'] = plot_properties['legend_size']
+            fig = plt.figure(figsize=plot_properties['size'], dpi=plot_properties['dpi'])   
             threedee = fig.add_subplot(111, projection='3d')
             for color, target_name in zip(colors, samples):
                 threedee.scatter(x_r[x_r.index.get_level_values('sample') == target_name][axis_label + str(1)],
@@ -413,45 +415,59 @@ def plot_components(colors, x_r, samples, df_names, path, properties, name=None,
                                  x_r.loc[x_r.index.get_level_values('sample') == target_name][axis_label + str(3)],
                                  s= plot_properties['dot'], color=color, alpha=.8, label=target_name)
 
-            threedee.tick_params(axis='both', labelsize=properties['plot_properties'][ "components_plot_3D"]['font_size'])
+            threedee.tick_params(axis='both', labelsize=plot_properties['font_size'])
             threedee.legend(loc='best', shadow=False, scatterpoints=1)
             threedee.set_xlabel('{0}{1} {2} %'.format(axis_label, 1, additiv_labels[0]),fontsize=plot_properties['label_size'])
             threedee.set_ylabel('{0}{1} {2} %'.format(axis_label, 2, additiv_labels[1]),fontsize=plot_properties['label_size'])
             threedee.set_zlabel('{0}{1} {2} %'.format(axis_label, 3, additiv_labels[2]),fontsize=plot_properties['label_size'])
-            
+            save_jpeg(fig, path, name+'_3D')
 
         # 2D-Plot
         if not dimension:
             plot_properties = properties['plot_properties'][ "components_plot_2D"]
-            twodee = plt.figure(figsize=plot_properties['size']).add_subplot()
+            matplotlib.rcParams['legend.fontsize'] = plot_properties['legend_size']
+            fig = plt.figure(figsize=plot_properties['size'], dpi=plot_properties['dpi'])
+            twodee = fig.add_subplot()
             for color, i, target_name in zip(colors, np.arange(len(colors)), samples):
                 twodee.scatter(x_r[x_r.index.get_level_values('sample') == target_name][axis_label + str(1)],
                                x_r[x_r.index.get_level_values('sample') == target_name][axis_label + str(2)],
                                s=plot_properties['dot'], color=color, alpha=.8, label=target_name)
 
+            twodee.tick_params(axis='both', labelsize=plot_properties['font_size'])
             twodee.legend(loc='best', shadow=False, scatterpoints=1) 
             twodee.set_xlabel('{0}{1} {2} %'.format(axis_label, 1, additiv_labels[0]),fontsize=plot_properties['label_size'])
             twodee.set_ylabel('{0}{1} {2} %'.format(axis_label, 2, additiv_labels[1]),fontsize=plot_properties['label_size'])
-
-        plt.show()    
-    if browser:
+            save_jpeg(fig, path, name+'_2D')
+            
+        # plt.show()  
         
-        ### einarbeiten für reihenfolge ###
-        # category_orders={"day": ["Thur", "Fri", "Sat", "Sun"],
-
+    if browser:
         plot_properties = properties['plot_properties'][ "components_plot_html"]
         axis_names = [axis_label+ str(i+1) for i in range(3)]
-        fig = px.scatter_3d(x_r, x=axis_names[0], y=axis_names[1], z=axis_names[2], color=x_r.index.get_level_values('sample'),
-                            hover_data={'name': df_names.tolist()})
-        # setting up legend
-        fig.update_layout(legend=dict(orientation="v", font=dict(size=plot_properties['legend_size'])))
-        # setting up label and font
-        fig.update_layout(font=dict(size=plot_properties['label_size']))
-        # setting up axis labels
-        fig.update_layout(yaxis = dict(tickfont = dict(size=plot_properties['font_size']))) # klappt nicht
 
+        colors_dict = {}
+        for i in x_r.index.unique():
+            colors_dict[i]=properties['colors_samples'][i]
+        fig = px.scatter_3d(
+                x_r,
+                x=axis_names[0],
+                y=axis_names[1],
+                z=axis_names[2],
+                color_discrete_map=colors_dict,
+                color=x_r.index,
+                hover_data={'name': df_names.tolist()}
+                )
+
+        # setting plot parameters
+        fig.update_layout(
+            legend_title_font_size=plot_properties['legend_size'],
+            legend_font_size=plot_properties['legend_size']/1.2,
+            font_size=plot_properties['font_size']
+            )
+
+        # saving plot
         save_html(fig, path, name)
-        fig.show()
+        # fig.show()
     plt.close()
 
 
@@ -484,10 +500,6 @@ def calculate(path, properties, statistic=True, pca=True, lda=True, browser=Fals
     if lda:
         calc_lda(df, path, df_names, properties, browser=browser, dimension=dimension, drop_keywords=[])
     
-
-
-
-
 
 
 if __name__ == '__main__':

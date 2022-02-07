@@ -61,9 +61,9 @@
             "Silverazide": "mediumslateblue",
             "Leadazide": "orange",
             "Leadstyphnate": "darkturquoise",
-            "TNT": "green",
-            "HMTD": "green",
-            "TATP": "darkred",
+            "TNT": "darkgreen",
+            "HMTD": "darkblue",
+            "TATP": "yellow",
             "Blackpowder": "grey"
         },
 
@@ -97,41 +97,38 @@
                 {
                     "dpi": 200,
                     "size": [10,10],
-                    "font_size": 12,
-                    "label_size": 202,
-                    "legend_size": 20,
+                    "font_size": 10,
+                    "label_size": 10,
+                    "legend_size": 10,
                     "dot": 50
                 },
             "components_plot_3D":
                 {
                     "dpi": 200,
                     "size": [10,10],
-                    "font_size": 12,
-                    "label_size": 20,
-                    "legend_size": 300,
+                    "font_size": 10,
+                    "label_size": 10,
+                    "legend_size": 8,
                     "dot": 50
                 },
             "components_plot_html":
                 {
-                    "font_size": 20,
-                    "label_size":20,
+                    "font_size": 15,
                     "legend_size": 30
                 },
             "param_plot":
                 {
-                    "dpi": 4,
-                    "size": [4,5],
-                    "font_size": 20,
-                    "label_size": 10,
-                    "legend_size": 20
+                    "dpi": 100,
+                    "size": [8,10],
+                    "font_size": 10,
+                    "label_size": 10
                 },
             "compare_plots":
                 {
-                    "dpi": 4,
+                    "dpi": 100,
                     "size": [10,10],
-                    "font_size": 20,
-                    "label_size": 20,
-                    "legend_size": 20
+                    "font_size": 10,
+                    "label_size": 15
                 },
             "confusion_matrix":
                 {

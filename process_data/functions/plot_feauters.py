@@ -111,13 +111,14 @@ def plot_mean(path, df_plot, param, unit, properties):
     ax.set_xticklabels(samples)
     ax.yaxis.grid(True)
     plt.xticks(rotation=45)
-    plt.ylabel('voltage [V]', fontsize=plot_properties['label_size'])
+    plt.ylabel(param.replace('_',' '), fontsize=plot_properties['label_size'])
     plt.yticks(fontsize=plot_properties['font_size'])
     plt.xticks(fontsize=plot_properties['font_size'])
     plt.tight_layout()
     # plt.show()
     save_fig(fig, path, param)
     plt.close()
+
 
 
 def plot_features(path, properties):

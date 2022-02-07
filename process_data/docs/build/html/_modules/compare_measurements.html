@@ -98,7 +98,7 @@
     <span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="plot"><a class="viewcode-back" href="../compare_measurements.html#compare_measurements.plot">[docs]</a><span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">names</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span> <span class="c1">#creates plots for every sensor with all measurments</span>
+<div class="viewcode-block" id="plot"><a class="viewcode-back" href="../compare_measurements.html#compare_measurements.plot">[docs]</a><span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">sensor</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">names</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span> <span class="c1">#creates plots for every sensor with all measurments   </span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This function creates plots from the passed data. One plot per sensor and sample with all measurements.</span>
 
@@ -109,29 +109,34 @@
 <span class="sd">        names (): list with name of measurements</span>
 <span class="sd">        properties (dictionary): properties is a dictionary with all parameters for evaluating the data</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;plotting </span><span class="si">{0}</span><span class="s1">-data&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
-    <span class="n">x_lim_plot</span> <span class="o">=</span> <span class="n">properties</span><span class="p">[</span><span class="s1">&#39;sensors&#39;</span><span class="p">][</span><span class="n">name</span><span class="p">][</span><span class="s1">&#39;x_lim_plot&#39;</span><span class="p">]</span>
+    <span class="n">plot_properties</span> <span class="o">=</span> <span class="n">properties</span><span class="p">[</span><span class="s1">&#39;plot_properties&#39;</span><span class="p">][</span><span class="s1">&#39;compare_plots&#39;</span><span class="p">]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;plotting </span><span class="si">{0}</span><span class="s1">-data&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">sensor</span><span class="p">))</span>
+    <span class="n">x_lim_plot</span> <span class="o">=</span> <span class="n">properties</span><span class="p">[</span><span class="s1">&#39;sensors&#39;</span><span class="p">][</span><span class="n">sensor</span><span class="p">][</span><span class="s1">&#39;x_lim_plot&#39;</span><span class="p">]</span>
     <span class="n">x_lim_plot_start</span> <span class="o">=</span> <span class="n">x_lim_plot</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">x_lim_plot_end</span> <span class="o">=</span> <span class="n">x_lim_plot</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 
-    <span class="k">for</span> <span class="n">sample</span><span class="p">,</span> <span class="n">sample_name</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()),</span> <span class="n">names</span><span class="p">):</span>
-        <span class="n">title</span> <span class="o">=</span> <span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="n">sample</span>
-        <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">sample</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">unique</span><span class="p">():</span>
+        <span class="n">title</span> <span class="o">=</span> <span class="n">sensor</span> <span class="o">+</span> <span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="n">sample</span>
+        <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="n">plot_properties</span><span class="p">[</span><span class="s1">&#39;size&#39;</span><span class="p">],</span> <span class="n">dpi</span><span class="o">=</span><span class="n">plot_properties</span><span class="p">[</span><span class="s1">&#39;dpi&#39;</span><span class="p">])</span>
 
         <span class="c1">#use this for centering around peak</span>
         <span class="c1"># t_max = df[sample].max()</span>
         <span class="c1"># x_lim_plot_start = t_max - properties[&#39;x_lim_plot&#39;][name][0]</span>
         <span class="c1"># x_lim_plot_end = t_max + properties[&#39;x_lim_plot&#39;][name][1]</span>
 
-        
         <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="n">sample</span><span class="p">])</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="n">x_lim_plot_start</span><span class="p">,</span> <span class="n">x_lim_plot_end</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;voltage [V]&#39;</span><span class="p">)</span>
-        <span class="c1"># plt.show()</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="n">plot_properties</span><span class="p">[</span><span class="s1">&#39;label_size&#39;</span><span class="p">])</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;voltage [V]&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="n">plot_properties</span><span class="p">[</span><span class="s1">&#39;label_size&#39;</span><span class="p">])</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="n">plot_properties</span><span class="p">[</span><span class="s1">&#39;font_size&#39;</span><span class="p">])</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="n">plot_properties</span><span class="p">[</span><span class="s1">&#39;font_size&#39;</span><span class="p">])</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
-        <span class="n">save_fig</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">title</span><span class="p">)</span></div>
+        <span class="c1"># plt.show()</span>
+        <span class="n">save_fig</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">title</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="read"><a class="viewcode-back" href="../compare_measurements.html#compare_measurements.read">[docs]</a><span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">root_path</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
+
+<div class="viewcode-block" id="read"><a class="viewcode-back" href="../compare_measurements.html#compare_measurements.read">[docs]</a><span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">sensor</span><span class="p">,</span> <span class="n">root_path</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This function reads files with the data of the individual sensors</span>
 <span class="sd">    with all measurements, prepares them and passes them to the plot function.</span>
@@ -144,9 +149,9 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">decimal</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;;&#39;</span><span class="p">)</span>
     <span class="n">df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;time [s]&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">names</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span>
-    <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[:</span><span class="n">x</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()]</span>
-    <span class="n">plot</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">root_path</span><span class="p">,</span> <span class="n">names</span><span class="p">,</span> <span class="n">properties</span><span class="p">)</span></div>
+    <span class="n">names</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[:</span><span class="n">x</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">names</span><span class="p">]</span>
+    <span class="n">plot</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">sensor</span><span class="p">,</span> <span class="n">root_path</span><span class="p">,</span> <span class="n">names</span><span class="p">,</span> <span class="n">properties</span><span class="p">)</span></div>
 
 
 

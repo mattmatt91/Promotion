@@ -31,7 +31,7 @@ def save_fig(fig, path, name):
     fig.savefig(path)
     plt.close(fig)
 
-def plot(df, name, path, names, properties): #creates plots for every sensor with all measurments   
+def plot(df, sensor, path, names, properties): #creates plots for every sensor with all measurments   
     """
     This function creates plots from the passed data. One plot per sensor and sample with all measurements.
 
@@ -43,21 +43,20 @@ def plot(df, name, path, names, properties): #creates plots for every sensor wit
         properties (dictionary): properties is a dictionary with all parameters for evaluating the data
     """
     plot_properties = properties['plot_properties']['compare_plots']
-    print('plotting {0}-data'.format(name))
-    x_lim_plot = properties['sensors'][name]['x_lim_plot']
+    print('plotting {0}-data'.format(sensor))
+    x_lim_plot = properties['sensors'][sensor]['x_lim_plot']
     x_lim_plot_start = x_lim_plot[0]
     x_lim_plot_end = x_lim_plot[1]
 
-    for sample, sample_name in zip(set(df.columns.tolist()), names):
-        title = name + '_' + sample
-        fig, ax = plt.subplots(figsize=plot_properties['size'])
+    for sample in df.columns.unique():
+        title = sensor + '_' + sample
+        fig, ax = plt.subplots(figsize=plot_properties['size'], dpi=plot_properties['dpi'])
 
         #use this for centering around peak
         # t_max = df[sample].max()
         # x_lim_plot_start = t_max - properties['x_lim_plot'][name][0]
         # x_lim_plot_end = t_max + properties['x_lim_plot'][name][1]
 
-        
         ax.plot(df.index, df[sample])
         plt.xlim(x_lim_plot_start, x_lim_plot_end)
         plt.xlabel(df.index.name, fontsize=plot_properties['label_size'])
@@ -69,7 +68,8 @@ def plot(df, name, path, names, properties): #creates plots for every sensor wit
         save_fig(fig, path, title)
         plt.close()
 
-def read(path, name, root_path, properties):
+
+def read(path, sensor, root_path, properties):
     """
     This function reads files with the data of the individual sensors
     with all measurements, prepares them and passes them to the plot function.
@@ -82,9 +82,9 @@ def read(path, name, root_path, properties):
     """
     df = pd.read_csv(path, decimal=',', sep=';')
     df.set_index('time [s]', inplace=True)
-    names = df.columns
-    df.columns = [x[:x.find('_')] for x in df.columns.tolist()]
-    plot(df, name, root_path, names, properties)
+    names = df.columns.tolist()
+    df.columns = [x[:x.find('_')] for x in names]
+    plot(df, sensor, root_path, names, properties)
 
 
 
