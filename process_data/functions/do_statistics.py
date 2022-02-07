@@ -237,23 +237,25 @@ def plot_loadings_heat(df, path, properties):
     sns.set_theme()
     
     # creating plot 1: total variance of the sensors per principal component
+    plot_properties = properties['loadings_plot']
     sns.set_style("whitegrid")
-    fig, ax = plt.subplots(figsize=properties['plot_properties']['loadings_plot']['size'])  # Sample figsize in inches
-    ax.set_ylabel('total variance of the sensors per principal component', fontsize = properties['plot_properties']['loadings_plot']['font_size'])
-    ax.set_xlabel('PC', fontsize = properties['plot_properties']['loadings_plot']['font_size'])
+    fig, ax = plt.subplots(figsize=plot_properties['size'])  # Sample figsize in inches
+    ax.set_ylabel('total variance of the sensors per principal component', fontsize=plot_properties['font_size'])
+    ax.set_xlabel('PC', fontsize = plot_properties['font_size'])
     sns.barplot(x="PC", y="value", data=df, ax=ax, hue='sensor', ci=None, estimator=sum) 
-    ax.tick_params(labelsize=properties['plot_properties']['loadings_plot']['label_size'])
-    ax.legend(frameon=True, fontsize=properties['plot_properties']['loadings_plot']['legend_size'])
+    ax.tick_params(labelsize=plot_properties['label_size'])
+    ax.legend(frameon=True, fontsize=plot_properties['legend_size'])
     name = 'sensor' + '_loadings'
     save_jpeg(fig, path, name)
     # plt.show()
     plt.close()
 
     # creating plot 2: total variance for each sensor
-    fig, ax = plt.subplots(figsize=properties['plot_properties']['loadings_plot']['size'])
+    plot_properties = properties['loadings_plot']
+    fig, ax = plt.subplots(figsize=plot_properties['size'])
     sns.barplot(x="sensor", y="value_abs", data=df, ax=ax, ci=None, estimator=sum)
-    ax.set_ylabel('total variance for each sensor', fontsize = properties['plot_properties']['loadings_plot']['font_size'])
-    ax.set_xlabel('sensor', fontsize = properties['plot_properties']['loadings_plot']['font_size'])
+    ax.set_ylabel('total variance for each sensor', fontsize =plot_properties['font_size'])
+    ax.set_xlabel('sensor', fontsize =plot_properties['font_size'])
     name = 'sensor' + '_loadings_simple'
     save_jpeg(fig, path, name)
     # plt.show()

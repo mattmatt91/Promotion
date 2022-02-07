@@ -30,27 +30,27 @@
             "Mikro":
                 {
                     "threshold": 0.025,
-                    "x_lim_plot": [0.008, 1.0],
+                    "x_lim_plot": [0.008, 0.1],
                     "color": "orange"
                 },
             "Piezo":
                 {
                     "threshold": 0.005,
-                    "x_lim_plot": [0.008, 1.0],
+                    "x_lim_plot": [0.008, 0.1],
                     "color": "darkblue"
                 },
             "Mikro_nm":
                 {
                     "threshold": 0.025,
-                    "x_lim_plot": [0.008, 1.0],
+                    "x_lim_plot": [0.008, 0.1],
                     "color": "darkred"
                 },
             "Piezo_nm":
                 {
                     "threshold": 0.05,
-                    "x_lim_plot": [0.008, 1.0],
+                    "x_lim_plot": [0.008, 0.1],
                     "color": "lime"
-                } 
+                }
         },
 
     "colors_samples": 
@@ -143,6 +143,14 @@
                     "count_size": 20
                 },
             "roc_plot":
+                {
+                    "dpi": 100,
+                    "size": [10,10],
+                    "font_size": 20,
+                    "label_size": 30,
+                    "legend_size": 20
+                },
+            "exemplary_plot":
                 {
                     "dpi": 100,
                     "size": [10,10],

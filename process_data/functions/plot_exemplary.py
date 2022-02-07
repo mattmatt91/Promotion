@@ -13,6 +13,9 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from pathlib import Path
 from read_files import extract_properties
+from os.path import isfile
+import matplotlib
+
 
 
 def save_fig(fig, path, name):
@@ -32,7 +35,7 @@ def save_fig(fig, path, name):
     plt.close(fig)
 
 
-def plot_exemplary(df, path, sensor, x_lim_plot, colors):
+def plot_exemplary(df, path, sensor, properties):
     """
     This function plots measurements from the passed DataFrame.
 
@@ -40,21 +43,34 @@ def plot_exemplary(df, path, sensor, x_lim_plot, colors):
         df (pandas.DataFrame): DataFrame with data of measurents from one sensor
         path (string): path to root folder
         sensor (string): name of the sensor
-        x_lim_plot (list): list with lower and upper x limit in seconds
-        colors (dictionary): dictionary with colors for sensors
+        properties (dictionary): properties is a dictionary with all parameters for evaluating the data
     """
-    fig, ax = plt.subplots()
-    for i, in df.columns:
-        ax.plot(df.index, df[i], color=colors[i], label=i, linewidth=1)
-    plt.xlim(x_lim_plot[i][0], x_lim_plot[i][1])
-    ax.set(xlabel='time [s]', ylabel='voltage [V]')
-    plt.legend()
+    sensors = properties['sensors']
+    plot_properties = properties['plot_properties']['exemplary_plot']
+    colors = properties['colors_samples']
+
+    ### for old data ###
+    df.columns = [x.replace(' ','').capitalize() for x in df.columns]
+    ####################
+
+    fig, ax = plt.subplots(figsize=plot_properties['size'])
+    plt.xlim(sensors[sensor]['x_lim_plot'])
+    matplotlib.rcParams['legend.fontsize'] = plot_properties['legend_size']
+    for i in df.columns:
+        ax.plot(df.index, df[i], color=colors[i], label=i, linewidth=1) 
+    plt.xlabel('time [s]', fontsize = plot_properties['label_size'])
+    plt.ylabel('voltage [V]', fontsize = plot_properties['label_size'])
+    plt.legend(loc=0)
+    plt.yticks(fontsize=plot_properties['font_size'])
+    plt.xticks(fontsize=plot_properties['font_size'])
+    plt.tight_layout()
     ax.grid()
+    # plt.show()
     save_fig(fig, path, sensor)
-    plt.show()
+    plt.close()
 
-
-def read(path, sensor, root_path, x_lim_plot, colors):
+    
+def read(path, sensor, root_path, properties):
     """
     This function reads files with the exemplary measurements,
      prepares them and calls the plot function.
@@ -63,14 +79,13 @@ def read(path, sensor, root_path, x_lim_plot, colors):
         path (string): path to file
         sensor (string): name of the sensor
         root_path (string): path to root folder
-        x_lim_plot (list): list with lower and upper x limit in seconds
-        colors (dictionary): dictionary with colors for sensors
+        properties (dictionary): properties is a dictionary with all parameters for evaluating the data
     """
-    print(path)
+    # preparing data frame
     df = pd.read_csv(path, decimal=',', sep='\t')
     df.set_index('time [s]', inplace=True)
     print(sensor)
-    plot_exemplary(df, root_path, sensor, x_lim_plot, colors)
+    plot_exemplary(df, root_path, sensor, properties)
 
 
 def main(root_path):
@@ -82,17 +97,19 @@ def main(root_path):
         root_path (string): path to root folder
     """
     properties = extract_properties()
-    sensors = properties['sensors']
+    # finding files
     path_list =[]
+    sensors = properties['sensors']
     [path_list.append(root_path + '\\results\\exemplary\\' + x + '_Vergleich.csv') for x in sensors]
-    for path in path_list:
-        print('reading: ', path)
-    x_lim_plot = properties['x_lim_plot']
-    colors = properties['colors']
+    # reading data
     for path, sensor in zip(path_list, sensors):
-        read(path, sensor, root_path, x_lim_plot, colors)
-
+        if isfile(path):
+            print('reading: {0}'.format(path))
+        else:
+            print('no file found for {0}'.format(sensor))
+            continue
+        read(path, sensor, root_path, properties)
 
 if __name__ == '__main__':
-    root_path = 'root_path = "C:\\Users\\Matthias\\Desktop\\Messaufbau\\dataaquisition\\data\\test_small'
+    root_path = "C:\\Users\\mmuhr-adm\\Desktop\\Test_data"
     main(root_path)
