@@ -177,7 +177,7 @@ def get_roc(df, path, properties):
     plt.legend(loc=0)
     plt.tight_layout()
     save_jpeg(fig, path, 'roc')
-    plt.show()
+    # plt.show()
     plt.close()
 
 def read_roc(path):

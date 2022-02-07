@@ -1,5 +1,5 @@
 {
-    "root_path": "C:\\Users\\Matthias\\Desktop\\Messaufbau\\dataaquisition\\data\\test_small",
+    "root_path": "C:\\Users\\mmuhr-adm\\Desktop\\Test_data\\test4",
 
     "sensors":
         {
@@ -19,13 +19,13 @@
                 {
                     "threshold": 0.1,
                     "x_lim_plot": [0.008, 0.015],
-                    "color": "green"
+                    "color": "orangered"
                 },
             "IR2":
                 {
                     "threshold": 0.5,
                     "x_lim_plot": [0.008, 0.03],
-                    "color": "yellow"
+                    "color": "royalblue"
                 },
             "Mikro":
                 {
@@ -37,19 +37,19 @@
                 {
                     "threshold": 0.005,
                     "x_lim_plot": [0.008, 0.1],
-                    "color": "darkblue"
+                    "color": "green"
                 },
             "Mikro_nm":
                 {
                     "threshold": 0.025,
                     "x_lim_plot": [0.008, 0.1],
-                    "color": "darkred"
+                    "color": "darkorange"
                 },
             "Piezo_nm":
                 {
                     "threshold": 0.05,
                     "x_lim_plot": [0.008, 0.1],
-                    "color": "lime"
+                    "color": "darkgreen"
                 }
         },
 
@@ -82,15 +82,14 @@
                 {
                     "dpi": 100,
                     "size": [10,7],
-                    "font_size": 35,
-                    "label_size": 20,
-                    "legend_size": 20
+                    "font_size": 10,
+                    "label_size": 12
                 },
             "loadings_plot":
                 {
                     "dpi": 100,
-                    "size": [7,7],
-                    "font_size": 35,
+                    "size": [9,7],
+                    "font_size": 20,
                     "label_size": 20,
                     "legend_size": 20
                 },
@@ -123,7 +122,7 @@
                     "dpi": 4,
                     "size": [4,5],
                     "font_size": 20,
-                    "label_size": 20,
+                    "label_size": 10,
                     "legend_size": 20
                 },
             "compare_plots":

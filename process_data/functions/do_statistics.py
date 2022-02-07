@@ -233,16 +233,15 @@ def plot_loadings_heat(df, path, properties):
     df['value_abs'] = df['value'].abs()
     df['value_abs_norm'] = normalize_data(df['value_abs'])
     df['value_norm'] = normalize_data(df['value'])
-    sns.color_palette("viridis", as_cmap=True)
-    sns.set_theme()
-    
+    colors = [properties['sensors'][i]['color'] for i in df['sensor'].unique()]
+    plot_properties = properties['plot_properties']['loadings_plot']
+
     # creating plot 1: total variance of the sensors per principal component
-    plot_properties = properties['loadings_plot']
     sns.set_style("whitegrid")
-    fig, ax = plt.subplots(figsize=plot_properties['size'])  # Sample figsize in inches
+    fig, ax = plt.subplots(figsize=plot_properties['size'], dpi=plot_properties['dpi'])  # Sample figsize in inches
     ax.set_ylabel('total variance of the sensors per principal component', fontsize=plot_properties['font_size'])
     ax.set_xlabel('PC', fontsize = plot_properties['font_size'])
-    sns.barplot(x="PC", y="value", data=df, ax=ax, hue='sensor', ci=None, estimator=sum) 
+    sns.barplot(x="PC", y="value", data=df, ax=ax, hue='sensor', ci=None, estimator=sum, palette=colors) 
     ax.tick_params(labelsize=plot_properties['label_size'])
     ax.legend(frameon=True, fontsize=plot_properties['legend_size'])
     name = 'sensor' + '_loadings'
@@ -251,9 +250,8 @@ def plot_loadings_heat(df, path, properties):
     plt.close()
 
     # creating plot 2: total variance for each sensor
-    plot_properties = properties['loadings_plot']
-    fig, ax = plt.subplots(figsize=plot_properties['size'])
-    sns.barplot(x="sensor", y="value_abs", data=df, ax=ax, ci=None, estimator=sum)
+    fig, ax = plt.subplots(figsize=plot_properties['size'], dpi=plot_properties['dpi'])
+    sns.barplot(x="sensor", y="value_abs", data=df, ax=ax, ci=None, estimator=sum, palette=colors)
     ax.set_ylabel('total variance for each sensor', fontsize =plot_properties['font_size'])
     ax.set_xlabel('sensor', fontsize =plot_properties['font_size'])
     name = 'sensor' + '_loadings_simple'
@@ -353,9 +351,9 @@ def cross_validate(function, x, y, path, properties):
     print('error rate: ' + str((df_result[df_result['value'] == False]['value'].count()/len(df_result))*100) + '%')
 
     df_conf = create_confusion(df_result)
-    fig, ax = plt.subplots(figsize=plot_properties['size'])
-    font_size = plot_properties['count_size']
-    sns.heatmap(df_conf.fillna(0), linewidths=.5, annot=True, fmt='g', cbar=False, cmap="viridis", ax=ax, annot_kws={"size": font_size})
+    fig, ax = plt.subplots(figsize=plot_properties['size'], dpi=plot_properties['dpi'])
+    count_size = plot_properties['count_size']
+    sns.heatmap(df_conf.fillna(0), linewidths=.5, annot=True, fmt='g', cbar=False, cmap="viridis", ax=ax, annot_kws={"size": count_size})
     ax.set_ylabel('true', fontsize = plot_properties['label_size'])
     ax.set_xlabel('predicted', fontsize = plot_properties['label_size'])
     plt.yticks(size=plot_properties['font_size'], rotation=30)
@@ -450,10 +448,10 @@ def plot_components(colors, x_r, samples, df_names, path, properties, name=None,
         # setting up label and font
         fig.update_layout(font=dict(size=plot_properties['label_size']))
         # setting up axis labels
-        fig.update_layout(yaxis = dict(tickfont = dict(size=plot_properties['font_size'])))
+        fig.update_layout(yaxis = dict(tickfont = dict(size=plot_properties['font_size']))) # klappt nicht
 
         save_html(fig, path, name)
-        # fig.show()
+        fig.show()
     plt.close()
 
 

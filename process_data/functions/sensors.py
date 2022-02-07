@@ -78,15 +78,15 @@ class Plot:
         """
         constructor method
         """
+        self.plot_properties = properties['plot_properties']['measurement_plot']
         self.properties = properties
-        self.fig, self.axs = plt.subplots(size, sharex=True, dpi=properties['plot_properties']['measurement_plot']['dpi'],
-         figsize=properties['plot_properties']['measurement_plot']['size'])
+        self.fig, self.axs = plt.subplots(size, sharex=True, dpi=self.plot_properties['dpi'], figsize=self.plot_properties['size'])
         self.name = name
         self.i = 0
 
 
     def add_subplot(self, sensor, df_corr, peak_properties, results_half, results_full, peaks):
-        """This function assigns a subplot for the corresponding sensor to the plot object
+        """This function assigns a subplot for the corresponding sensor to the plot object.
 
         Args:
             sensor (string): Name of the sensor
@@ -96,7 +96,6 @@ class Plot:
             results_full (numpy.array): Array with from measurement extracted feauters for the full peak
             peaks (numpy.array): Array with from measurement extracted feauters for detected peaks
         """
-
         self.axs[self.i].plot(df_corr[sensor], color=self.properties['sensors'][sensor]['color'])
         ## print peaks in plot
         if peaks.size != 0:
@@ -111,8 +110,10 @@ class Plot:
             self.axs[self.i].hlines(y=results_half[1], xmin=df_corr.index[int(results_half[2])],
                        xmax=df_corr.index[int(results_half[3])],
                        color="C2")
+
         label = sensor + ' [V]'
-        self.axs[self.i].set_ylabel(label, rotation=0, loc='top')
+        self.axs[self.i].set_ylabel(label, rotation=0, loc='top', fontsize = self.plot_properties['label_size'])
+        self.axs[self.i].tick_params(axis='y', labelsize= self.plot_properties['font_size'])
         self.axs[self.i].grid()
         try:
             self.axs[self.i].set_yticks(np.arange(0,np.max(df_corr[sensor]),round(np.max(df_corr[sensor])/3, 2)))
@@ -126,8 +127,8 @@ class Plot:
         Args:
             path (string): Path to the folder in which the measurement folders are stored
         """
-        self.axs[-1].set(xlabel="time [s]")
-        # axs_merge = sel
+        self.axs[-1].set_xlabel("time [s]" , fontsize = self.plot_properties['label_size'])
+        plt.xticks(fontsize=self.plot_properties['font_size'])
         self.axs[-1].get_shared_x_axes().join(*self.axs)
         self.fig.tight_layout()
         path = path + '\\results\\plots\\single_measurements'
@@ -298,7 +299,6 @@ def cut_peakarea(df, sensor_to_cut,sensors_norm):
     df_corr['time [s]'] = np.arange(0, 0.11, 0.00001)
     for sensor in sensors_norm:
         df_corr[[sensor + '_nm']] = df_corr[[sensor]].apply(running_mean)
-        # df_corr.drop(sensor, axis=1, inplace=True)
     df_corr.set_index('time [s]', inplace=True)
     return df_corr
 
@@ -340,6 +340,7 @@ def read_file(path,decimal,name, path_out, object_raw, properties):
     df_corr = cut_peakarea(df_measurement, properties['sensor_to_cut'], properties['sensors_norm'])
     object_raw.add_item(df_corr, name) # adding data from measurement to df for each sensor including all measurements
     fig = Plot(name,len(df_corr.columns), properties)
+    df_corr = df_corr.reindex(sorted(df_corr.columns), axis=1)
     for this_sensor in df_corr.columns:
         peaks, peak_properties, results_half, results_full, this_dict_result = evaluate_sensor(df_corr, this_sensor, sensors[this_sensor]['threshold'])
         dict_result.update(this_dict_result)
