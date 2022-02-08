@@ -17,7 +17,7 @@ if __name__ == '__main__':
     
     properties = extract_properties()
     root_path = properties['root_path']
-    
+
     scan_folder(root_path, properties) # reading raw data
     calculate(root_path, properties, statistic=True, pca=True, lda=True, browser=True, dimension=True) # computing statistics
     compare(root_path, properties) # evaluates the files with one sensor, all measurments

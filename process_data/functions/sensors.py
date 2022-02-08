@@ -66,7 +66,7 @@ class Sensor:
         Args:
             path (string): Path to the folder in which the measurement folders are stored
         """
-        for sensor in self.properties['sensors']:
+        for sensor in self.df_dict:
             name = sensor + '_gesamt'
             save_df(self.df_dict[sensor], path, name)
 

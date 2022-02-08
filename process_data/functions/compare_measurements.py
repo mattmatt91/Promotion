@@ -10,6 +10,8 @@ import matplotlib.pyplot as plt
 from pathlib import Path
 import numpy as np
 import plotly.express as px
+from os import listdir
+from os.path import isfile, join
 
 
 def save_fig(fig, path, name):
@@ -98,13 +100,16 @@ def compare(root_path, properties):
         properties (dictionary): properties is a dictionary with all parameters for evaluating the data
     """
     root_path = root_path + '\\results'
-    sensors = properties['sensors']
-    path_list =[]
-    [path_list.append(root_path + '\\' + x + '_gesamt.csv') for x in sensors ]
-    for path, sensor in zip(path_list, sensors):
+    onlyfiles = [f for f in listdir(root_path) if isfile(join(root_path, f))]
+    files_list = [root_path + '\\' + i for i in onlyfiles if i.find('gesamt') >= 0]
+    sensors = [i[:i.rfind('_')] for i in onlyfiles if i.find('gesamt') >= 0]
+    for path, sensor in zip(files_list, sensors):
         read(path, sensor, root_path, properties)
 
 
 if __name__ == '__main__':
     root_path = 'E:\\Promotion\\Daten\\29.06.21_Paper_reduziert'
     compare(root_path)
+
+
+    
