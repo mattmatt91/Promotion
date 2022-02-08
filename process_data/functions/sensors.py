@@ -45,8 +45,17 @@ class Sensor:
             df (pandas.DataFrame): The columns of the DataFrame should match those in the properties.json file.
             name (string): Measurement name 
         """
-        for sensor in self.properties['sensors']:
-            self.df_dict[sensor][name] = df[sensor]
+        sensors_to_delelte = []
+        for sensor in self.df_dict:    
+            try:
+                self.df_dict[sensor][name] = df[sensor]
+            except:
+                print('no data for {0} in {1}'.format(sensor, name))
+                sensors_to_delelte.append(sensor)
+        # deleting dataframes for sensors not included in measurements
+        for del_sensor in sensors_to_delelte:
+            del self.df_dict[del_sensor]
+            print('deleting {} from results'.format(del_sensor))
 
 
     def save_items(self, path): # save one file for every sensor with all measurements
