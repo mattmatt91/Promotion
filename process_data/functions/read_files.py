@@ -2,6 +2,9 @@ from os import listdir, scandir, sep
 from os.path import isfile, join
 from sensors import read_file
 from sensors import Sensor
+
+from read_spectra import read_spectra
+
 import pandas as pd
 from pathlib import Path
 import json as js
@@ -67,7 +70,10 @@ def scan_folder(path, properties):
             print(name)
             dict.update({"name": name})
             dict.update(read_file(folder, '.', name, path, df_result_raw, properties)) #evaluating file
-            # Platzhalter # dict.update(analyze_spectra(path_dict['Spektrometer'], path_dict['Spektrometerref'], path, dict['name']))
+
+            # nur für alte daten mit spektrometer
+            dict.update(read_spectra(folder, properties))
+            
             df_result = df_result.append(dict, ignore_index=True) # append measurement in result file
     result_path = path + '\\' + 'Results'
     Path(result_path).mkdir(parents=True, exist_ok=True)

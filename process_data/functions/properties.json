@@ -1,5 +1,5 @@
 {
-    "root_path": "E:\\Promotion\\Software\\Python\\convertdata\\data_converted",
+    "root_path": "C:\\Users\\mmuhr-adm\\Desktop\\GitHub\\Promotion_process\\data\\paper_1",
 
     "sensors":
         {
@@ -50,7 +50,13 @@
                     "threshold": 0.05,
                     "x_lim_plot": [0.008, 0.1],
                     "color": "darkgreen"
+                },
+            "Spectrometer":
+                {
+                    "threshold": 0.05,
+                    "color": "darkviolet"
                 }
+
         },
 
     "colors_samples": 
@@ -147,6 +153,14 @@
                     "legend_size": 20
                 },
             "exemplary_plot":
+                {
+                    "dpi": 100,
+                    "size": [10,10],
+                    "font_size": 20,
+                    "label_size": 30,
+                    "legend_size": 20
+                },
+            "Spectrometer_plot":
                 {
                     "dpi": 100,
                     "size": [10,10],
