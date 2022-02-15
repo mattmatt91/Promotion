@@ -1,9 +1,10 @@
 from os import listdir, scandir, sep
 from os.path import isfile, join
+from xml.etree.ElementPath import prepare_parent
 from sensors import read_file
 from sensors import Sensor
 
-from read_spectra import read_spectra
+from read_spectra import read_spectra, Spectra
 
 import pandas as pd
 from pathlib import Path
@@ -57,29 +58,30 @@ def scan_folder(path, properties):
         path (string): path to data
         properties (dictionary): dictionary with parameters for processing
     """
+    #cerating dataframes and objects to save results
     df_result = pd.DataFrame()
-    # properties = extract_properties()
     df_result_raw = Sensor(properties) # dataframe for each sensor with all measurements
-    
+    df_result_spectra = Spectra(prepare_parent)
+
     # creates list with subfolers
     subfolders = [f.path for f in scandir(path) if f.is_dir()]
     for folder in subfolders:
         if folder.find('\\Results') < 0 and folder.find('\\Bilder', ) < 0 and folder.find('\\results') < 0:
             dict = extract_info(folder)
-            name = dict['path'][dict['path'].rfind('\\')+1:dict['path'].rfind('.')]
-            print(name)
+            name = dict['path'][dict['path'].rfind('\\')+1:]
             dict.update({"name": name})
             dict.update(read_file(folder, '.', name, path, df_result_raw, properties)) #evaluating file
 
             # nur für alte daten mit spektrometer
-            dict.update(read_spectra(folder, properties))
+            dict.update(read_spectra(folder, properties, df_result_spectra, name))
             
             df_result = df_result.append(dict, ignore_index=True) # append measurement in result file
     result_path = path + '\\' + 'Results'
     Path(result_path).mkdir(parents=True, exist_ok=True)
     result_path = result_path + '\\Result.csv'
     df_result.to_csv(result_path, decimal=',', sep=';', index = False) # safe the result df
-    df_result_raw.save_items(path) # save the sensor df 
+    df_result_raw.save_items(path) # save the sensor df
+    df_result_spectra.save_df(path)
 
 
 if __name__ == '__main__':
